@@ -457,7 +457,7 @@ $(document).ready(function(){
 			alert('인원 수 와 계산이 다릅니다.');
 			return false;
 		}
-		$('#formBox').attr('action','');
+		$('#formBox').attr('action','/src/aaa.php');
 		$('#formBox').submit();	
 
 	});
@@ -523,8 +523,7 @@ function joinPlan(kind, kind1, kind2){ //kind -> 분기점, kind1 -> 클릭 버�
 		age = $('#t_list').find('tr:eq('+(Number(kind1)+1)+') td:eq(5) input').val();
 		sPlan_code[''+kind1] = kind2+','+tripType+','+selInsuran+','+stdate+','+sthour+','+endate+','+enhour+','+sex+','+age+','+secNo;
 	}
-	let objJsonStr = JSON.stringify(sPlan_code);	
-	//console.log(objJsonStr);
+	let objJsonStr = JSON.stringify(sPlan_code);		
 
 
 	$.post('/src/planPriceAdder.php', {chCode:objJsonStr },"json").done(function(data){
@@ -538,12 +537,10 @@ function joinPlan(kind, kind1, kind2){ //kind -> 분기점, kind1 -> 클릭 버�
 					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(7)').contents().filter(function(){return this.nodeType == 3}).remove();
 					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(7)').append(Number(gab).toLocaleString('en'));
 					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(6) input').val(pcode);
-					console.log(state);			
-
+					
 					close_pop('pop_wrap');
-				});
-				//location.replace(data.Locate);
-				console.log(pcode+'수정code');
+				});				
+				
 				var putComplanv = putComplan(pcode);
 					$('#common_plan').val(putComplanv);
 			} else {
@@ -616,12 +613,12 @@ function putComplan(kind){ // kind = 선택 플랜
 	getComplan = $('#plan_chk').val();
 	if(getComplan != ''){
 		arrComplan = getComplan.split("//-//");
-		console.log(arrComplan[0]+"바보");
+		
 		$('input[name="plan_code[]"]').each(function(){
 			if(arrComplan[0] == $(this).val()){
 				same_num++;
 			}
-			console.log($(this).val());
+			
 		});
 		
 		if(same_num < 1){
@@ -629,7 +626,7 @@ function putComplan(kind){ // kind = 선택 플랜
 		} else {
 			arrComplan.push(kind);
 		}
-		//chkplan = arrComplan[0];
+		
 
 	} else {
 		arrComplan[0] = kind;
@@ -638,6 +635,6 @@ function putComplan(kind){ // kind = 선택 플랜
 	prtComplan = arrComplan.join('//-//');	
 	console.log(prtComplan+"implode");
 	$('#plan_chk').val(prtComplan);
-console.log('배열'+arrComplan[0]);
+
 	return arrComplan[0];
 }
