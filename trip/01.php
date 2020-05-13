@@ -507,7 +507,7 @@ print_r($_SESSION);
                 </tbody>
             </table>
         </section>
-        <form action="" method="" id="formBox">
+        <form action="" method="POST" name="formBox" id="formBox">
 		<input type="hidden" name="trip_Type" value="<?=$_GET['tripType']?>" />
         <fieldset>
             <section id="ssc_info">

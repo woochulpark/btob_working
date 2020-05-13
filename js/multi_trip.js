@@ -410,6 +410,44 @@ $(document).ready(function(){
 			comm_plan.focus();
 			return false;
 		}
+		var cnt_name_null = 0;
+		$('input[name="input_name[]"]').each(function(){
+			
+			if($(this).val() != ''){
+				cnt_name_null++;
+			}
+		});
+		if(cnt_name_null < 1){
+			alert('피보험자 이름을 작성해주세요.');
+			$('input[name="input_name[]"]').eq(0).focus();
+			return false;
+		}
+		var cnt_ssnum_null  = 0;	
+		$('input[name="juminno[]"]').each(function(){
+			
+			if($(this).val() != ''){
+				cnt_ssnum_null++;
+			}
+		});
+
+		if(cnt_ssnum_null < 1){
+			alert('주민등록번호를 작성해주세요.');
+			$('input[name="juminno[]"]').eq(0).focus();
+			return false;
+		}
+		var cnt_plan_null = 0;
+		$('input[name="plan_code[]"]').each(function(){
+			
+			if($(this).val() != ''){
+				cnt_plan_null++;
+			}
+		});
+
+		if(cnt_plan_null < 1){
+			alert('적용된 플랜이 없습니다. 플랜을 적용 시켜 주세요.');
+			return false;
+		}
+
 
 		if(tot_people == '' || tot_people < 1){
 			tot_people = 0;
@@ -417,7 +455,10 @@ $(document).ready(function(){
 				
 		if(!chk_tot_people(tot_people)){
 			alert('인원 수 와 계산이 다릅니다.');
+			return false;
 		}
+		$('#formBox').attr('action','');
+		$('#formBox').submit();	
 
 	});
 
