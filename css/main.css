@@ -1,0 +1,308 @@
+@charset "utf-8";
+/*-------- bxslider --------*/
+.bx-wrapper { position: relative; padding: 0; *zoom: 1; -ms-touch-action: pan-y; touch-action: pan-y; }
+.bx-wrapper img { max-width: 100%; display: block; }
+.bxslider { margin: 0; padding: 0; }
+ul.bxslider { list-style: none; }
+.bx-viewport { /*fix other elements on the page moving (on Chrome)*/ -webkit-transform: translatez(0); }
+/** THEME
+===================================*/
+.bx-wrapper {position: relative;  }
+.bx-wrapper .bx-pager,
+.bx-wrapper .bx-controls-auto { position: absolute; top: 77%; left: 9%; width: 28%; max-width: 204px; z-index: 50;}
+/* PAGER */
+.bx-wrapper .bx-pager.bx-default-pager a { padding:0; background: #bebebe; text-indent: -9999px; display: block; width: 60px; height: 10px; margin-right: 5px; outline: 0; -moz-border-radius: 1px; -webkit-border-radius: 1px; border-radius: 1px; }
+.bx-wrapper .bx-pager.bx-default-pager a:hover,
+.bx-wrapper .bx-pager.bx-default-pager a.active,
+.bx-wrapper .bx-pager.bx-default-pager a:focus { background: #ad1222; }
+.bx-wrapper .bx-pager-item,
+.bx-wrapper .bx-controls-auto .bx-controls-auto-item { display: inline-block; vertical-align: bottom; *zoom: 1; *display: inline; }
+.bx-wrapper .bx-pager-item { font-size: 0; line-height: 0; }
+/* DIRECTION CONTROLS (NEXT / PREV) 
+.bx-wrapper .bx-prev { left: 10px; background: url('https://cdn.jsdelivr.net/bxslider/4.2.12/images/controls.png') no-repeat 0 -32px; }
+.bx-wrapper .bx-prev:hover,
+.bx-wrapper .bx-prev:focus { background-position: 0 0; }
+.bx-wrapper .bx-next { right: 10px; background: url('https://cdn.jsdelivr.net/bxslider/4.2.12/images/controls.png') no-repeat -43px -32px; }
+.bx-wrapper .bx-next:hover,
+.bx-wrapper .bx-next:focus { background-position: -43px 0; }
+*/
+.bx-wrapper .bx-controls-direction a {display: none; /* position: absolute; top: 50%; margin-top: -16px; outline: 0; width: 32px; height: 32px; text-indent: -9999px; z-index: 9999; */}
+.bx-wrapper .bx-controls-direction a.disabled { display: none; }
+/* AUTO CONTROLS (START / STOP) 
+.bx-wrapper .bx-controls-auto {text-align: center;}
+.bx-wrapper .bx-controls-auto .bx-start { display: block; text-indent: -9999px; width: 10px; height: 11px; outline: 0; background: url('https://cdn.jsdelivr.net/bxslider/4.2.12/images/controls.png') -86px -11px no-repeat;margin: 0 3px;}
+.bx-wrapper .bx-controls-auto .bx-start:hover,
+.bx-wrapper .bx-controls-auto .bx-start.active,
+.bx-wrapper .bx-controls-auto .bx-start:focus { background-position: -86px 0; }
+.bx-wrapper .bx-controls-auto .bx-stop { display: block; text-indent: -9999px; width: 9px; height: 11px; outline: 0; background: url('https://cdn.jsdelivr.net/bxslider/4.2.12/images/controls.png') -86px -44px no-repeat; margin: 0 3px; }
+.bx-wrapper .bx-controls-auto .bx-stop:hover,
+.bx-wrapper .bx-controls-auto .bx-stop.active,
+.bx-wrapper .bx-controls-auto .bx-stop:focus {background-position: -86px -33px;}
+*/
+/* PAGER WITH AUTO-CONTROLS HYBRID LAYOUT */
+.bx-wrapper .bx-controls.bx-has-controls-auto.bx-has-pager .bx-pager { text-align: left; width: 80%; }
+.bx-wrapper .bx-controls.bx-has-controls-auto.bx-has-pager .bx-controls-auto { right: 0; width: 35px; }
+/* IMAGE CAPTIONS */
+.bx-wrapper .bx-caption { position: absolute; bottom: 0; left: 0; background: #666; background: rgba(80, 80, 80, 0.75); width: 100%; }
+.bx-wrapper .bx-caption span { color: #fff; font-family: Arial; display: block; font-size: .85em; padding: 10px; }
+
+@media screen and (min-width:768px) and (max-width:1024px){
+.bx-wrapper .bx-pager,.bx-wrapper .bx-controls-auto {top: 74%; left: 8.6%; }
+.bx-wrapper .bx-pager.bx-default-pager a { width: 50px; height: 8px; margin-right: 5px;  }
+}
+/*-------- bxslider --------*/
+
+h2 { float: left; color: #222; font-size: 1.6rem; font-weight: 500; letter-spacing: -0.04em;}
+h3 { color:#222; font-size:1.333rem; font-weight: 500; text-align: left; letter-spacing: -0.05em;}
+p { font-size: 1rem; color: #777; letter-spacing: -0.06em; }
+#evt_area .swiper-slide img{ width: 100%; max-width: 1140px; }
+/* 여행자 보험 가입하기 */
+#ba_join{ margin-bottom: 30px;}
+#ba_join:after { content:""; display:block; clear:both;}
+#ba_join div { float: left; width: 100%;}
+#ba_join .ba_box{ width: 32%; border: 1px solid #e2e6e6; padding: 27px 0 30px; text-align: center; margin-right: 1.6%;}
+#ba_join .ba_box:last-child{margin-right: 0;}
+#ba_join .ba_box div:first-child { width: 100%; text-align: center; }
+#ba_join .ba_box div:nth-child(2){ font-size: 1.733rem; color:#1c1c1c; font-weight: 400; letter-spacing: -0.07em; line-height: 2.133rem; margin-bottom: 23px;}
+#ba_join .ba_box div:nth-child(2) span {color:#d21024}
+/* s : 추가 0227 */
+#ba_join .ba_box div:last-child { text-align: center;}
+#ba_join .ba_box div:last-child button { width: 49%; max-width: 132px; border-radius: 20px; background: #fff; border: 1px solid #c4c4c4; height: 40px; width: 74%; cursor: pointer;}
+#ba_join .ba_box div:last-child button img {width: 70%;}
+/* e : 추가 0227 */
+/* 삭제 0227
+#ba_join .ba_box div:last-child ul li {width: 49%; float: left; border: 1px solid blue;}
+#ba_join .ba_box div:last-child ul li:first-child{ text-align:right; padding-right: 1.5px;}
+#ba_join .ba_box div:last-child ul li:last-child{ text-align: left; padding-left: 1.5px;}
+#ba_join .ba_box div:last-child ul li button { border-radius: 20px; background: #fff; border: 1px solid #c4c4c4; height: 40px; width: 74%; cursor: pointer;}
+#ba_join .ba_box div:last-child ul li button img { width: 70%;}
+*/
+/* 간편 여행자 보험 비교 */
+#simple { margin-bottom: 30px;}
+#simple .ti { margin-bottom: 14px;}
+#simple .ti h2 { margin-right: 10px;}
+#simple .ti p {padding-top:2px;}
+.simple_cont { width: 100%; background:#ad1222 ; padding: 27px 28px 27px 30px; box-sizing: border-box;}
+.simple_cont:after { content:""; display:block; clear:both;}
+.simple_cont div { float: left; }
+.simple_cont div label { display: inline-block; padding-bottom: 10px; width: 100%; color:#fff;}
+.simple_cont div select { height: 40px; border: 0; width: 100%;}
+.simple_cont div input { height: 40px; border: 0; width: 100%; padding: 0 10px;}
+.simple_cont div input[type="radio"] {display:none;}
+.simple_cont div input[type="radio"] + .gender_bx {padding: 0; margin: 0; text-align: left;}
+.simple_cont div input[type="radio"] + .gender_bx span {display:inline-block; width:20px; height:20px; -webkit-appearance: none; -moz-appearance: none; -o-appearance: none; appearance:none; outline: none; box-shadow: none; margin:-2px 6px 0 0; vertical-align:middle; background:url(../img/main/main_radio.png) -20px top no-repeat; cursor:pointer; }
+.simple_cont div input[type="radio"]:checked + .gender_bx span { width:20px; height:20px; -webkit-appearance: none; -moz-appearance: none; -o-appearance: none; appearance:none; box-shadow: none; background:url(../img/main/main_radio.png) -0px top no-repeat;}
+.simple_cont div:first-child{ width: 15%; margin-right: 10px;}
+.simple_cont div:nth-child(2){ width: 15%; margin-right: 10px;}
+.simple_cont div:nth-child(3){ width: 15%; margin-right: 10px;}/*생년월일*/
+/* 성별*/
+.simple_cont div:nth-child(4){ width: 11.5%; margin-right: 10px; padding: 0 8px 0 10px; } 
+.simple_cont div:nth-child(4) .gender { width: 100%;  margin-top: 8px; margin-right: 0;}
+.simple_cont div:nth-child(4) .gender div:first-child { float: left; width: 45%; }
+.simple_cont div:nth-child(4) .gender div:last-child{ float: right; width: 45%; margin: 0;}
+/*성별*/
+.simple_cont div:nth-child(5){ width: 21.4%; margin-right: 3px; }/*출발*/
+.simple_cont div:nth-child(6){ width: 21.4%; margin-right: 10px;}/*도착*/
+.simple_cont div:nth-child(n+5):nth-child(-n+6) .day_form { width: 100%;}
+.simple_cont div:nth-child(n+5):nth-child(-n+6) .day_form ul:after { content:""; display:block; clear:both;}
+.simple_cont div:nth-child(n+5):nth-child(-n+6) .day_form ul li { float: left;}
+.simple_cont div:nth-child(n+5):nth-child(-n+6) .day_form ul li:first-child { width: 59%;margin-right: 3px;}
+.simple_cont div:nth-child(n+5):nth-child(-n+6) .day_form ul li:last-child { width: 39.6%; float: right;}
+.simple_cont div:last-child{ width: 10%;}
+.simple_cont div:last-child button { margin-top: 28px; cursor: pointer;}
+.simple_cont div:last-child .btn{ width: 100%; background: #f4b2a0; padding: 11px 0; border-radius: 3px; border: 1px solid #860b17; color:#530911; font-size:1rem; font-weight: 600; box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(0,0,0,.2);}
+/* 알려드립니다. & 마이비즈니스 */
+#my { margin-bottom: 20px;}
+#my:after { content:""; display:block; clear:both;}
+#my div { float: left; width: 48.6%; font-size: 1rem; color: #777;}
+#my div:first-child { margin-right: 2.6%;}
+#my div .ti { width: 100%; padding-bottom: 14px; border-bottom:2px solid #3f3f3f; margin-bottom: 19px;}
+#my div .ti p { float: right;}
+/* 알려드립니다. */
+#my .notice div:nth-child(2){ width: 100%;}
+#my .notice div:nth-child(2) ul:first-child li:first-child{ width: 100%; color: #3d3d3d; font-size: 20px; font-weight: 400; margin-bottom: 13px;}
+#my .notice div:nth-child(2) ul:nth-child(2) li:nth-child(2){ line-height: 22px; }
+#my .notice div:nth-child(2) ul:last-child li:last-child{ padding: 22px 0 9px;  text-align: right;}
+#my .notice div:nth-child(2) ul:last-child { border-bottom: 1px solid #eaeaea;}
+#my .notice div:last-child { width: 100%;}
+#my .notice div:last-child ul li { float: left;}
+#my .notice div:last-child ul li:first-child{ width: 80%;}
+#my .notice div:last-child ul li:last-child{ width: 20%; text-align: right;}
+#my .notice div:last-child ul { padding: 10px 0; border-bottom: 1px solid #eaeaea;}
+#my .notice div:last-child ul:after { content:""; display:block; clear:both;}
+/* 마이 비즈니스 */
+#my .my_biz div:nth-child(2){ width: 100%; margin-bottom: 17px;}
+#my .my_biz div:nth-child(2) ul:first-child{ padding-top: 0;}
+#my .my_biz div:nth-child(2) ul { padding: 10px 0 11px; border-bottom: 1px solid #eaeaea;}
+#my .my_biz div:nth-child(2) ul:after { content:""; display:block; clear:both;}
+#my .my_biz div:nth-child(2) ul li { float: left;}
+#my .my_biz div:nth-child(2) ul li:after { content:""; display:block; clear:both;}
+#my .my_biz div:nth-child(2) ul li:first-child{ width: 20%; font-weight: 500; color:#222;}
+#my .my_biz div:nth-child(2) ul li:last-child { width: 80%; text-align: right;}
+#my .my_biz div:nth-child(2) ul li:last-child .item{ color:#555; font-weight: 400; margin-right: 10px;}
+#my .my_biz div:nth-child(2) ul li:last-child .c_red {color:#e23a4c; font-weight: 500; font-size: 1.067rem; margin-right: 1px;}
+#my .my_biz div:nth-child(2) ul li:last-child .c_black {color:#222; font-weight: 500; font-size: 1.067rem; margin-right: 1px;}
+#my .my_biz div:nth-child(2) ul li:last-child .c_blue {color:#1b53c2; font-weight: 500; font-size: 1.067rem; margin-right: 1px;}
+#my .my_biz div:nth-child(2) ul li:last-child .c_green {color:#12926f; font-weight: 500; font-size: 1.067rem; margin-right:1px;}
+#my .my_biz div:nth-child(2) ul li:last-child .bline{ margin: 0 4px 0 6px; }
+#my .my_biz div:nth-child(2) ul li:last-child .unit{ color:#222; font-weight: 400;}
+#my .my_biz div:last-child { width: 100%;}
+#my .my_biz div:last-child ul li { float: left; width: 50%; margin-bottom: 6px;}
+#my .my_biz div:last-child ul li:last-child {text-align: right;}
+#my .my_biz div:last-child ul:first-child li:first-child { font-weight: 500; color:#222;}
+#my .my_biz div:last-child .list { padding:9px 18px 1px; box-sizing: border-box; border: 1px solid #d1d1d1;}
+#my .my_biz div:last-child .list ul { padding: 0;}
+#my .my_biz div:last-child .list ul:after { content:""; display:block; clear:both;}
+#my .my_biz div:last-child .list ul li:first-child{ width: 80%; font-weight: normal; color:#777;}
+#my .my_biz div:last-child .list ul li:last-child{ width: 20%; color:#1b53c2; font-weight: 400;}
+#my .my_biz div:last-child .list ul li span { margin: 0 10px;}
+#my .my_biz div:last-child .list ul li span:first-child { margin-left: 0;}
+#my .my_biz div:last-child .list ul li span:last-child { margin-right: 0;}
+#my .my_biz div:last-child .list ul li .num {color:#555;}
+#my .my_biz div:last-child .list ul li .p_num  {color:#ea6c30; font-weight: 500; font-size: 1.067rem; margin-right: 3px;}
+.more{ font-size:0.9333rem ;}
+
+@media screen and (min-width:768px) and (max-width:1024px){
+#evt_area .swiper-slide img{ width: 100%; }
+/* 여행자 보험 가입하기 */
+#ba_join{ margin-bottom: 30px;}
+#ba_join .ba_box{ width: 32%; padding: 22px 0; text-align: center; margin-right: 1.4%;}
+#ba_join .ba_box div:first-child img { width: 22%;}
+#ba_join .ba_box div:nth-child(2){ font-size: 1.467rem; line-height:  1.867rem; margin-bottom: 14px;}
+/* s : 추가 0227 */
+#ba_join .ba_box div:last-child button:first-child { margin-bottom: 5px;}
+/* e : 추가 0227 */
+/* 삭제 0227 
+#ba_join .ba_box div:last-child ul li { float: none; margin: 0 auto; width: 80%;}
+#ba_join .ba_box div:last-child ul li:first-child{ text-align:center; padding-right: 0; margin-bottom: 5px;}
+#ba_join .ba_box div:last-child ul li:last-child{ text-align: center; padding-left: 0;}
+#ba_join .ba_box div:last-child ul li button { border-radius: 20px; background: #fff; border: 1px solid #c4c4c4; width: 100%;}
+#ba_join .ba_box div:last-child ul li button img {width: 50%;}
+*/
+
+/* 간편 여행자 보험 비교 */
+.simple_cont {  padding: 20px 20px 15px; }
+.simple_cont div { float: left; }
+.simple_cont div label { display: inline-block; padding-bottom: 8px; width: 100%; color:#fff; font-size: 1rem;}
+.simple_cont div select { height: 36px;}
+.simple_cont div input { height: 36px;}
+.simple_cont div:nth-child(n+1):nth-child(-n+3){ margin-bottom: 5px;}
+.simple_cont div:first-child{ width: 35%; margin-right: 3px;}
+.simple_cont div:nth-child(2){ width: 35%; margin-right: 3px;}
+.simple_cont div:nth-child(3){ width: 23%; margin-right: 0; padding-left:30px; }
+.simple_cont div:nth-child(3) .gender div { width:100%;}
+.simple_cont div:nth-child(3) .gender div:first-child { width: 50%; }
+.simple_cont div:nth-child(3) .gender div:last-child{width: 45%;}
+.simple_cont div:nth-child(4){ width: 35%; margin-right: 3px;}
+.simple_cont div:nth-child(5){ width: 35%; margin-right: 20px;}
+.simple_cont div:nth-child(n+4):nth-child(-n+5) .day_form { width: 100%;}
+.simple_cont div:nth-child(n+4):nth-child(-n+5) .day_form ul { width: 100%;}
+.simple_cont div:nth-child(n+4):nth-child(-n+5) .day_form ul li{float: left;}
+.simple_cont div:nth-child(n+4):nth-child(-n+5) .day_form ul li:first-child { width: 59%; margin-right: 3px; }
+.simple_cont div:nth-child(n+4):nth-child(-n+5) .day_form ul li:last-child { width:39.5%;}
+.simple_cont div:nth-child(5) .day_form ul li:last-child {  margin-right:0; }
+.simple_cont div:last-child{ width: 26.5%;}
+.simple_cont div:last-child button { margin-top: 27px; cursor: pointer;}
+.simple_cont div:last-child .btn{padding: 9px 0;}
+
+
+/* 알려드립니다. & 마이비즈니스 */
+#my { margin-bottom: 30px;}
+#my:after { content:""; display:block; clear:both;}
+#my div { float: none; width: 100%;}
+#my div:first-child { margin-right: 0;}
+#my div .ti { margin-bottom: 19px;}
+#my div .ti:after { content:""; display:block; clear:both;}
+/* 알려드립니다. */
+#my .notice{ margin-bottom: 30px;}
+/* 마이 비즈니스 */
+#my .my_biz div:last-child ul:after { content:""; display:block; clear:both;}
+}
+
+
+/* 간편 여행자보험 비교 모달 팝업 */
+/* modal */
+#modal {position: fixed; left:0; top:0; width: 100%; height: 100%; transform: scale(0); z-index:99; }
+#modal .modal-bg {background: rgba(0,0,0,0.7); display:flex; align-items: center; justify-content: center; height: 100%; }
+#modal .modal-bg .modal-cont { background: #fff; padding: 0 30px; box-sizing: border-box; max-width: 950px; display: inline-block; width: 83.3%;  border-top: 4px solid #cd091d; background: #fff; }
+#modal .modal-bg .modal-cont div:after { content:""; display:block; clear:both;}
+#modal .modal-bg .modal-cont .head { padding:32px 0 18px; border-bottom: 2px solid #5c5c5c;position:relative;}
+#modal .modal-bg .modal-cont .head h1 { font-size: 2rem; color: #222; font-weight: 400; text-align: left; display: inline; letter-spacing: -0.06em;}
+#modal .modal-bg .modal-cont .head span { color: #777; text-align: left; display: inline-block; margin-top: 6px; margin-left: 14px;  }
+#modal .modal-bg .modal-cont .head .close {position: absolute; right: 0; top: 50%; margin-top: -13px; display: inline-block; width: 25px; height: 24px; cursor: pointer; background: none;}
+#modal .modal-bg .modal-cont .body { padding: 20px 0 30px 20px;}
+#modal .modal-bg .modal-cont .body h2 { width: 100%; text-align: center; margin-bottom: 13px;}
+#modal .modal-bg .modal-cont .body h2 img { width: 25%;}
+#modal .modal-bg .modal-cont .body .insur .nonprt { width: 100%; text-align: center; padding-top:120px; margin-bottom: 13px;}
+.wrap_pd { height: 700px; overflow-y: auto;}
+.insur:first-child { margin-bottom: 30px;}
+.insur { width: 100%;}
+.insur .case {position: relative; width: 31%; max-width: 283px; box-sizing: border-box; border: 1px solid #ddd; border-bottom: 1px solid #5c5c5c; margin-right:2%; float: left;}
+.insur .case:last-child { margin-right: 0 ;}
+.insur .case ul:first-child { padding-top: 40px;}
+.insur .case ul:first-child span {position: absolute; right: 19px; top:-10px; border: 0; width: 50px; height: 50px; line-height: 49px; border-radius: 100%; color:#fff; text-align: center;  z-index: 3;}
+.insur .case .level1 {background: #41a979;}
+.insur .case .level2 {background: #5158bb;}
+.insur .case .level3 {background: #bb51ad;}
+.insur .case h3 { background: url(../img/main/icon_list.png) no-repeat; padding-left:25px; color:#222; font-size: 1rem; margin:0 20px 10px;}
+.insur .case ul li { line-height: 22px; font-size: 0.90rem; font-weight: 300; margin: 0 9px;}
+.insur .case ul:first-child li:last-child { border-bottom: 1px solid #e7e7e7; padding-bottom: 20px;}
+.insur .case ul:nth-child(2){ text-align: right; padding: 30px 0;}
+.insur .case ul:nth-child(2) span { font-size: 1.6rem; color:#000; font-family: Roboto, notokr, 'Apple SD Gothic Neo',Sans-serif !important; initial-letter: 0; font-weight: 400; margin-left: 10px;}
+.insur .case ul:last-child { background: #fafafa; padding:19px 20px 18px;} 
+.insur .case ul:last-child:after { content:""; display:block; clear:both;}
+.insur .case ul:last-child button { cursor: pointer;}
+.insur .case ul:last-child button:first-child {height:36px; line-height:36px; width: 40%; border:1px #c8c8c8 solid; background:#fff; border-radius: 2px; font-size:0.9333rem; font-weight: 400; letter-spacing: -0.08em; color:#222; float: left; }
+.insur .case ul:last-child button:last-child {height:36px; line-height:36px; width: 56.4%;  border: 0; background:#ce4848; border-radius: 2px; font-size:0.9333rem; font-weight: 400; letter-spacing: -0.08em; color:#fff; float: right;}
+
+#modal.three {transform: scale(1);}
+#modal.three .modal-bg {background: rgba(0,0,0,0);animation: fadeIn 1.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;}
+#modal.three .modal-bg .modal-cont {opacity: 0;animation: scaleUp 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;}
+#modal.three.out { animation: quickScaleDown 0s .5s linear forwards;}
+#modal.three.out .modal-bg {background: rgba(0,0,0,0);animation: fadeOut 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;}
+#modal.three.out .modal-bg .modal-cont {opacity: 0;animation: scaleDown 0.5s cubic-bezier(0.165, 0.85, 0.44, 1) forwards;}
+
+@keyframes fadeIn {
+    0% {background: rgba(0,0,0,0)}
+    100% {background: rgba(0,0,0,0.6)}
+}
+@keyframes fadeOut {
+    0% {background: rgba(0,0,0,0.6)}
+    100% {background: rgba(0,0,0,0)}
+}
+@keyframes scaleUp {
+    0% {transform: scale(0.8) translatey(1000px); opacity:0}
+    100% {transform: scale(1) translatey(0px); opacity:1}
+}
+@keyframes scaleDown {
+    0% {transform: scale(1) translatey(0px); opacity:1}
+    100% {transform: scale(0.8) translatey(1000px); opacity:0}
+}
+@keyframes quickScaleDown {
+    0% {transform: scale(1);}
+    99.9% {transform: scale(1); }
+    100% {transform: scale(0); }
+}
+
+@media screen and (min-width:768px) and (max-width:1024px){
+#modal .modal-bg .modal-cont { padding: 0 20px; width: 94%;  }
+#modal .modal-bg .modal-cont .head { padding:25px 0 18px;}
+#modal .modal-bg .modal-cont .head h1 { font-size: 1.733rem; }
+#modal .modal-bg .modal-cont .body { padding: 20px 0 30px 0;}
+.wrap_pd { height: 450px; overflow-y: auto;}
+.insur:first-child { margin-bottom: 30px;}
+.insur .case {width:32%;}
+.insur .case h3 { margin: 0 12px 4px;}
+.insur .case ul:first-child { padding-top: 30px;}
+.insur .case ul:first-child span {right: 10px;}
+.insur .case ul li { margin: 0 10px; padding: 0 2px;}
+.insur .case ul:first-child li:last-child {padding-bottom: 16px;}
+.insur .case ul:nth-child(2){padding: 20px 0;}
+.insur .case ul:last-child { padding:12px 10px 10px;} 
+.insur .case ul:last-child button:first-child {height:32px; line-height:32px;  }
+.insur .case ul:last-child button:last-child {height:32px; line-height:32px;  }
+}
+
+/* etc */
+.nb {font-family: Roboto, notokr, 'Apple SD Gothic Neo',Sans-serif !important; initial-letter: 0; font-weight: 400;}
+.b500 {font-weight: 500;}

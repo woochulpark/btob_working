@@ -1,0 +1,1 @@
+<div class="location"><span><img src="../img/common/ico_home.gif"></span><span id="location_1"></span><span id="location_2"></span></div>

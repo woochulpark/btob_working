@@ -1,0 +1,565 @@
+﻿@charset "utf-8";
+@import "icon.css";
+
+/****** COMMON ******/
+html { .overflow:scroll; .overflow-x:auto; }
+html,body { margin:0; padding:0; color:#5A5A5A; }
+body { color:#666; font-size:15px; font-family:"Malgun Gothic", 돋움, Dotum, 굴림, Gulim, sans-serif; letter-spacing:-1px; line-height:1em; background-color:#f3f3f3;  -webkit-text-size-adjust:none; }
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td { margin:0; padding:0; }
+table { border-collapse:collapse; border-spacing:0; }
+
+fieldset,img { border:0; }
+address,caption,cite,code,dfn,em,strong,th,var { font-style:normal; font-weight:normal; }
+strong { font-weight:bold; }
+button { margin:0; padding:0; border:none; font-family:"Malgun Gothic", 돋움, Dotum, 굴림, Gulim, sans-serif; cursor:pointer; }
+li { list-style:none; }
+caption,th { text-align:left; }
+h1,h2,h3,h4,h5,h6 { font-size:100%; font-weight:normal; }
+q:before,q:after { content:''; }
+abbr,acronym { border:0; font-variant:normal; }
+hr { display:none; }
+
+/* to preserve line-height and selector appearance */
+sup { vertical-align:text-top; }
+sub { vertical-align:text-bottom; }
+
+input,textarea,select { font-family:inherit; font-size:inherit; font-weight:inherit; }
+textarea, input { outline-color:-moz-use-text-color; outline-style:none; outline-width:medium; }
+textarea { resize:none; }
+input[type="button"],input[type="text"],input[type="image"] {-webkit-appearance:none;-webkit-border-radius:0;}
+
+
+/* to enable resizing for IE */
+input,textarea,select { *font-size:100%; }
+
+/* because legend doesn't inherit in IE */
+legend { color:#000; }
+
+label { cursor:pointer; }
+
+a, a:link { color:#666; text-decoration:none; font-family:돋움, Dotum, 굴림, gulim, sans-serif; }
+a:visited { color:#666; }
+a:hover, a:active { color:#666; text-decoration:none; }
+
+.hide {position:absolute; width:0; height:0; padding:0; margin:0; font-size:0; line-height:0; visibility:hidden; text-indent:-9999px;}
+
+
+/* float 해제 */
+.f_clear:after { content:""; height:0; display:block; visibility:hidden; clear:both; }
+* html .f_clear { height:1px; }
+.f_clear { display:block; min-height:1px; }
+
+
+/****** HEADER ******/
+#header { position:relative; width:100%; height:34px; background-color:#FFFFFF; }
+#header h1 { float:left; display:inline; width:58px; height:15px; margin:10px 3px 0 10px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/nate.gif%27) no-repeat; -webkit-background-size:58px 15px;}
+
+@media screen and (-webkit-min-device-pixel-ratio:1.5){ 
+	#header h1 {background-image:url('../img/common/nate1.5.gif');} 
+}
+@media screen and (-webkit-min-device-pixel-ratio:2){
+	#header h1 {background-image:url('../img/common/nate2.gif');} 
+}
+
+#header h1 a { display:block; width:58px; height:15px; font:0/100px Arial; text-indent:-99999px; overflow:hidden; }
+#header h2 { float:left; width:82px; height:18px; margin-top:8px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/service_map.gif%27) no-repeat; -webkit-background-size:82px 18px;}
+
+@media screen and (-webkit-min-device-pixel-ratio:1.5){ 
+	#header h2 {background-image:url('../img/common/service_map1.5.gif');} 
+}
+@media screen and (-webkit-min-device-pixel-ratio:2){
+	#header h2 {background-image:url('../img/common/service_map2.gif');} 
+}
+
+#header h2 a { display:block; width:82px; height:18px; font:0/100px Arial; text-indent:-99999px; overflow:hidden; }
+#header legend { display:none; }
+#header .search { position:relative; padding:6px 46px 0 30px;}
+#header .search .inputBox { display:block; height:18px; border:2px solid #f11a18; background:#FFFFFF; overflow:hidden; }
+#header .search .inputBox input.text { width:100%; border:0; font-size:14px; font-family:"Malgun Gothic", 돋움, Dotum, 굴림, Gulim, sans-serif; -webkit-border-radius:0; -webkit-appearance:none; }
+#header .search .img { float:right; display:inline; width:36px; height:22px; margin:-22px -36px 0 0; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/btn_search.gif%27) no-repeat 0 0; -webkit-background-size:37px 22px;}
+#header .search .img span {width:0; height:0; margin:0; padding:0; font-size:0; line-height:0; visibility:hidden;}
+
+@media screen and (-webkit-min-device-pixel-ratio:1.5){ 
+	#header .search .img {background-image:url('../img/common/search_red1.5.png');} 
+}
+@media screen and (-webkit-min-device-pixel-ratio:2){
+	#header .search .img {background-image:url('../img/common/search_red2.png');} 
+}
+
+/****** FOOTER ******/
+#footer.light {width:100%; border-top:1px solid #bfbfbf; background-color:#f3f3f3; text-align:center; font-size:15px; font-family:Helvetica;}
+#footer.light .foot_wrap {padding:0 0 20px 0; border-top:1px solid #e2e2e2;}	
+#footer.light .bt_wrap {margin:17px 0 15px;}
+#footer.light p.home { width:100%; margin:25px 0 0 0; height:10px; font-size:14px; letter-spacing:-1px;}
+#footer.light p.home a { color:#787878; text-shadow:none; }
+#footer.light p.privacy {width:100%; margin:12px 0 0 0; height:10px; font-size:12px; letter-spacing:-1px;}
+#footer.light p.privacy a {color:#787878;}
+#footer.light p span.bar {padding:0 8px 0 7px; font-size:11px; color:#d1d1d1;}
+#footer.light p.copyright {width:100%; height:8px; margin-top:17px; font-size:9px; letter-spacing:0;}	
+#footer.light button {height:26px; padding:1px 8px 0 8px; border:1px solid #aaaaaa; font-size:90%; color:#222; letter-spacing:-1px; text-align:center; white-space:nowrap; 
+box-shadow:0 1px 0 rgba(0,0,0, .1); -webkit-box-shadow:0 1px 1px rgba(0,0,0, .15); -moz-box-shadow:0 1px 0 rgba(0,0,0, .1); 
+background-color:#fcfcfc;
+background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(235,235,235,1) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(235,235,235,1)));
+background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(235,235,235,1) 100%);
+background: -ms-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(235,235,235,1) 100%);
+background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(235,235,235,1) 100%);
+cursor:pointer;
+}
+#footer.light button span {line-height:22px;text-shadow:0px 1px 2px rgba(255, 255, 255, 1);}
+* html #footer.light ul li {display:inline;}
+*:first-child+html #footer.light ul li {display:inline;}
+* html #footer.light button {margin:0 1px; padding:0;}
+*:first-child+html #footer.light button {margin:0 1px; padding:0;}
+
+/* WEB */
+* html #footer ul li { display:inline; }
+*:first-child+html #footer ul li { display:inline; }
+* html #footer button { margin:0 1px; padding:0; }
+*:first-child+html #footer button { margin:0 1px; padding:0; }
+
+/* snb */
+hr { display:none; }
+img { border:0; }
+select { font-size:14px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bt_select.gif) no-repeat right -1px; border:1px solid #C0C3C8; height:25px; -webkit-border-radius:0; -webkit-appearance:none; }
+
+#contsWrap { background:#fff; }
+	#menu { background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_menu.gif) repeat-x; height:31px; padding:8px 10px 0 10px; }
+	#menu ul { }
+	#menu li { float:left; width:23%; height:31px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bar_menu.gif) no-repeat right 7px; }
+	#menu li a { display:block; width:100%; height:26px; padding-top:5px; color:#fff; letter-spacing:-2px; text-align:center; padding-left:1px; float:left; }
+	#menu li a.on { background:#fff; color:#333; position:relative; left:-1px; height:25px; padding-top:6px; text-align:center; padding-left:1px; }
+	#menu li.last { width:31%; background:none; }
+	#menu li.center { width:34%; }
+	#menu li.badaMenu { width:50%; }
+	
+#topCont { overflow:hidden; padding-top:4px; }
+	
+	#srchOpt { padding:0 10px 15px 10px; overflow:hidden; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_srchOpt.gif) repeat-x bottom; }
+	#srchOpt .selectwrap { width:100%; margin-bottom:10px; overflow:hidden; }
+	#srchOpt dl {width:100%; overflow:hidden;}
+	#srchOpt dl dt {display:none;}
+	#srchOpt dl dd {position:relative; padding:15px 100px 0 35px;}
+	#srchOpt dl dd p {border:1px solid #b7b7b7; height:25px; padding:0 25px 0 5px;}
+	#srchOpt dl dd p input {width:100%; height:24px; border:none; font-size:14px; color:#111;}
+	#srchOpt dl dd p input::-webkit-input-placeholder {color:#9b9b9b; font-size:11px;}
+	#srchOpt dl dd p input:-moz-placeholder {color:#9b9b9b; font-size:11px;}
+	#srchOpt dl dd p button.bookmark {position:absolute; left:0px; top:15px; display:block; width:37px; height:27px; overflow:hidden; text-indent:-9999px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/ico_book.gif%27) no-repeat left top;}
+	#srchOpt dl dd p button.search {position:absolute; right:53px; top:15px; display:block; width:48px; height:27px; border:1px solid #b7b7b7; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_button.gif) repeat-x bottom; font-size:12px; color:#66696d;}
+	#srchOpt dl dd p button.current {position:absolute; right:0px; top:15px; display:block; width:48px; height:27px; border:1px solid #4f4e4c;}
+	#srchOpt dl dd p button.current span {display:block; width:46px; height:25px; line-height:23px; border:1px solid #6a6a6a; background:#727272 url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_button_dark.gif) repeat-x bottom; color:#fff; font-size:12px; text-shadow:0px 0px 2px #000;}
+	#srchOpt dl dd p button.clear {position:absolute; right:100px; top:15px; display:block; width:25px; height:29px; overflow:hidden; text-indent:-9999px; border:none; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat 0px -845px;}
+	/* 대중교통 */
+	#srchOpt dl.bus dd {padding-right:40px;}
+	#srchOpt dl.bus dd p button.search {right:0px;}
+	#srchOpt dl.bus p button.clear {right:45px;}
+	#srchOpt .find_station {margin:20px 0 0 0; padding:10px 0 2px 0; text-align:center; border-top:1px solid #eee;}
+	#srchOpt .find_station a {display:inline-block; height:31px; padding:0 10px; line-height:30px; border:1px solid #ccc; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/gradi01.gif%27) repeat-x left bottom;}
+	#srchOpt .find_station a span {padding:0 0 0 17px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat 0px -497px; font-size:14px; color:#333;}
+	/**/
+	#srchOpt .pass { font-size:12px; color:#212121; }
+	#srchOpt .chage { display:inline-block; padding:0 5px 0 0; font-size:12px; color:#212121; }
+	#srchOpt .bar { text-indent:-9999em; color:#d8d8d8; font-size:20px; vertical-align:middle; display:inline-block; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_barB.gif) no-repeat 0 center; width:1px; overflow:hidden; margin:0 10px 0 9px; }
+	#srchOpt .btnFast { background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_button.gif) repeat-x bottom; border:1px solid #b7b7b7; height:31px; vertical-align:middle; padding:5px 8px 5px 9px; margin-left:6px; font-size:14px; }
+	#srchOpt .btnFast span { background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/ico_all.gif) no-repeat 0 -35px; padding-left:18px; }
+	#srchOpt .btnFast span.tmap { background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/ico_tmap.gif%27) 0 1px no-repeat; padding-left:40px; }
+	#srchOpt .areaSlt { height:23px; margin:20px 0 0 0; padding:10px 0 8px; text-align:right; border-top:1px solid #eee; }
+	#srchOpt .areaSlt input { margin-right:5px; }
+	#srchOpt .areaSlt label { padding-right:22px; color:#111; }
+	#srchOpt .trafficSearch { background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_button.gif) repeat-x bottom; border:1px solid #b7b7b7; height:31px; vertical-align:middle; padding:5px 11px; }
+	#srchOpt .trafficSearch span { background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/ico_all.gif) no-repeat 0 -53px; padding-left:14px; }
+	#srchOpt .shortSearch { background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_button.gif) repeat-x bottom; border:1px solid #b7b7b7; height:31px; vertical-align:middle; padding:5px 11px; width:49%; float:left; }
+	#srchOpt .shortSearch span { background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/ico_all.gif) no-repeat 0 3px; padding-left:18px; }
+	#srchOpt .smallSearch { background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_button.gif) repeat-x bottom; border:1px solid #b7b7b7; height:31px; vertical-align:middle; padding:5px 11px; width:49%; float:right; }
+	#srchOpt .smallSearch span { background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/ico_all.gif) no-repeat 0 -12px; padding-left:18px; }
+
+	#srchOpt .tasteSlt { width:100%; }
+	#srchOpt .tasteSlt li { margin-top:15px; width:34%; float:left; }
+	#srchOpt .tasteSlt li.last { width:32%; }
+	#srchOpt .tasteSlt li p { padding-right:10px; }
+	#srchOpt .tasteSlt li select { border:1px solid #c6c6c6; height:25px; width:100%; }
+	#srchOpt .order { width:100%; clear:both; }
+	#srchOpt .order li { float:left; width:33.3%; color:#111; }
+	#srchOpt .order input { margin:0 6px 0 15px; }
+
+/* 즐겨찾기 히스토리스트 */
+.favorite_history_list {border-top:1px solid #eff1f0;}
+	.favorite_history_list .title {height:32px; padding:0 0 0 10px; line-height:32px; font-size:12px; color:#2a8bc8; border-bottom:1px solid #d8d8d8;}
+	.favorite_history_list .sub_title {height:29px; padding:0 0 0 10px; line-height:29px; border-bottom:1px solid #d8d8d8; background:#f3f3f3;}
+	.favorite_history_list .sub_title strong {font-size:12px; color:#111;}
+	.favorite_history_list .sub_title span {display:inline-block; height:10px; line-height:8px; margin:0 0 0 7px; padding:0 0 0 5px; border-left:1px solid #ddd; font-size:11px; color:#999; vertical-align:middle;}
+	.favorite_history_list .search_list li {border-bottom:1px solid #d8d8d8;}
+	.favorite_history_list .search_list li a {display:block; height:38px; padding:0 10px; line-height:38px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:14px; color:#111;}
+
+/* 별점 */
+.star { background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_star.gif) no-repeat; height:18px; padding-left:72px; font-size:1px; display:inline-block; }
+.star em { font-style:normal; color:#2a8bc8; font-size:13px; height:12px; }
+.n0 { background-position:0 3px; }
+.n01 { background-position:0 -15px; }
+.n02 { background-position:0 -33px; }
+.n03 { background-position:0 -51px; }
+.n04 { background-position:0 -69px; }
+.n05 { background-position:0 -87px; }
+.n06 { background-position:0 -105px; }
+.n07 { background-position:0 -123px; }
+.n08 { background-position:0 -141px; }
+.n09 { background-position:0 -159px; }
+.n10 { background-position:0 -177px; }
+
+
+/* shopInfo */
+/* 2012.05.23 */
+.shopInfo {position:relative; border-bottom:2px solid #57a7dc;}
+.shopInfo .cmt_banner {position:absolute; display:inline; margin:-2px 0 0 -5px;}
+.shopInfo .cmt_banner a {border:0 !important;}
+.shopInfo .btn_rt {position:absolute; right:11px; top:9px; display:block; height:26px; padding:0 6px; line-height:26px; text-align:center; border:1px solid #aaa; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/gradi02.gif%27) repeat-x left bottom; font-size:13px; color:#333; -webkit-box-shadow:2px 2px 2px #ebebeb;}
+.shopInfo .description {width:100%; overflow:hidden;}
+.shopInfo .description dt {height:34px; padding:11px 65px 0 0; border-bottom:1px solid #d9d9d9; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/gradi01.gif%27) repeat-x left bottom; white-space:nowrap;}
+.shopInfo .description dt.rank {padding-right:190px;}
+.shopInfo .description dt strong {display:inline-block; max-width:70%; height:26px; padding:0 9px 0 32px; overflow:hidden; text-overflow:ellipsis; line-height:24px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat 10px -648px; vertical-align:top; font-size:14px; color:#333;}
+.shopInfo .description dt .icon_star {display:inline-block; width:26px; height:26px; overflow:hidden; text-indent:-9999px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat 0px -700px; vertical-align:top;}
+.shopInfo .description dt .numbers {padding:0 0 0 3px; font-size:13px; color:#57a7db;}
+.shopInfo .description dt .story {padding:0 0 0 3px; line-height:26px; font-size:12px; color:#444;}
+.shopInfo .description dt .story em {font-size:10px; color:#777;}
+.shopInfo .description dd.photo {float:left; padding:15px 15px 0 10px;}
+.shopInfo .description dd.photo img {width:79px; height:59px;}
+.shopInfo .description dd.rank {padding:12px 0 0 104px;}
+.shopInfo .description dd.rank .numbers {font-size:13px; color:#57a7db;}
+.shopInfo .description dd.rank a {margin:0 0 0 6px; font-size:11px; color:#57a7db; border-bottom:1px solid #57a7db;}
+.shopInfo .description dd.rank_area {position:absolute; right:80px; top:14px;}
+.shopInfo .description dd.rank_area .numbers {font-size:13px; color:#57a7db;}
+.shopInfo .description dd.address {padding:3px 0 4px 104px; line-height:18px; font-size:13px; color:#333;}
+/* 2012.05.31 */
+.shopInfo .description dd.btn {height:22px; padding:0 0 0 104px;}
+.shopInfo .description dd.btn * {font-size:12px; color:#333; line-height:20px;}
+.shopInfo .description dd.btn .call {float:left; width:70px; height:20px; margin:0 3px 0 0; padding:0 4px; text-align:center; border:1px solid #ccc; white-space:nowrap;}
+.shopInfo .description dd.btn .insideview {float:left; width:54px; height:20px; padding:0 4px 0 20px; border:1px solid #ccc; white-space:nowrap;background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat 5px -96px;}
+.shopInfo .description dd.btn .mapview {float:left; width:30px;height:20px; margin:0 0 0 3px; padding:0 4px; text-align:center; border:1px solid #ccc;}
+/* 2012.05.31 END */
+.shopInfo .description.nophoto dd.photo {display:none;}
+.shopInfo .description.nophoto dd.rank, .shopInfo .description.nophoto dd.address, .shopInfo .description.nophoto dd.btn {padding-left:10px;}
+.shopInfo .description dd.btn_rank {padding:10px 40px;}
+.shopInfo .description dd.btn_rank a {display:block; height:27px; line-height:27px; text-align:center; border:1px solid #b7b7b7; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/gradi02.gif%27) repeat-x left bottom;}
+.shopInfo .description dd.btn_rank a span {display:inline-block; padding:0 0 0 17px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat 0px -743px; font-size:12px; color:#333;}
+.shopInfo .description dd.btn_checkin {padding:10px 40px;}
+.shopInfo .description dd.btn_checkin a {display:block; height:27px; line-height:27px; text-align:center; border:1px solid #b7b7b7; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/gradi02.gif%27) repeat-x left bottom;}
+.shopInfo .description dd.btn_checkin a span {display:inline-block; padding:0 0 0 17px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat 0px -993px; font-size:12px; color:#333;}
+.shopInfo .description dd.write_rank {height:49px; padding:0 0 0 10px; line-height:49px; font-size:14px; color:#111;}
+.shopInfo .description dd.write_checkin {height:49px; padding:0 0 0 10px; line-height:49px; font-size:14px; color:#111;}
+
+.shopInfo .flagInfo { display:block; height:44px; margin:12px 10px 0; padding:0 0 10px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/bg_totalNum2.gif%27) repeat-x; border-bottom:1px solid #eee;}
+.shopInfo .flagInfo dl { position:relative; height:38px; float:left; cursor:pointer; }
+.shopInfo .flagInfo dl dt { position:absolute; left:7px; top:5px; float:left; color:#ff1a00; font-size:12px; }
+.shopInfo .flagInfo dl dt img { position:relative; top:-2px; margin-right:3px; vertical-align:middle; }
+.shopInfo .flagInfo dl dd { padding:0 10px 0 0; color:#aca397; font-size:13px; line-height:38px; text-align:right;}
+.shopInfo .flagInfo dl dd a { display:block; color:#aca397; }
+.shopInfo .flagInfo dl.checkin { width:50%; border-right:1px solid #e2e2e2; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/bg_totalNum_l2.gif%27) no-repeat; }
+.shopInfo .flagInfo dl.checkin dt { padding:6px 35px 0 10px; }
+.shopInfo .flagInfo dl.champ { float:left; width:50%; margin-left:-1px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/bg_totalNum_r2.gif%27) no-repeat right; }
+.shopInfo .flagInfo dl.champ dt { padding:7px 10px 0 4px; }
+.shopInfo .flagInfo dl.champ dt img { top:0; margin-bottom:2px; }
+.shopInfo .flagInfo dl.champ .thumb { float:left; padding:6px 0 0 10px; }
+/* 2012.05.29 */
+.shopInfo .links {padding:10px 0; margin:0 10px; overflow:hidden; border-bottom:1px solid #eee; } /* background:url('../img/common/gradi01.gif') repeat-x left bottom; */
+.shopInfo .links li {float:left; width:33.3%; margin:0; padding:0;}
+.shopInfo .links li a {display:block; height:27px; margin:0 3px; line-height:27px; text-align:center; border:1px solid #b7b7b7; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/gradi02.gif%27) repeat-x left bottom;}
+.shopInfo .links li:first-child { width:29.5%; }
+.shopInfo .links li:first-child a {margin:0 3px 0 0;}
+.shopInfo .links li:nth-child(3) {float:right;}
+.shopInfo .links li a span {font-size:12px; color:#333;}
+.shopInfo .links li a.public span {padding:0 0 0 15px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat 0px -498px;}
+.shopInfo .links li a.car span {padding:0 0 0 15px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat 0px -548px;}
+.shopInfo .links li a.showmap span {padding:0 0 0 13px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat 0px -598px;}
+.shopInfo .links li.btn_findRoute { width:37.1%; }
+.shopInfo .links li.btn_findRoute button {display:block; height:29px; width:100%; font-size:12px; line-height:29px; color:#333; border:1px solid #B7B7B7; background:white url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/gradi02.gif%27) repeat-x left bottom; text-align:center;} /* 2012.05.23 */
+.shopInfo .btn_findRoute .tmapicon {display:inline-block; width:36px; height:14px; margin:-4px 2px 0 -2px; margin-top:-4px; margin-right:2px; overflow:hidden; text-indent:-9999px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat 0px -1086px; vertical-align:middle;}
+.shopInfo .links li.btn_findRoute .tmapOff { color:#777; cursor:default; } /* 2012.06.14 */
+.shopInfo .links li.btn_findRoute .tmapOff .tmapicon { background-position:0 -1062px; } /* 2012.06.14 */
+.shopInfo .socialArea { position:relative; margin:0 10px 15px 10px; padding:13px 0 15px 0; overflow:hidden; border-bottom:1px solid #eee; }
+.shopInfo .socialList { position:absolute; right:0; top:13px; height:25px;margin:0 0 0 17px;padding:0 0 0 4px;overflow:hidden;}
+.shopInfo .socialList li { display:inline;float:left;width:25px;height:25px;margin:0 9px 0 0; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%22../img/icon/set_ico_social.gif%22) 0 0 no-repeat;}
+.shopInfo .socialList li.nateon {background-position:0px 0;}
+.shopInfo .socialList li.facebook {background-position:-60px 0;}
+.shopInfo .socialList li.twitter {background-position:-30px 0;}
+.shopInfo .socialList li.cacaotalk {margin-right:0;background-position:-90px 0;}
+.shopInfo .socialList li a {float:left; width:100%; height:100%; font:0/100px Arial; overflow:hidden;}
+/* 2012.05.23, 2012.05.29 END */
+
+.shopInfo .poi_map {overflow:hidden; position:relative; height:168px; margin:0 10px; border:1px solid #d4d4d4;}
+.shopInfo .poi_map .map_div {width:100%;height:168px;overflow:hidden;position:relative;}
+.shopInfo .poi_map .zoom {display:inline-block; position:absolute; right:10px; top:10px; width:39px; height:30px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%22../img/icon/ico_zoom.gif%22) no-repeat 0 0; box-shadow:1px 1px 1px #ccc; z-index:10;}
+.shopInfo .poi_map .zoom span {font-size:0; line-height:0; width:0; height:0; margin:0; padding:0; text-indent:-9999px; visibility:hidden; position:absolute;}
+
+.shopInfoDetail {border-top:1px solid #d8d8da;}
+.shopInfoDetail .type_tab {height:33px; border-bottom:1px solid #d8d8da;}
+.shopInfoDetail .type_tab li {float:left; width:50%; height:33px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/bg_tabbar.gif%27) no-repeat left center;}
+.shopInfoDetail .type_tab li:first-child {background:none;}
+.shopInfoDetail .type_tab li a {display:block; width:100%; height:33px; text-align:center;}
+.shopInfoDetail .type_tab li a span {display:inline-block; height:32px; line-height:33px; font-size:12px;}
+.shopInfoDetail .type_tab li a.on span {border-bottom:2px solid #56a7dc; color:#2a8bc8;}
+.shopInfoDetail .sub_title {display:block; height:29px; padding:0 10px; line-height:29px; font-size:12px; color:#444; background:#f5f5f5; border-bottom:1px solid #d1d1d1;}
+.shopInfoDetail .baisc_information {padding:12px 10px 8px; border-bottom:1px solid #d1d1d1;}
+.shopInfoDetail .baisc_information dt {float:left; width:94px; padding:0 0 0 6px; font-size:13px; color:#171717; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_dot.gif%27) no-repeat left 7px;}
+.shopInfoDetail .baisc_information dd {padding:0 0 17px 100px; line-height:15px; font-size:13px; color:#333;}
+.shopInfoDetail .baisc_information dd ul {margin-bottom:10px;}
+.shopInfoDetail .baisc_information dd li {padding:0 0 5px 5px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%22../img/common/ico_dot.gif%22) no-repeat left 7px;}
+.shopInfoDetail .baisc_information dd .btn_vote {border: 1px solid #ccc; height: 20px; margin: 0 3px 0 0; padding:5px;}
+.shopInfoDetail .coupon_list {border-bottom:1px solid #d1d1d1;}
+.shopInfoDetail .coupon_list li {height:36px; padding:0 30px 0 0; border-top:1px solid #ededed; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat right -436px;}
+.shopInfoDetail .coupon_list li:first-child {border:none;}
+.shopInfoDetail .coupon_list li a {display:block; height:36px; padding:0 0 0 10px; line-height:36px; overflow:hidden; text-overflow:ellipsis;; white-space:nowrap; font-size:13px; color:#171717;}
+.shopInfoDetail .coupon_list li.on {background-color:#eef9ff; border-top:1px solid #d3e9f4; border-bottom:1px solid #d3e9f4;}
+.shopInfoDetail .paprtner_list {border-bottom:1px solid #d1d1d1;}
+.shopInfoDetail .paprtner_list li {height:36px; border-top:1px solid #ededed;}
+.shopInfoDetail .paprtner_list li:first-child {border:none;}
+.shopInfoDetail .paprtner_list li a {display:block; height:36px; padding:0 0 0 10px; line-height:36px; overflow:hidden; text-overflow:ellipsis;; white-space:nowrap; font-size:13px; color:#171717;}
+.shopInfoDetail .paprtner_list li.on {padding:0 30px 0 0; background:#eef9ff url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat right -436px; border-top:1px solid #d3e9f4; border-bottom:1px solid #d3e9f4;}
+
+.shopInfoDetail .sub_title_review {display:block; height:29px; padding:0 10px; line-height:29px; font-size:12px; color:#444; background:#f5f5f5 url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat right -940px;; border-bottom:1px solid #d1d1d1;}
+.shopInfoDetail .sub_title_review .count {margin:0 0 0 7px; padding:0 0 0 4px; border-left:1px solid #ddd; font-size:10px; color:#777;}
+.shopInfoDetail .checkInlist { clear:both; }
+.shopInfoDetail .checkInlist li { overflow:hidden; padding:8px 10px; border-bottom:1px solid #ddd; }
+.shopInfoDetail .checkInlist li .poiImg { float:left; }
+.shopInfoDetail .checkInlist li .info { padding-left:42px; }
+.shopInfoDetail .checkInlist li .comment { padding-bottom:3px; color:#555; line-height:18px; }
+.shopInfoDetail .checkInlist li .comment a { color:#333; }
+.shopInfoDetail .checkInlist li .name { color:#111; font-size:11px; }
+.shopInfoDetail .checkInlist li .name .bar { margin:0 4px; color:#cfcfcf; font-size:10px; }
+.shopInfoDetail .checkInlist li .name .date { color:#888; }
+.shopInfoDetail .poiComment { clear:both; width:100%; font-size:13px; margin:0; }
+.shopInfoDetail .poiComment ul { }
+.shopInfoDetail .poiComment ul li { border-bottom:1px solid #dbdbdb; padding:10px; color:#333; }
+.shopInfoDetail .poiComment ul li p { font-size:12px; position:relative; width:100%; }
+.shopInfoDetail .poiComment ul li .star { margin-left:5px; }
+.shopInfoDetail .poiComment ul li p .date { position:absolute; top:0; right:0; color:#999; }
+.shopInfoDetail .poiComment .none, .poiImages .none, poiStory .none { padding:20px 0 10px 10px; font-size:14px;}
+.shopInfoDetail .tasteList { width:100%; }
+.shopInfoDetail .tasteList li { width:100%; border-bottom:1px solid #dbdbdb; padding:7px 0; cursor:pointer;}
+.shopInfoDetail .tasteList li dl { padding:0 10px; overflow:hidden; }
+.shopInfoDetail .tasteList li dl dt { float:left; width:89px; position:relative; }
+.shopInfoDetail .tasteList li dl dt span { width:77px; height:57px; display:block; }
+.shopInfoDetail .tasteList li dl dd { padding-left:89px; }
+.shopInfoDetail .tasteList li dl dd a { font-size:14px; color:#333; }
+.shopInfoDetail .tasteList li dl dd.title { padding:3px 0 2px; word-break:break-all; word-wrap:break-word; }
+.shopInfoDetail .tasteList li dl dd.title span { color:#2A8BC8; font-size:14px; }
+.shopInfoDetail .tasteList li dl dd.info { font-size:12px; }
+.shopInfoDetail .tasteList li dl dd .bar { margin:0 2px 0 5px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_barS.gif) no-repeat 0 2px; }
+.shopInfoDetail .tasteList li dl dd em { color:#2a8bc8; }
+.shopInfoDetail .tasteList  li dl dd.info .story {font-size:12px; color:#278bc7;}
+.shopInfoDetail .noComment {padding:20px 0; text-align:center; border-bottom:1px solid #dbdbdb;}
+.shopInfoDetail .noComment strong {font-size:14px; color:#333;}
+.shopInfoDetail .noComment p {padding:8px 0 10px; font-size:12.5px; color:#848484;}
+.shopInfoDetail .noComment a {display:inline-block; height:22px; padding:0 8px; line-height:22px; border:1px solid #c5c5c5; font-size:12px; color:#444;}
+.shopInfoDetail .paging {margin:10px 0 0 0; padding:0 0 30px;}
+
+.shopInfoDetail .write_rank {padding:0 0 19px;}
+.shopInfoDetail .write_rank dl {padding:12px 10px 2px 0;}
+.shopInfoDetail .write_rank dt {float:left; width:60px; height:23px; padding:0 0 0 10px; line-height:23px;}
+.shopInfoDetail .write_rank dt label {font-size:13px; color:#777;}
+.shopInfoDetail .write_rank dd {padding:0 0 8px 78px;}
+.shopInfoDetail .write_rank dd select {width:100%; -webkit-appearance:none;}
+.shopInfoDetail .write_rank dd textarea {width:100%; height:80px; line-height:18px; border:1px solid #ccc; border-radius:0; -webkit-appearance:none; font-size:14px; color:#696969;}
+.shopInfoDetail .write_rank .btn_confirm {display:block; width:50px; height:26px; margin:0 auto; text-align:center; border:1px solid #aaa; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/gradi02.gif%27) repeat-x left bottom; border-radius:0; font-size:13px; color:#333;}
+
+.tmap_download {padding:14px 20px; border-top:1px solid #ddd;}
+.tmap_download .btn_install {display:block; height:31px; line-height:30px; border:1px solid #bebebe; background:#fff url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/gradi02.gif%27) repeat-x left bottom; text-align:center;}
+.tmap_download .btn_install .tmapicon {display:inline-block; width:55px; height:20px; margin-top:-5px; overflow:hidden; text-indent:-9999px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/ico_traffic.png%27) no-repeat 0px -400px; vertical-align:middle;}
+
+.tmap_link { border-top:1px solid #ddd; }
+.tmap_link a { display:block; width:100%; height:61px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/common/img_tmap_link.gif%27) 17px 16px no-repeat; overflow:hidden; }
+.tmap_link a span,
+.tmap_link a strong { display:block; font-size:13px; margin-left:117px; background:#fff; }
+.tmap_link a span { padding-top:16px; }
+.tmap_link a strong { padding-top:3px; color:#e52517; font-weight:normal; }
+
+
+#trafficSub { padding:3px 2px 0 10px; border-bottom:2px solid #d8d8d8; height:31px; }
+#trafficSub select { float:left; width:30%; border:1px solid #c6c6c6; height:25px; }
+#trafficSub ul { float:right; width:70%; }
+#trafficSub ul li { float:left; width:33%; height:26px; text-align:center; padding-top:5px; margin}
+#trafficSub ul li a { font-size:14px; padding-bottom:12px; height:12px; color:#777; }
+#trafficSub ul li a.on { border-bottom:2px solid #444; color:#111; padding-bottom:9px; z-index:1000; position:relative; }
+
+.icon_tmap {display:inline-block; width:34px; height:13px; overflow:hidden; text-indent:-9999px; background:#fff url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%27../img/icon/tmap.png%27) no-repeat 0px 0px;}
+
+/*** S: 지역설정 화면 UI 깨짐 방지를 위해서 추가.. 2011/11/18 tkkim ***/
+	#nearSearch { padding:16px 10px 15px; overflow:hidden; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_srchOpt.gif) repeat-x bottom; }
+	#nearSearch .tit { height:35px; margin-bottom:15px; border-bottom:1px solid #eee; }
+	#nearSearch .tit h3 { float:left; margin-top:7px; color:#333; font-size:14px; font-weight:bold; }
+	#nearSearch .tit p { float:right; }
+	#nearSearch .tit p input { overflow:visible; width:63px; height:26px; margin-left:6px; color:#333; font-size:13px; letter-spacing:-1px; border:1px solid #aaa; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_button.gif) repeat-x; }
+	#nearSearch .tabMenu { height:29px; border-bottom:1px solid #aaa; background:#f5f5f5; }
+	#nearSearch .tabMenu li { float:left; width:50%; height:27px; background:#f5f5f5; }
+	#nearSearch .tabMenu li a { display:block; height:23px; padding-top:4px; color:#a3a3a3; border:1px solid #dfdfdf; text-align:center; }
+	#nearSearch .tabMenu li.on { position:relative; height:31px; background:#fff; }
+	#nearSearch .tabMenu li.on a { height:25px; color:#333; border:1px solid #aaa; border-bottom:0; }
+	#nearSearch .srchWrap { padding:27px 27px 0; }
+	#nearSearch .srchWrap .srchInput { position:relative; height:22px; margin-bottom:5px; padding:3px 60px 0 5px; border:1px solid #B7B7B7; background:#fff; }
+	#nearSearch .srchWrap .srchInput input { width:100%; border:0; color:#717171; font-size:13px; }
+	#nearSearch .srchWrap .srchInput button { position:absolute; top:0; right:0; width:56px; height:26px; padding:4px 0; border-left:1px solid #B7B7B7; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_button.gif) repeat-x; }
+	#nearSearch .srchWrap .ex { color:#777; font-size:11px; letter-spacing:0; }
+	#nearSearch .areaSlt { padding-top:16px; }
+	#nearSearch .areaSlt ul { height:25px; }
+	#nearSearch .areaSlt li { float:left; width:33%; }
+	#nearSearch .areaSlt li p { padding-right:10px; }
+	#nearSearch .areaSlt li select { width:100%; height:25px; border:1px solid #c6c6c6; }
+	#nearSearch .areaSlt li select option { padding-right:20px; }
+	#nearSearch .areaSlt div { padding-top:8px; text-align:center; }
+	#nearSearch .areaSlt div input { height:26px; padding:0 10px; border:1px solid #B7B7B7; color:#333; font-size:13px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_button.gif) repeat-x; }
+
+	#nearSearch2 { padding:16px 10px 15px; overflow:hidden; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_srchOpt.gif) repeat-x bottom; }
+	#nearSearch2 .tit { height:37px; }
+	#nearSearch2 .tit h3 { float:left; color:#838383; font-size:14px; }
+	#nearSearch2 .tit h3 em { color:#333; }
+	#nearSearch2 .tit p { float:right; margin-top:15px; }
+	#nearSearch2 .tit p a { color:#333; font-size:12px; border-bottom:1px solid #d4d4d4; }
+	#nearSearch2 .tit p .choice { padding-right:11px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/ico_down.gif) no-repeat right; }
+	#nearSearch2 .tit p .choice_off { padding-right:11px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/ico_up.gif) no-repeat right; }
+	#nearSearch2 .tit p .bar { margin:0 8px; color:#cfcfcf; }
+	#nearSearch2 .type { margin:0 10px; padding-top:12px; border-top:1px solid #eee; }
+	#nearSearch2 .type ul { }
+	#nearSearch2 .type ul li { position:relative; z-index:1; float:left; width:25%; height:31px; margin:-1px 0 0 -1px; font-size:13px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_typeList.gif) repeat-x; }
+	#nearSearch2 .type ul li a, #nearSearch2 .type ul li span { display:block; height:23px; padding-top:6px; border:1px solid #bcbcbc; text-align:center; }
+	#nearSearch2 .type ul li.on { z-index:2; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/img/bg_typeList_on.gif) repeat-x; }
+	#nearSearch2 .type ul li.on a { color:#fff; border:1px solid #3d3d3d; }
+
+/* banner */
+.main_banner { width:100%; height:48px; overflow:hidden; text-align:center; border-top:1px solid #dbdbdb; }
+.main_banner a { display:block; width:100%; height:48px; }
+
+
+.m_allow { top:-13px; }
+
+/*** E: 지역설정 화면 UI 깨짐 방지를 위해서 추가.. 2011/11/18 tkkim ***/
+
+/*
+
+*/
+/*
+
+*/
+
+/* Map Share Event 2012.06.14 */
+.mapShareEvent { position:absolute;left:50%;top:35px;z-index:99999;width:315px;height:408px;padding:0; margin:0 0 0 -157px;background:#fff url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%22../img/promotion/bg_promotion3_small.jpg%22) 0 0 no-repeat; background-size:315px 408px; }
+.mapShareEvent legend { position:absolute; font:0/0 Arial; text-indent:-99999px; }
+.mapShareEvent h3,
+.mapShareEvent p {position:absolute; width:0; height:0; font-size:0; line-height:0; visibility:hidden; text-indent:-9999px;}
+.mapShareEvent a.detailLink { position:absolute; left:7px; bottom:37px; width:303px; height:43px; font:0/200px Arial; text-indent:-99999px; overflow:hidden; }
+.mapShareEvent label { position:absolute; left:0; bottom:0; display:block; width:158px; height:31px; font:0/100px Arial; text-indent:-99999px; overflow:hidden; cursor:pointer; }
+.mapShareEvent #todayClose { position:absolute; left:-999999px; }
+.mapShareEvent button { position:absolute; right:0px; bottom:0; font:0/100px Arial; text-indent:-99999px; width:157px; height:31px; border:0; background:transparent; overflow:hidden; }
+#eventLayerBlck { height:100; }
+
+.mapShareEvent2 {position:absolute;left:50%;top:35px;z-index:99999;width:314px; height:315px;padding:115px 0 0 0; margin:0 0 0 -157px;background:#fff url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%22../img/promotion/bg_promotion_summer320.jpg%22) 0 0 no-repeat; background-size:314px 430px; }
+.mapShareEvent2 a.link1 {display:inline-block; width:315px; height:70px; margin-bottom:1px;}
+.mapShareEvent2 a.link2 {display:inline-block; width:315px; height:70px; margin-bottom:92px;}
+.mapShareEvent2 a.link3 {display:inline-block; width:300px; height:33px; margin:0 8px 9px; }
+.mapShareEvent2 button {float:left; margin:0; padding:0; border:0; background:none;}
+.mapShareEvent2 button.close1 {overflow:visible; display:inline-block; width:162px; height:37px;}
+.mapShareEvent2 button.close2 {overflow:visible; display:inline-block; width:152px; height:37px;}
+
+.mapShareEvent_september {position:absolute; left:50%; top:35px; z-index:99999; width:316px; height:106px; margin:0 0 0 -158px; padding:350px 0 0 0; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%22../img/promotion/bg_promotion_park320.gif%22) no-repeat 0 0; background-size:316px 456px;}
+.mapShareEvent_september.train {background:url("../img/promotion/bg_promotion_train320.gif") no-repeat 0 0; }
+.mapShareEvent_september a.detail_view {display:block; width:289px; height:45px; margin:0 auto;}
+.mapShareEvent_september .btm {position:relative; width:306px; height:30px; margin-top:23px; padding:8px 0 0 10px;}
+.mapShareEvent_september .btm label {display:inline-block; width:110px; height:15px; margin-left:5px;}
+.mapShareEvent_september .btm button {display:inline-block; position:absolute; right:10px; top:8px; width:65px; height:20px; border:0; background:none;}
+
+.mapShareEvent_busanTravel {position:absolute; left:50%; top:35px; z-index:99999; width:316px; height:106px; margin:0 0 0 -158px; padding:350px 0 0 0; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%22../img/promotion/bg_promotion_busan320.jpg%22) no-repeat 0 0; background-size:316px 456px;}
+.mapShareEvent_busanTravel.train {background:url("../img/promotion/bg_promotion_train320.gif") no-repeat 0 0; }
+.mapShareEvent_busanTravel a { position:absolute; left:240px; display:block; width:61px; height:61px; overflow:hidden;}
+.mapShareEvent_busanTravel a.detail_view1 {bottom:180px;}
+.mapShareEvent_busanTravel a.detail_view2 {bottom:80px;}
+.mapShareEvent_busanTravel .btm {position:relative; width:306px; height:30px; margin-top:67px; padding:8px 0 0 10px;}
+.mapShareEvent_busanTravel .btm label {display:inline-block; width:110px; height:15px; margin-left:5px;}
+.mapShareEvent_busanTravel .btm button {display:inline-block; position:absolute; right:10px; top:8px; width:65px; height:20px; border:0; background:none;}
+
+.mapShareEvent_culture { position:absolute; left:50%; top:35px; z-index:99999; width:316px; height:106px; margin:0 0 0 -158px; padding:350px 0 0 0; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%22../img/promotion/bg_promotion9_small.jpg%22) no-repeat 0 0; background-size:316px 456px;}
+.mapShareEvent_culture a { position:absolute; display:block; width:91px; height:29px; overflow:hidden; }
+.mapShareEvent_culture a.detail_view1 { left:65px; top:226px; }
+.mapShareEvent_culture a.detail_view2 { left:161px; top:226px; }
+.mapShareEvent_culture a.detail_view3 { left:66px; top:358px; }
+.mapShareEvent_culture a.detail_view4 { left:161px; top:358px; }
+.mapShareEvent_culture .btm {position:relative; width:306px; height:30px; margin-top:67px; padding:8px 0 0 10px;}
+.mapShareEvent_culture .btm label {display:inline-block; width:110px; height:15px; margin-left:5px;}
+.mapShareEvent_culture .btm button {display:inline-block; position:absolute; right:10px; top:8px; width:65px; height:20px; border:0; background:none;}
+
+.mapNotice { position:absolute; left:50%; top:0; z-index:99999; width:320px; margin:0 0 0 -160px; }
+.mapNotice h4 { height:53px; font:0/0 Arial; text-indent:-9999px; background:#fff url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%22../img/promotion/bg_notice_small.png%22) no-repeat 0 0; background-size:320px 160px; border-bottom:1px solid #b6b6b6; overflow:hidden; }
+.mapNotice .stit { margin:15px 0 0 0; padding:0 0 0 16px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%22../img/promotion/ico_arrow_small.png%22) no-repeat 0 4px; background-size:11px 11px; }
+.mapNotice .list { margin:5px 0 0 0; }
+.mapNotice .list li { padding:0 0 0 9px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%22../img/promotion/bg_notice_small.png%22) no-repeat -317px -72px; background-size:320px 160px; }
+.mapNotice .noticeContent { padding:23px 10px 19px 19px; line-height:1.2; background:#fff; color:#111; }
+.mapNotice .buttons { padding:13px 0 19px 0; text-align:center; background:#fff; border-top:1px solid #b6b6b6; 
+	/* IE10 Consumer Preview */ 
+	background-image: -ms-linear-gradient(top, #FFFFFF 0%, #F6F6F6 100%);
+	/* Mozilla Firefox */ 
+	background-image: -moz-linear-gradient(top, #FFFFFF 0%, #F6F6F6 100%);
+	/* Opera */ 
+	background-image: -o-linear-gradient(top, #FFFFFF 0%, #F6F6F6 100%);
+	/* Webkit (Safari/Chrome 10) */ 
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #F6F6F6));
+	/* Webkit (Chrome 11+) */ 
+	background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #F6F6F6 100%);
+	/* W3C Markup, IE10 Release Preview */ 
+	background-image: linear-gradient(to bottom, #FFFFFF 0%, #F6F6F6 100%);
+}
+.mapNotice .buttons a,
+.mapNotice .buttons a span { display:inline-block; *display:inline; *zoom:1; }
+.mapNotice .buttons a { border:1px solid #c9c9c9; color:#d31d01; overflow:hidden; 
+	/* IE10 Consumer Preview */ 
+	background-image: -ms-linear-gradient(top, #FEFBFE 0%, #EFF0F0 100%);
+	/* Mozilla Firefox */ 
+	background-image: -moz-linear-gradient(top, #FEFBFE 0%, #EFF0F0 100%);
+	/* Opera */ 
+	background-image: -o-linear-gradient(top, #FEFBFE 0%, #EFF0F0 100%);
+	/* Webkit (Safari/Chrome 10) */ 
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FEFBFE), color-stop(1, #EFF0F0));
+	/* Webkit (Chrome 11+) */ 
+	background-image: -webkit-linear-gradient(top, #FEFBFE 0%, #EFF0F0 100%);
+	/* W3C Markup, IE10 Release Preview */ 
+	background-image: linear-gradient(to bottom, #FEFBFE 0%, #EFF0F0 100%);
+}
+.mapNotice .buttons a span { height:35px; padding:0 27px; line-height:35px; border:1px solid #fff; }
+.mapNotice .btm {position:relative; width:310px; height:32px; padding:11px 0 0 10px; background: url(file:///C|/Users/john/AppData/Local/Microsoft/Windows/Temporary%20Internet%20Files/Content.IE5/P2QO3OHM/%22../img/promotion/bg_notice_small.png%22) no-repeat 0 100%; background-size:320px 160px; }
+.mapNotice .btm label {display:inline-block; width:110px; height:15px; margin-left:5px;}
+.mapNotice .btm button {display:inline-block; position:absolute; right:0; top:0; width:70px; height:43px; border:0; background:none; }
+
+@media screen and (-webkit-min-device-pixel-ratio:1.5){ 
+	.mapShareEvent{ background-image:url('../img/promotion/bg_promotion3.jpg'); }
+	.mapShareEvent2 {background:#fff url("../img/promotion/bg_promotion_summer640.jpg") 0 0 no-repeat; }
+	.mapShareEvent_september {background:url("../img/promotion/bg_promotion_park640.gif") no-repeat 0 0;}
+	.mapShareEvent_september.train {background:url("../img/promotion/bg_promotion_train640.gif") no-repeat 0 0; }
+	.mapShareEvent_busanTravel {background:url("../img/promotion/bg_promotion_busan640.jpg") no-repeat 0 0;}
+	.mapShareEvent_culture { background:url("../img/promotion/bg_promotion9.jpg") no-repeat 0 0; }
+	.mapNotice h4,
+	.mapNotice .list li,
+	.mapNotice .btm { background-image:url("../img/promotion/bg_notice.png"); }
+	.mapNotice .stit { background-image:url("../img/promotion/ico_arrow.png");  }
+
+	/* #contsWrap {-webkit-tap-highlight-color:rgba(0,0,0,0);} */
+}
+@media screen and (-webkit-min-device-pixel-ratio:2){
+	.mapShareEvent{ background-image:url('../img/promotion/bg_promotion3.jpg'); }
+	.mapShareEvent2 {background:#fff url("../img/promotion/bg_promotion_summer640.jpg") 0 0 no-repeat; }
+	.mapShareEvent_september {background:url("../img/promotion/bg_promotion_park640.gif") no-repeat 0 0;}
+	.mapShareEvent_september.train {background:url("../img/promotion/bg_promotion_train640.gif") no-repeat 0 0; }
+	.mapShareEvent_busanTravel {background:url("../img/promotion/bg_promotion_busan640.jpg") no-repeat 0 0;}
+	.mapShareEvent_culture { background:url("../img/promotion/bg_promotion9.jpg") no-repeat 0 0; }
+	.mapNotice h4,
+	.mapNotice .list li,
+	.mapNotice .btm { background-image:url("../img/promotion/bg_notice.png"); }
+	.mapNotice .stit { background-image:url("../img/promotion/ico_arrow.png");  }
+	/* #contsWrap {-webkit-tap-highlight-color:rgba(0,0,0,0);} */
+}
+
+
+.markerLabel{
+	white-space:nowrap;
+	text-align:center;
+	border: #466277 1px solid; 
+	font: 11px verdana; 
+	padding: 3px; 
+	background: #fff;
+}
