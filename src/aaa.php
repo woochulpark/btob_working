@@ -11,6 +11,14 @@
  <body>
   <?
   		print_r($_POST);
+
+		foreach($_POST['juminno'] as $k=>$v){
+			foreach($_POST['juminno'] as $m=>$n){
+				if($v === $n && $k != $m){
+					echo $k.":".$v." 동일한 주민번호가 있습니다 ".$n.":".$m;
+				}
+			}
+		}
   ?>
  </body>
 </html>

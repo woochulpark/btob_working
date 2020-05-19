@@ -10,6 +10,7 @@
 		echo json_encode($json_code);
 		exit;
 	}  else {
+		$selInsurance = $full_info['selinsuran'];
 		$tripType = $full_info['trip_Type'];
 		$nationVal = $full_info['nation'];
 		$tripPurpose = $full_info['trip_purpose'];
@@ -21,6 +22,7 @@
 		$join_cnt = count($full_info['juminno']);
 		$notiConfirm = $full_info['notice_confirm'];
 		$contConfirm = $full_info['contract_confirm'];
+		$commonPlan = $full_info['common_plan'];
 		$join_name = $full_info['input_name'][0];
 		$today_t = time();
 		if ($full_info['phonef'] !='' && $full_info['phonem'] !='' && $full_info['phonel'] !='') {
@@ -35,6 +37,36 @@
 			$email='';
 		}
 
+		foreach($full_info['juminno'] as $k=>$v){
+			foreach($full_info['juminno'] as $m=>$n){
+				if($full_info['juminno'][$k] === $n && $v != $n){
+						$json_code = array('result'=>'false','msg'=>'동일한 주민등록 번호가 있습니다.');
+					echo json_encode($json_code);					
+					exit;
+				} 
+			}
+		}
+		
+		foreach($full_info['juminno'] as $k=>$v){
+
+			$jumin_both = explode("-",$v);
+
+			if (substr($jumin_both[1],0,1) == "1" ||
+		        substr($jumin_both[1],0,1) == "2" ||
+		        substr($jumin_both[1],0,1) == "3" ||
+		        substr($jumin_both[1],0,1) == "4"){
+		            $jumin_check=resnoCheck($jumin_both[0],$jumin_both[1]);
+		    } else {
+		        $jumin_check=foreignerCheck($jumin_both[0],$jumin_both[1]);
+		        //$jumin_check=true;
+		    }
+
+			if ($jumin_check==false) {
+				$json_code = array('result'=>'false','msg'=>'주민번호를 다시 확인해 주세요.');
+				echo json_encode($json_code);
+				exit;
+			}
+		}
 
 		$start_date_arr=explode("-",$startDate);
 		$start_time=mktime($startHour,"00","00",$start_date_arr[1],$start_date_arr[2],$start_date_arr[0]);
@@ -51,13 +83,23 @@
 		//2019-07-24 $term_day 상품별 여행기간 계산 추가 - 박우철
 		//2019-07-03 해외 여행 80대(보험나이) 1개월 이상 보험가입 금지 - 박우철
 		
-		// 현재 체류지, 보험사, 영문이름, 추가정보 1, 추가정보2, 공통플랜(? -넣을지 말지)
+		if($tripType == 2){
+			foreach($full_info['hage'] as $k=>$v){
+				if( $v >= 80 && $rl_term_day > 30){
+					$json_code = array('result'=>'false','msg'=>'여행자보험 가입시 80세이상 고객님은  최대 30일까지만 가입이 가능합니다. 31일 이상 가입은 고객센터로 연락주세요. (1800-9010)');
+					echo json_encode($json_code);
+					exit;
+				}
+			}
+		}
 
 		$sql_tmp="insert into hana_plan set
 					member_no='{$mem_no}',
+					insurance_comp = '{$selInsurance}',
 					session_key='{$sess_code}',
 					order_type='1',
 					trip_type='{$tripType}',
+					common_plan = '{$commonPlan}',
 					nation_no='{$nationVal}',
 					trip_purpose='{$tripPurpose}',
 					start_date='{$startDate}',
@@ -83,17 +125,19 @@
 		$mainCheck = 'N';
 		$all_price = 0;
 		foreach($full_info['juminno'] as $k=>$v){
-
+				
 				if($k < 1){
 					$mainCheck = 'Y';
 					$hphone_put = $hphone;
 					$email_put = $email;
 				} else {
+					$mainCheck = 'N';
 					$hphone_put = '';
 					$email_put = '';
 				}
 
 				$kor_name= $full_info['input_name'][$k];
+				$eng_name = $full_info['input_eng_name'][$k];
 				$ju_num = explode("-",$full_info['juminno'][$k]);
 				$jumin_1 =encode_pass(addslashes(fnFilterString($ju_num[0])),$pass_key);
 				$jumin_2 =encode_pass(addslashes(fnFilterString($ju_num[1])),$pass_key);
@@ -110,12 +154,14 @@
 				} elseif ($sex_type=="2" || $sex_type=="4" || $sex_type=="6" || $sex_type=="8") {
 					$sex='2';
 				}	
+				
 				$hana_plan_no = 'test';
 				$sql_mem="insert into hana_plan_member set
 					hana_plan_no='{$hana_plan_no}',
 					member_no='{$mem_no}',
 					main_check='{$mainCheck}',
 					name='{$kor_name}',
+					name_eng = '{$eng_name}',
 					jumin_1='{$jumin_1}',
 					jumin_2='{$jumin_2}',
 					hphone='{$hphone_put}',
@@ -131,10 +177,17 @@
 				echo $sql_mem;
 		}
 		echo "<br />";
-		$sql_mem=" select com_percent from toursafe_members where no='{$mem_no}' ";
-		$result_mem=mysql_query($sql_mem);
-		$row_mem=mysql_fetch_array($result_mem);
 
+
+		if($selInsurance == 'S_1'){			
+			$put_point = ($all_price * 3) / 100;
+		}
+
+		if($selInsurance == 'S_2'){			
+			$sql_mem=" select com_percent from toursafe_members where no='{$mem_no}' ";
+			$result_mem=mysql_query($sql_mem);
+			$row_mem=mysql_fetch_array($result_mem);
+		}	
 			$com_percent=$row_mem['com_percent'];
 
 		$sql_insert_change="insert into hana_plan_change set
@@ -142,10 +195,25 @@
 								change_type='1',
 								change_price='{$all_price}',
 								in_price='0',
-								change_date='',
-								com_percent='{$com_percent}',
-								regdate='{$today_t}'
+								change_date='', ";
+					if($selInsurance == 'S_1'){					
+		$sql_insert_change.="com_point='{$put_point}', ";		
+					} else if($selInsurance == 'S_2'){				
+		$sql_insert_change.="com_percent='{$com_percent}', ";
+					}
+		$sql_insert_change.=" regdate='{$today_t}'
 								";	
 		echo $sql_insert_change;
+		echo "<br />";
+		if($selInsurance == 'S_1'){			
+			$sql_insert_point = " insert into hana_plan_point set 
+								member_no = '{$mem_no}', 		
+								hana_plan_no = '{$hana_plan_no}',
+								point = '{$put_point}',
+								reg_date = now()		
+			";
+
+		echo $sql_insert_point;
+		}
 	}
 ?>
