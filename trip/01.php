@@ -500,9 +500,9 @@ print_r($_SESSION);
                         <th>거래처명</th>
                         <td><?=$_SESSION['s_mem_com']?></td>
                         <th>청약번호</th>
-                        <td class="nb">12346979</td>
+                        <td class="nb"></td>
                         <th>청약일</th>
-                        <td class="nb">2019-12-26</td>
+                        <td class="nb"></td>
                     </tr>
                 </tbody>
             </table>
@@ -536,7 +536,7 @@ print_r($_SESSION);
                                 <div>
                                     <span class="day_form">
 										<span class="date_picker2">
-                                        <input type="text" id="start_date" name="" value="<?=($all_start_data != '') ? $all_start_data:'';?>" style="border:0px;height:26px; width: 100px; padding-left: 3px; padding-right: 3px;" readonly >
+                                        <input type="text" id="start_date" name="start_date" value="<?=($all_start_data != '') ? $all_start_data:'';?>" style="border:0px;height:26px; width: 100px; padding-left: 3px; padding-right: 3px;" readonly >
 										</span>
                                     </span>
                                     <span class="time">
@@ -550,7 +550,7 @@ print_r($_SESSION);
                                 <div>
                                     <span class="day_form">
 									<span class="date_picker2">
-                                        <input type="text" id="end_date" name="" value="<?=($all_end_data != '') ?$all_end_data:'';?>" style="border:0px;height:26px; width: 100px; padding-left: 3px; padding-right: 3px;" readonly >
+                                        <input type="text" id="end_date" name="end_date" value="<?=($all_end_data != '') ?$all_end_data:'';?>" style="border:0px;height:26px; width: 100px; padding-left: 3px; padding-right: 3px;" readonly >
 										</span>
                                     </span>
                                     <span class="time">
@@ -618,11 +618,11 @@ print_r($_SESSION);
                                 <div class="stay">
                                     <ul>
                                         <li>
-                                            <input type="radio" id="r1" name="rr" value="해외" />
+                                            <input type="radio" id="r1" name="rr" value="2" />
                                             <label for="r1" class="radio_bx"><span></span>해외</label>
                                         </li>
                                         <li>
-                                            <input type="radio" id="r2" name="rr" value="국내" />
+                                            <input type="radio" id="r2" name="rr" value="1" />
                                             <label for="r2" class="radio_bx"><span></span>국내</label>
                                         </li>
                                     </ul>
@@ -660,7 +660,7 @@ print_r($_SESSION);
                                 <div class="phone">
                                     <ul>
                                         <li>
-                                            <select name="" id="" title="휴대폰번호 첫번째 자리" class="nb">
+                                            <select name="phonef" id="phonef" title="휴대폰번호 첫번째 자리" class="nb">
 												<option value="">선택</option>
 												<?
 													foreach($hp_array as $k=>$v){
@@ -672,10 +672,10 @@ print_r($_SESSION);
                                             </select>
                                         </li>
                                         <li>
-                                            <input type="tel" id="" name="" maxlength="4" title="휴대폰 앞자리를 넣어주세요" class="nb">
+                                            <input type="tel" id="phonem" name="phonem" maxlength="4" title="휴대폰 앞자리를 넣어주세요" class="nb">
                                         </li>
                                         <li>
-                                            <input type="tel" id="" name="" maxlength="4" title="휴대폰 뒷자리를 넣어주세요" class="nb">
+                                            <input type="tel" id="phonel" name="phonel" maxlength="4" title="휴대폰 뒷자리를 넣어주세요" class="nb">
                                         </li>
                                     </ul>
                                 </div>
@@ -745,11 +745,14 @@ print_r($_SESSION);
 								<label for="n1" class="check_bx"><span></span></label>
                             </td>
                             <td class="nb">1</td>
-                            <td><input type="text" id="" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="juminno[]" class="add_field" value="<?=($all_jumin_no != "") ? $all_jumin_no:''; ?>"></td>
+                            <td><input type="text" name="input_name[]" class="add_field"></td>
+                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
+                            <td><input type="text" name="juminno[]" class="add_field" value="<?=($all_jumin_no != "") ? $all_jumin_no:''; ?>"></td>
                             <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" id="" name="plan_code[]" class="add_field_plan" readonly ><button type="button" name="ch_particul_plan" name="ch_particul_plan" class="btn_s4">변경</button></td>
+                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
+								<input type="hidden" name="plan_type[]" value="" />
+								<input type="hidden" name="plan_title[]" value="" />
+							<button type="button" name="ch_particul_plan" name="ch_particul_plan" class="btn_s4">변경</button></td>
                             <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
                         </tr>
                         <tr>
@@ -758,11 +761,14 @@ print_r($_SESSION);
 									<label for="n2" class="check_bx"><span></span></label>
                             </td>
                             <td class="nb">2</td>
-                            <td><input type="text" id="" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="juminno[]" class="add_field"></td>
+                            <td><input type="text" name="input_name[]" class="add_field"></td>
+                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
+                            <td><input type="text" name="juminno[]" class="add_field"></td>
                             <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" id="" name="plan_code[]" class="add_field_plan" readonly ><button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
+                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
+										<input type="hidden" name="plan_type[]" value="" />
+								<input type="hidden" name="plan_title[]" value="" />
+							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
                             <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
                         </tr>
                         <tr>
@@ -771,11 +777,14 @@ print_r($_SESSION);
 								<label for="n3" class="check_bx"><span></span></label>
                             </td>
                             <td class="nb">3</td>
-                            <td><input type="text" id="" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="juminno[]" class="add_field"></td>
+                            <td><input type="text" name="input_name[]" class="add_field"></td>
+                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
+                            <td><input type="text" name="juminno[]" class="add_field"></td>
                             <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" id="" name="plan_code[]" class="add_field_plan" readonly ><button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
+                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
+										<input type="hidden" name="plan_type[]" value="" />
+								<input type="hidden" name="plan_title[]" value="" />
+							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
                             <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
                         </tr>
                         <tr>
@@ -784,11 +793,14 @@ print_r($_SESSION);
 								<label for="n4" class="check_bx"><span></span></label>
                             </td>
                             <td class="nb">4</td>
-                            <td><input type="text" id="" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="juminno[]" class="add_field"></td>
+                            <td><input type="text" name="input_name[]" class="add_field"></td>
+                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
+                            <td><input type="text" name="juminno[]" class="add_field"></td>
                             <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" id="" name="plan_code[]" class="add_field_plan" readonly ><button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
+                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
+										<input type="hidden" name="plan_type[]" value="" />
+								<input type="hidden" name="plan_title[]" value="" />
+							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
                             <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
                         </tr>
                         <tr>
@@ -797,11 +809,14 @@ print_r($_SESSION);
 								<label for="n5" class="check_bx"><span></span></label>
                             </td>
                             <td class="nb">5</td>
-                            <td><input type="text" id="" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="juminno[]" class="add_field"></td>
+                            <td><input type="text" name="input_name[]" class="add_field"></td>
+                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
+                            <td><input type="text" name="juminno[]" class="add_field"></td>
                             <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" id="" name="plan_code[]" class="add_field_plan" readonly ><button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
+                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
+										<input type="hidden" name="plan_type[]" value="" />
+								<input type="hidden" name="plan_title[]" value="" />
+							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
                             <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
                         </tr>
                         <tr>
@@ -810,11 +825,14 @@ print_r($_SESSION);
 								<label for="n6" class="check_bx"><span></span></label>
                             </td>
                             <td class="nb">6</td>
-                            <td><input type="text" id="" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="juminno[]" class="add_field"></td>
+                            <td><input type="text" name="input_name[]" class="add_field"></td>
+                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
+                            <td><input type="text" name="juminno[]" class="add_field"></td>
                             <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" id="" name="plan_code[]" class="add_field_plan" readonly ><button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
+                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
+										<input type="hidden" name="plan_type[]" value="" />
+								<input type="hidden" name="plan_title[]" value="" />
+							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
                             <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
                         </tr>
                         <tr>
@@ -823,11 +841,14 @@ print_r($_SESSION);
 								<label for="n7" class="check_bx"><span></span></label>
                             </td>
                             <td class="nb">7</td>
-                            <td><input type="text" id="" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="juminno[]" class="add_field"></td>
+                            <td><input type="text" name="input_name[]" class="add_field"></td>
+                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
+                            <td><input type="text" name="juminno[]" class="add_field"></td>
                             <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" id="" name="plan_code[]" class="add_field_plan" readonly ><button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
+                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
+										<input type="hidden" name="plan_type[]" value="" />
+								<input type="hidden" name="plan_title[]" value="" />
+							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
                             <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
                         </tr>
                         <tr>
@@ -836,11 +857,14 @@ print_r($_SESSION);
 								<label for="n8" class="check_bx"><span></span></label>
                             </td>
                             <td class="nb">8</td>
-                            <td><input type="text" id="" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="juminno[]" class="add_field"></td>
+                            <td><input type="text" name="input_name[]" class="add_field"></td>
+                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
+                            <td><input type="text" name="juminno[]" class="add_field"></td>
                             <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" id="" name="plan_code[]" class="add_field_plan" readonly ><button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
+                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
+										<input type="hidden" name="plan_type[]" value="" />
+								<input type="hidden" name="plan_title[]" value="" />
+							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
                             <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
                         </tr>
                         <tr>
@@ -849,11 +873,14 @@ print_r($_SESSION);
 								<label for="n9" class="check_bx"><span></span></label>
                             </td>
                             <td class="nb">9</td>
-                            <td><input type="text" id="" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="juminno[]" class="add_field"></td>
+                            <td><input type="text" name="input_name[]" class="add_field"></td>
+                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
+                            <td><input type="text" name="juminno[]" class="add_field"></td>
                             <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" id="" name="plan_code[]" class="add_field_plan" readonly ><button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
+                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
+										<input type="hidden" name="plan_type[]" value="" />
+								<input type="hidden" name="plan_title[]" value="" />
+							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
                             <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
                         </tr>
                         <tr>
@@ -862,11 +889,14 @@ print_r($_SESSION);
 								<label for="n10" class="check_bx"><span></span></label>
                             </td>
                             <td class="nb">10</td>
-                            <td><input type="text" id="" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="juminno[]" class="add_field"></td>
+                            <td><input type="text" name="input_name[]" class="add_field"></td>
+                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
+                            <td><input type="text" name="juminno[]" class="add_field"></td>
                             <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" id="" name="plan_code[]" class="add_field_plan" readonly ><button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
+                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
+										<input type="hidden" name="plan_type[]" value="" />
+								<input type="hidden" name="plan_title[]" value="" />
+							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
                             <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
                         </tr>
                     </tbody>
@@ -914,11 +944,14 @@ print_r($_SESSION);
 								<label class="check_bx"><span></span></label>
                             </td>
                             <td class="nb"></td>
-                            <td><input type="text" id="" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" id="" name="juminno[]" class="add_field"></td>
+                            <td><input type="text" name="input_name[]" class="add_field"></td>
+                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
+                            <td><input type="text" name="juminno[]" class="add_field"></td>
                             <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" id="" name="plan_code[]" class="add_field_plan" readonly ><button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
+                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
+										<input type="hidden" name="plan_type[]" value="" />
+								<input type="hidden" name="plan_title[]" value="" />
+							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
                             <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
 					</tr>
 				</tbody>
