@@ -38,7 +38,12 @@
 				$result = mysql_query($que);
 				if($result){
 					while($row = mysql_fetch_array($result)){
-						$json_put_price[$k] = ['price'=>$row['price'] , 'planCode'=>$row['plan_code']];
+						$where_plan = $row['plan_code'];
+						$title_que = " SELECT plan_title FROM {$plan_table} where trip_type = {$ch_trip_type} and plan_code = '{$where_plan}' ";
+						$title_result = mysql_query($title_que);
+						$title_row = mysql_fetch_array($title_result);
+
+						$json_put_price[$k] = ['price'=>$row['price'] , 'planCode'=>$row['plan_code'],'planType'=>$row['plan_type'],'planTitle'=>$title_row['plan_title']];
 					}
 				}
 			}

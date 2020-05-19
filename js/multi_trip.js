@@ -151,10 +151,7 @@ $(document).ready(function(){
 
         });
 
-    $('#tplan').on('click',function(){
-        //'플랜버튼'
 
-    });
 	
 	$('#cal_insuran_tot').on('click',function(){
 		//총 납입 보험료 계산하기
@@ -529,14 +526,20 @@ function joinPlan(kind, kind1, kind2){ //kind -> 분기점, kind1 -> 클릭 버�
 	$.post('/src/planPriceAdder.php', {chCode:objJsonStr },"json").done(function(data){
 			var jobj = JSON.parse(data);
 			var pcode;
+			var ptype;
+			var ptitle;
 			if(jobj.result == 'true'){			
 				$.each(jobj.msg, function(key, state){
 					var gab = state.price;
 					pcode = state.planCode;
+					ptype = state.planType;				
+					ptitle = state.planTitle;
 					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(7) input').val(gab);
 					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(7)').contents().filter(function(){return this.nodeType == 3}).remove();
 					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(7)').append(Number(gab).toLocaleString('en'));
-					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(6) input').val(pcode);
+					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(6) input').eq(0).val(pcode);
+					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(6) input').eq(1).val(ptype);
+					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(6) input').eq(2).val(ptitle);
 					
 					close_pop('pop_wrap');
 				});				
