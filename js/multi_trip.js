@@ -454,8 +454,26 @@ $(document).ready(function(){
 			alert('인원 수 와 계산이 다릅니다.');
 			return false;
 		}
-		$('#formBox').attr('action','/src/aaa.php');
-		$('#formBox').submit();	
+		//$('#formBox').attr('action','/src/aaa.php');
+		//$('#formBox').submit();	
+
+		var form_data = $('#formBox').serialize();
+		
+		$.post('/src/bill_process.php', form_data,"json").done(function(data){
+			var jobj = JSON.parse(data);
+			var pcode;
+			var ptype;
+			var ptitle;
+			if(jobj.result == 'true'){			
+					console.log(jobj.msg);
+				});								
+				
+			} else {
+				alert(jobj.msg);
+			}				
+	}).fail(function(){
+	
+	});
 
 	});
 
