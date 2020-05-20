@@ -36,8 +36,8 @@
 			$email='';
 		}
 
-		foreach($_POST['juminno'] as $k=>$v){
-			foreach($_POST['juminno'] as $m=>$n){
+		foreach(array_filter($_POST['juminno']) as $k=>$v){
+			foreach(array_filter($_POST['juminno']) as $m=>$n){
 				if($_POST['juminno'][$k] === $n && $v != $n){
 						$json_code = array('result'=>'false','msg'=>'동일한 주민등록 번호가 있습니다.');
 					echo json_encode($json_code);					
@@ -46,7 +46,7 @@
 			}
 		}
 		
-		foreach($_POST['juminno'] as $k=>$v){
+		foreach(array_filter($_POST['juminno']) as $k=>$v){
 
 			$jumin_both = explode("-",$v);
 
@@ -61,7 +61,7 @@
 		    }
 
 			if ($jumin_check==false) {
-				$json_code = array('result'=>'false','msg'=>'주민번호를 다시 확인해 주세요.');
+				$json_code = array('result'=>'false','msg'=>'주민번호를 다시 확인해 주세요1.'.$v);
 				echo json_encode($json_code);
 				exit;
 			}
@@ -83,7 +83,7 @@
 		//2019-07-03 해외 여행 80대(보험나이) 1개월 이상 보험가입 금지 - 박우철
 		
 		if($tripType == 2){
-			foreach($_POST['hage'] as $k=>$v){
+			foreach(array_filter($_POST['hage']) as $k=>$v){
 				if( $v >= 80 && $rl_term_day > 30){
 					$json_code = array('result'=>'false','msg'=>'여행자보험 가입시 80세이상 고객님은  최대 30일까지만 가입이 가능합니다. 31일 이상 가입은 고객센터로 연락주세요. (1800-9010)');
 					echo json_encode($json_code);
@@ -124,7 +124,8 @@
 				// mysql_query('last_insert_id()') mysql구문
 		$mainCheck = 'N';
 		$all_price = 0;
-		foreach($_POST['juminno'] as $k=>$v){
+		$hana_plan_no = mysql_insert_id();
+		foreach(array_filter($_POST['juminno']) as $k=>$v){
 				
 				if($k < 1){
 					$mainCheck = 'Y';
@@ -155,7 +156,7 @@
 					$sex='2';
 				}	
 				
-				$hana_plan_no = mysql_insert_id();
+				
 				$sql_mem="insert into hana_plan_member_test set
 					hana_plan_no='{$hana_plan_no}',
 					member_no='{$mem_no}',
@@ -219,7 +220,7 @@
 		//echo $sql_insert_point;
 			$result_point = mysql_query($sql_insert_point);
 		}
-		if(!$result_plan || !$result_member || !$result_change || !$result_point){
+		if(!$result_plan || !$result_member || ($selInsurance == 'S_2' && !$result_change) || ($selInsurance == 'S_1' && !$result_point )){
 			$json_code = array('result'=>'false','msg'=>'정보 등록중 오류가 발생하였습니다. 다시 한번 시도 해주시기 바랍니다.');
 			echo json_encode($json_code);
 			exit;

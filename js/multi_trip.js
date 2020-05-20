@@ -466,7 +466,7 @@ $(document).ready(function(){
 			var ptitle;
 			if(jobj.result == 'true'){			
 					console.log(jobj.msg);
-				});								
+					$('#formBox').trigger("reset");				
 				
 			} else {
 				alert(jobj.msg);
@@ -475,9 +475,7 @@ $(document).ready(function(){
 	
 	});
 
-	});
-
-	
+	});	
 
 });
 
