@@ -1,13 +1,40 @@
 <? include ("../include/top.php"); ?>
-<? 
-		if(!isset($_POST['select_agree']) && $_POST['select_agree'] == ''){
-?>
-	<script>
-	alert('약관에 동의 하셔야 합니다. ');
-	location.href="/member/login.php";
-</script>
 <?
-		}
+		if(!isset($_SESSION['s_mem_id'])){
+?>
+		<script>
+			alert('로그인을 하셔야 합니다. ');
+			location.href="../member/login.php";
+		</script>
+<?
+		} else {
+			$member_que = " SELECT * FROM toursafe_members WHERE uid = '{$_SESSION['s_mem_id']}' ";
+			$member_result = mysql_query($member_que);
+			if(!$member_result){
+			
+			} else {
+				while($row=mysql_fetch_array($member_result)){
+					$com_m_id = $row['uid'];
+					$business_name = $row['com_name'];
+					$business_op_date = $row['com_open_date'];
+					$businessNo = $row['com_no'];
+					$phoneContact = decode_pass($row['hphone'],$pass_key);
+					$faxContact = decode_pass($row['fax_contact'],$pass_key);
+					$emailContact = decode_pass($row['email'],$pass_key);
+					$postNo = $row['post_no'];
+					$postAddr = $row['post_addr'];
+					$postDetail = $row['post_addr_detail'];
+					$fileRname = $row['file_real_name'];
+					$fileName = $row['file_name'];
+					
+				}
+				$mailCont = explode("@",trim($emailContact));
+				
+				$faxContact = trim($faxContact);
+				$tel = trim($phoneContact);
+				
+			}
+		}	
 ?>
 <script>
 	var oneDepth = 0; //1차 카테고리
@@ -63,39 +90,21 @@
 	}
 
 	function check_form() {
-		var frm = document.joinb2b;
-		
-		if(frm.b2bid.value=='') {
-			alert('아이디를 입력하여 주십시오.');
-			frm.b2bid.focus();
-			return false;
-		}
-
-		if(id_check=='N') {
-			alert('아이디 중복 검사를 해 주십시오.');
-			frm.b2bid.focus();
-			return false;
-		}  
-
-		if(frm.b2bid.value!=frm.check_uid.value) {
-			alert('아이디가 중복체크된 값과 다릅니다.');
-			frm.b2bid.focus();
-			return false;
-		}
-				
+		var frm = document.joinb2b;	
+		/*		
 		if(frm.b2bid.value==frm.b2bpw.value) {
 			alert("비밀번호는 띄어쓰기 없는 영문, 숫자, 특수문자 (!,@,#,$,%,^,*,+,=,-) 조합 9~20자리 이내만 사용하실 수 있으며 아이디와 동일하게 사용할 수 없습니다.");
 			$('input[name=b2bpw]').focus();
 			return false; 
 		}
-
-		if(!chkPwd(frm.b2bpw.value)){
+*/
+		if(!chkPwd(frm.b2bpw.value) && frm.b2bpw.value != ''){
 			alert("비밀번호는 띄어쓰기 없는 영문, 숫자, 특수문자 (!,@,#,$,%,^,*,+,=,-) 조합 9~20자리 이내만 사용하실 수 있으며 아이디와 동일하게 사용할 수 없습니다.");
 			$('input[name=b2bpw]').focus();
 			return false; 
 		}
 
-		if(frm.b2bpw.value!=frm.b2bpws.value)
+		if(frm.b2bpw.value!=frm.b2bpws.value && (frm.b2bpw.value != '' && frm.b2bpws.value != '') )
 		{
 			alert('비밀번호와 확인번호를 동일하게 입력하여 주십시오.');
 			frm.b2bpw.value='';
@@ -103,7 +112,7 @@
 			frm.b2bpw.focus();
 			return false;
 		}
-
+		
 		if(frm.com_name.value=='') {
 			alert('기업/단체 이름을 입력하여 주십시오.');
 			frm.com_name.focus();
@@ -156,7 +165,7 @@
 		$.ajax({
 			type : "POST",
 			dataType:'text',
-			url : "../src/member_process.php",			
+			url : "../src/member_process_edi.php",			
 			contentType:false,
           cache:false,
           processData:false,
@@ -223,24 +232,38 @@
 			 <!-- s : container -->
     <section id="container">
         <section id="h1">
-            <div><h1>거래처 회원가입</h1></div>
+            <div><h1>거래처 회원정보 수정</h1></div>
             <div><span class="dot">*</span><span class="c_red f400">표시는 필수로입력하시기 바랍니다.</span></span></div>
         </section>
         <form name="joinb2b" action="" method="" id="formBox" enctype="multipart/form-data" >
 		<input type="hidden" id="auth_token" name="auth_token" readonly="">
-		<input type="hidden" name="check_uid" id="check_uid" value="" readonly>
+		<input type="hidden" name="mem_edit" id="mem_edit" value="Y" readonly>
+		<!--
+					$com_m_id = $row['uid'];
+					$business_name = $row['com_name'];
+					$business_op_date = $row['com_open_date'];
+					$businessNo = $row['com_no'];
+					$phoneContact = $row['hphone'];
+					$faxContact = $row['fax_contact'];
+					$emailContact = $row['email'];
+					$postNo = $row['post_no'];
+					$postAddr = $row['post_addr'];
+					$postDetail = $row['post_addr_detail'];
+					$fileRname = $row['file_real_name'];
+					$fileName = $row['file_name'];
+				-->
         <fieldset>
             <section id="join_info">
                 <div>
                     <ul>
                         <li>
                             <label for=""><span class="dot">*</span><span class="c_red">거래처 ID</span></label>
-                            <div class="id_wBox"><input type="text" id="b2bid" name="b2bid"></div>
-                            <div class="id_btn"><button type="button" name="button" id="chk_id" class="btn_s4">중복확인</button></div>
+                            <div class="id_wBox"><?=$com_m_id?></div>
+                            <div class="id_btn"></div>
                         </li>
                         <li>
                             <label for=""><span class="dot">*</span><span class="c_red">상호명</span></label>
-                            <input type="text" name="com_name" id="com_name">
+                            <input type="text" name="com_name" id="com_name" value="<?=$business_name?>">
                         </li>
                     </ul>
                     <ul>
@@ -257,7 +280,7 @@
                         <li>
                             <label for=""><span class="dot">*</span><span class="c_red">개업연월일</span></label>
 							<span class="date_picker3">
-                            <input type="text" name="open_com_d" id="open_com_d" style="border:0px;" readonly placeholder="사업자 등록증 기준">
+                            <input type="text" name="open_com_d" id="open_com_d" value="<?=$business_op_date?>" style="border:0px;" readonly placeholder="사업자 등록증 기준">
 							</span>
                         </li>
 <style>
@@ -269,10 +292,10 @@
                         <li>
                             <div>
                                 <label for=""><span class="dot">*</span><span class="c_red">사업자 등록 번호</span></label>
-                                <div class="id_wBox"><input type="text" id="com_no" class="onlyNumber" name="com_no"></div>
+                                <div class="id_wBox"><input type="text" id="com_no" class="onlyNumber" name="com_no" value="<?=$businessNo?>"></div>
                                 <div class="id_btn"><div class="file_input_div">파일업로드<input type="file" class="file_input_hidden" name="com_file_img" /></div><!--<button type="button" name="button" id="com_no_pop" class="btn_s4">파일첨부</button>--></div>
                             </div>
-                            <div class="stxt">(사업자 등록증 업로드 필수 아님)</div>
+                            <div class="stxt">(사업자 등록증 업로드 필수 아님)<input type="checkbox" name="delfile" value="fdel"  />파일 삭제</div></div>
                         </li>
                     </ul>
                     <ul>
@@ -302,42 +325,42 @@
                                             <option value="064(7)">064(7)</option>
                                         </select>
                                     </li>
-                                    <li><input type="text" id="phone_front" name="phone_front" class="onlyNumber" maxlength="4" title="연락처 앞자리를 넣어주세요"  class="nb">
-									</li>
-                                    <li>
+                                    <li><input type="text" id="phone_front" name="phone_front" class="onlyNumber" maxlength="4" title="연락처 앞자리를 넣어주세요"  class="nb"></li>
+                                    <li><input type="text" id="phone_back" name="phone_back" class="onlyNumber" maxlength="4" title="연락처 뒷자리를 넣어주세요" class="nb">
 									*/?>
-									<input type="text" id="phonenum" name="phonenum" class="onlyNumber" maxlength="12" title="연락처를 넣어주세요" class="nb" placeholder="숫자만"></li>
+									<input type="text" id="phonenum" name="phonenum"  style="width:100%;"  title="연락처"  class="onlyNumber" value="<?=$tel?>"  placeholder="숫자만">
+									</li>
                                 </ul>
                             </div>
                             <div class="fax">
                                 <label for="">팩스</label>
-                                <input type="text" name="faxnum" id="faxnum" class="onlyNumber" placeholder="숫자만">
+                                <input type="text" name="faxnum" id="faxnum" value="<?=$faxContact?>" class="onlyNumber" placeholder="숫자만">
                             </div>
                             <div class="email">
                                 <label for="">이메일</label>
                                 <ul>
-                                    <li><input type="text" id="mail_front" name="mail_front"></li>
+                                    <li><input type="text" id="mail_front" name="mail_front" value="<?=$mailCont[0]?>"></li>
                                     <li>@</li>
-									 <li><input type="text" id="mail_back" name="mail_back" readonly></li>
+									 <li><input type="text" id="mail_back" name="mail_back" value="<?=$mailCont[1]?>" readonly></li>
                                     <li>
                                         <select name="chmail" id="chmail">
                                             <option value="" selected>선택하세요</option>
-                                            <option value="hanmail.net">hanmail.net</option>
-                                            <option value="daum.net">daum.net</option>
-                                            <option value="naver.com">naver.com</option>
-                                            <option value="gmail.com">gmail.com</option>
-                                            <option value="nate.com">nate.com</option>
-                                            <option value="lycos.co.kr">lycos.co.kr</option>
-                                            <option value="paran.com">paran.com</option>
-                                            <option value="hanmir.com">hanmir.com</option>
-                                            <option value="empal.com">empal.com</option>
-                                            <option value="netian.com">netian.com</option>
-                                            <option value="dreamwiz.com">dreamwiz.com</option>
-                                            <option value="hanafos.com">hanafos.com</option>
-                                            <option value="hananet.net">hananet.net</option>
-                                            <option value="korea.com">korea.com</option>
-                                            <option value="hotmail.com">hotmail.com</option>
-                                            <option value="hanwha.com">hanwha.com</option>
+                                            <option value="hanmail.net" <?=($mailCont[1] == 'hanmail.net')?'selected':'';?> >hanmail.net</option>
+                                            <option value="daum.net" <?=($mailCont[1] == 'daum.net')?'selected':'';?> >daum.net</option>
+                                            <option value="naver.com" <?=($mailCont[1] == 'naver.com')?'selected':'';?> >naver.com</option>
+                                            <option value="gmail.com" <?=($mailCont[1] == 'gmail.com')?'selected':'';?>  >gmail.com</option>
+                                            <option value="nate.com" <?=($mailCont[1] == 'nate.com')?'selected':'';?> >nate.com</option>
+                                            <option value="lycos.co.kr" <?=($mailCont[1] == 'lycos.co.kr')?'selected':'';?> >lycos.co.kr</option>
+                                            <option value="paran.com" <?=($mailCont[1] == 'paran.com')?'selected':'';?> >paran.com</option>
+                                            <option value="hanmir.com" <?=($mailCont[1] == 'hanmir.com')?'selected':'';?> >hanmir.com</option>
+                                            <option value="empal.com" <?=($mailCont[1] == 'empal.com')?'selected':'';?> >empal.com</option>
+                                            <option value="netian.com" <?=($mailCont[1] == 'netian.com')?'selected':'';?> >netian.com</option>
+                                            <option value="dreamwiz.com" <?=($mailCont[1] == 'dreamwiz.com')?'selected':'';?> >dreamwiz.com</option>
+                                            <option value="hanafos.com" <?=($mailCont[1] == 'hanafos.com')?'selected':'';?> >hanafos.com</option>
+                                            <option value="hananet.net" <?=($mailCont[1] == 'hananet.net')?'selected':'';?> >hananet.net</option>
+                                            <option value="korea.com" <?=($mailCont[1] == 'korea.com')?'selected':'';?> >korea.com</option>
+                                            <option value="hotmail.com" <?=($mailCont[1] == 'hotmail.com')?'selected':'';?> >hotmail.com</option>
+                                            <option value="hanwha.com" <?=($mailCont[1] == 'hanwha.com')?'selected':'';?>  >hanwha.com</option>
                                             <option value="etc">기타[직접입력]</option>
                                         </select>
                                     </li>
@@ -347,11 +370,11 @@
                         <li class="address">
                             <label for="">주소</label>
                             <div class="zip">
-                                <div class="wBox"><input type="text" id="contPost" name="contPost" readonly></div>
+                                <div class="wBox"><input type="text" id="contPost" name="contPost" value="<?=$postNo?>" readonly></div>
                                 <div class="btn"><button type="button" name="button" id="searchaddr" class="btn_s4">주소검색</button></div>
                             </div>
-                            <div><input type="text" name="joinAddr" readonly></div>
-                            <div><input type="text" name="joinAddrDetail" readonly></div>
+                            <div><input type="text" name="joinAddr" value="<?=$postAddr?>" readonly></div>
+                            <div><input type="text" name="joinAddrDetail" value="<?=$postDetail?>" readonly></div>
                         </li>
                     </ul>
                 </div>
@@ -359,8 +382,8 @@
             <div class="line_red"></div>
             <section id="btn_area">
                 <div class="btn_list">
-                    <button type="button" id="form_reset" class="btn_s2">가입취소</button>
-                    <button type="button" id="form_submit" class="btn_s1">가입완료</button>
+                    <button type="button" id="form_reset" class="btn_s2">수정취소</button>
+                    <button type="button" id="form_submit" class="btn_s1">수정완료</button>
                 </div>
             </section>  
         </fieldset>

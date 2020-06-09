@@ -141,7 +141,11 @@
 								foreach($insu_plan_pot[$sinsu]['plan_code'] as $k=>$v){
 								?>
                                 <th scope="col">
+								<input type="hidden" name="sel_plantype" value="<?=$insu_plan_pot[$sinsu]['plan_type'][$k]?>" />
+								<input type="hidden" name="sel_plantitle" value="<?=$insu_plan_pot[$sinsu]['plan_title'][$k]?>" />
                                     <input type="radio" id="p<?=$k?>" name="sel_plancode" value="<?=$v?>">
+									
+									
                                     <label for="p<?=$k?>" class="radio_bx"><span></span></label>
                                 </th>
 							<?

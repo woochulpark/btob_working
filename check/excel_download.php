@@ -10,6 +10,8 @@
 
 } else if($_SESSION['s_mem_id'] == 'followme_b2b'){
 		$prt_subject = 'followme 신청내역';
+} else {
+		$prt_subject = '신청내역';
 }
 
  // Set document properties
@@ -50,45 +52,103 @@ $objPHPExcel->getActiveSheet()->setCellValue('A2', 'NO')
 
 	// 혜초 b2b 전용 (mg 상품)
 	//$add_query .=" and a.member_no ='".$row_mem_info['no']."'";	
-
+/*
 if($_SESSION['s_mem_id'] == 'hyecho_b2b'){
 
 $add_query =" and a.member_no ='28' ";	
 } else if($_SESSION['s_mem_id'] == 'followme_b2b'){
 	$add_query =" and a.member_no ='54' ";	
 }
+*/
+	$add_query =" and a.member_no ='{$_SESSION['s_mem_no']}'";	
+	
+	if($s_start_date != '' && $s_end_date != ''){
+		
+		if ($searchDate == 'endorse') {
+			if ($s_start_date != '') {
+				$s_date_r=strtotime($s_start_date." 000000");
+				$add_query = $add_query." and d.change_date >='".$s_date_r."'";
+			}
 
-	//$add_query =" and a.member_no ='28' ";	
+			if ($s_end_date!='') {
+				$e_date_r=strtotime($s_end_date." 235959");
+				$add_query = $add_query." and a.change_date <='".$e_date_r."'";
+			}
+		} else if($searchDate == 'traStart') {
+		
+			if ($s_start_date != '') {
+				//$s_date_r=strtotime($s_start_date." ".$start_hour);
+				$prt_s_date = $s_start_date.' '.$start_hour.':00:00';
+				$add_query = $add_query." and CONCAT(a.start_date,' ', a.start_hour) >='{$prt_s_date}'";
+			}
 
-	if ($start_date!='') {
-		$s_date_r=strtotime($start_date." 000000");
+			if ($s_end_date!='') {
+				//$e_date_r=strtotime($s_end_date." ".$end_hour);
+				$prt_e_date = $s_end_date.' '.$end_hour.':00:00';
+				$add_query = $add_query." and CONCAT(a.start_date,' ', a.start_hour) <='{$prt_e_date}'";
+			}
+		} else if($searchDate == 'traEnd'){
+			if ($s_start_date!='') {
+				//$s_date_r=strtotime($s_start_date." ".$start_hour);
 
-		$add_query = $add_query." and a.regdate >='".$s_date_r."'";
-	}
+				$prt_s_date = $s_start_date.' '.$start_hour.':00:00';
+				$add_query = $add_query." and CONCAT(a.end_date,' ', a.end_hour) >='{$prt_s_date}'";
+			}
 
-	if ($end_date!='') {
-		$e_date_r=strtotime($end_date." 235959");
+			if ($s_end_date!='') {
+				//$e_date_r=strtotime($s_end_date." ".$end_hour);
 
-		$add_query = $add_query." and a.regdate <='".$e_date_r."'";
+				$prt_e_date = $s_end_date.' '.$end_hour.':00:00';
+				$add_query = $add_query." and CONCAT(a.end_date,' ', a.end_hour) <='{$prt_e_date}'";
+			}
+		} else if($searchDate == 'regDate'){
+			if ($s_start_date!='') {
+				$s_date_r=strtotime($s_start_date." 000000");
+
+				$add_query = $add_query." and a.regdate >='".$s_date_r."'";
+			}
+
+			if ($s_end_date!='') {
+				$e_date_r=strtotime($s_end_date." 235959");
+
+				$add_query = $add_query." and a.regdate <='".$e_date_r."'";
+			}
+		}
 	}
 
 	if($search) {
-		if($make == 'name') {
-			$add_query .=" and b.name like '%$search%'";
-		} elseif ($make=="join_name") {
+		if($search_info == 'name') {
+			$add_query .=" and c.name like '%$search%'";
+		} elseif ($search_info=="join_name") {
 			$add_query .=" and a.join_name like '%$search%'";
+		} elseif($search_info == 'pjcode'){
+			$add_query .=" and a.plan_join_code like '%$search%'";
+		} elseif($search_info == 'citizenno'){
+			$sJumin1 = encode_pass($search,$pass_key);
+			$add_query .=" and c.jumin_1 =  '{$sJumin1}'";
+		} elseif($search_info == 'subScription'){
+			$add_query .=" and a.no like '%$search%'";
 		}
 	}
- $sql;
- $sql="select 
-		*, a.no as plan_hana_no, b.no as mem_no, b.hphone, b.email
-	  from
-		hana_plan a
-		left join hana_plan_member b on a.no=b.hana_plan_no
-	  where
-		1 ".$add_query."
-	  group by a.no
-	  order by a.no desc
+
+if($insu_ch_b){
+	if($insu_ch == 'chInsurance'){
+		$add_query .=" and a.insurance_comp = '{$insu_ch_b}' ";
+	} else if($insu_ch == 'chTriptype'){
+		$add_query .=" and a.trip_type = '{$insu_ch_b}' ";
+	}
+}		
+
+ $sql="select a.no as plan_hana_no, a.plan_list_state, a.trip_type, a.plan_join_code, a.start_date, a.start_hour, a.end_date, a.end_hour, a.join_cnt, a.join_name,  c.*, c.no as mem_no, c.hphone, c.email,  d.change_date
+from 
+(select no from hana_plan) b join 
+hana_plan a on b.no=a.no 
+left join hana_plan_member c on a.no=c.hana_plan_no
+left join hana_plan_change d on a.no=d.hana_plan_no
+where 1=1
+{$add_query}
+group by a.no
+order by a.no desc
 	 ";
 $result=mysql_query($sql);
 $total_record=mysql_num_rows($result);
@@ -156,9 +216,27 @@ $result=mysql_query($sql) or die(mysql_error());
 		} 
 
 		
-	
+	if($_SESSION['s_mem_id'] == 'hyecho_b2b' || $_SESSION['s_mem_id'] == 'followme_b2b'){
 		    $plan_code_row=sql_one_one('plan_code_mg',"plan_title"," and plan_code='".$plan_code."'");
-		
+	} else {
+			if($_SESSION['s_mem_type'] == 'B2B'){
+				if(time() > mktime(0,0,0,6,10,2020)){
+						if($row['insurance_comp'] == 'S_1'){
+							//DB손해보험
+							$plan_code_row=sql_one_one('plan_code_btob_db',"plan_title"," and plan_code='".$plan_code."'");
+						}
+
+						if($row['insurance_comp'] == 'S_2'){
+							//
+							$plan_code_row=sql_one_one('plan_code_btob_ace',"plan_title"," and plan_code='".$plan_code."'");
+						}
+				} else {
+						 $plan_code_row=sql_one_one('plan_code_btob',"plan_title"," and plan_code='".$plan_code."'");
+				}
+			} else {
+				$plan_code_row=sql_one_one('plan_code_hana',"plan_title"," and plan_code='".$plan_code."'");
+			}
+	}	
 		
 		
 
@@ -249,6 +327,8 @@ $result=mysql_query($sql) or die(mysql_error());
 
 } else if($_SESSION['s_mem_id'] == 'followme_b2b'){
 		$prt_fname = 'followme 신청내역목록';
+} else {
+		$prt_fname = '신청내역목록';
 }
 	  
 	/** 위에서 쓴 엑셀을 저장하고 다운로드 합니다. **/

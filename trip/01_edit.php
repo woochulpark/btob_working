@@ -1,75 +1,24 @@
 <? 
 	include ("../include/top.php"); 
 
-	session_start("s_session_key");
-
-	$session_val=time()."_".$tripType."_".$row_mem_info['no'];
-	$session_key =encode_pass($session_val,$pass_key);
-	$_SESSION['s_session_key']=$session_key;
-
-	$check_key=time()."_".rand(10000,99999).$row_mem_info['no'];
-
-	$currDate = date("Y-m-d");
+	$plan_get_que = " SELECT * FROM hana_plan_test WHERE no = '{$num}' and member_no = '{$_SESSION['s_mem_no']}' ";
 	
-	$all_birth_data = '';
-	$all_sex_data = '';
-	$all_start_data = '';
-	$all_start_hour = '';
-	$all_end_data = '';
-	$all_end_hour = '';
-	$all_jumin_no = '';
+	$plan_get_result = mysql_query($plan_get_que);
 
-	if(!isset($_GET['join_data'])){
-
-	} else {
-		$array_simple = base64_decode($_GET['join_data']);
-		$row_simple = explode("//-//",$array_simple);		
-		$all_birth_data = $row_simple[1];
-		$all_start_data  = $row_simple[3];
-		$all_start_hour = $row_simple[4];
-		$all_end_data = $row_simple[5];
-		$all_end_hour = $row_simple[6];
-
-		$birth_year = substr($all_birth_data,0,4);
-		$cut_jumin = substr($all_birth_data,2,6);
-		
-		if($birth_year >= 1800 && $birth_year <= 1899){
-			if($row_simple[2] == 'male'){
-				$all_sex_data = 9;
-			}  else {
-				$all_sex_data = 0;
-			}
-		} else if($birth_year >= 1900 && $birth_year <= 1999){
-			if($row_simple[2] == 'male'){
-				$all_sex_data = 1;
-			}  else {
-				$all_sex_data = 2;			
-			}
-		} else if($birth_year >= 2000 && $birth_year <= 2999){
-			if($row_simple[2] == 'male'){
-				$all_sex_data = 3;			
-			}  else {
-				$all_sex_data = 4;			
-			}
-		}	
-		$all_jumin_no = $cut_jumin."-".$all_sex_data;
-		/*
-		Array
-(
-    [0] =&gt; oversea
-    [1] =&gt; 19750419
-    [2] =&gt; male
-    [3] =&gt; 2020-03-18
-    [4] =&gt; 00
-    [5] =&gt; 2020-03-31
-    [6] =&gt; 01
-)
-*/
+	if(!$plan_get_result) {
+?>
+	<script>
+	alert('없는 플랜입니다. ');
+	location.href="/main/main.php";
+</script>
+<?	
+	exit;
 	}
-	
-	
 
-	if ($tripType!='1' && $tripType!='2') {
+	$plan_get_row = mysql_fetch_array($plan_get_result);		
+
+	if ($plan_get_row['trip_type']!='1' && $plan_get_row['trip_type']!='2') {
+		
 ?>
 <script>
 	alert('잘못됩 접속 입니다..');
@@ -78,25 +27,35 @@
 <?
 	exit;
 	}
-
-	$sql_check="select * from hana_plan_tmp where member_no='".$row_mem_info['no']."'";
-	$result_check=mysql_query($sql_check);
-	$row_check=mysql_fetch_array($result_check);
-
-	if ($row_check['no']!='') {
-		$sql_delete="delete from hana_plan_tmp where member_no='".$row_mem_info['no']."'";
-		mysql_query($sql_delete);
-
-		$sql_delete="delete from hana_plan_member_tmp where tmp_no='".$row_check['no']."'";
-		mysql_query($sql_delete);
-	}
+	$tripType = $plan_get_row['trip_type'];
+	$insuran_comp = $plan_get_row['insurance_comp'];
+	$subs_no = $plan_get_row['no'];
+	$plan_jcdate = $plan_get_row['plan_join_code_date'];
+	$all_start_data = $plan_get_row['start_date'];
+	$all_start_hour = $plan_get_row['start_hour'];
+	$all_end_data   = $plan_get_row['end_date'];
+	$all_end_hour  = $plan_get_row['end_hour'];
+	$tripPurpose= $plan_get_row['trip_purpose'];
+	$currResi = $plan_get_row['current_resi'];
+	$nationNo = $plan_get_row['nation_no'];
+	$memoEtc1 = $plan_get_row['etc_memo1'];
+	$memoEtc2 = $plan_get_row['etc_memo2'];
+	$ct1 = $plan_get_row['check_type_1'];
+	$ct2 = $plan_get_row['check_type_2'];
+	$ct3 = $plan_get_row['check_type_3'];
+	$ct4 = $plan_get_row['check_type_4'];
+	$ct5 = $plan_get_row['check_type_5'];
+	$selAgre = $plan_get_row['select_agree'];
+	$planType=  $plan_get_row['plan_type'];
+	$comPlan = $plan_get_row['common_plan'];
+	
 ?>
 <script>
 	var oneDepth = 1; //1차 카테고리
 	
 	var tripType="<?=$tripType?>";
 	var total_won = 0;
-	set_limit(<?=$_GET['tripType']?>);
+	set_limit(<?=$tripType?>);
 	function file_proc() {
 		if (confirm("엑셀 업로드시 기존 입력한 내용은 초기화 됩니다.\n\n업로드 하시겠습니까?")) {
 
@@ -488,7 +447,7 @@ print_r($_SESSION);
 			<!-- container -->
 			<section id="container">
         <section id="h1">
-            <div><h1><?=($_GET['tripType'] == 1)? '국내':'해외';?> 여행자 보험가입</h1></div>
+            <div><h1><?=($tripType == 1)? '국내':'해외';?> 여행자 보험가입</h1></div>
             <div><span class="dot">*</span><span class="c_red">표시는 필수로입력하시기 바랍니다.<!--<?print_r($_SESSION)?>--></span></div>
         </section>
         <section id="ac_info">
@@ -500,15 +459,15 @@ print_r($_SESSION);
                         <th>거래처명</th>
                         <td><?=$_SESSION['s_mem_com']?></td>
                         <th>청약번호</th>
-                        <td class="nb"></td>
+                        <td class="nb"><?=$subs_no?></td>
                         <th>청약일</th>
-                        <td class="nb"></td>
+                        <td class="nb"><?=$plan_jcdate?></td>
                     </tr>
                 </tbody>
             </table>
         </section>
         <form action="" method="POST" name="formBox" id="formBox">
-		<input type="hidden" name="trip_Type" value="<?=$_GET['tripType']?>" />
+		<input type="hidden" name="trip_Type" value="<?=$tripType?>" />
         <fieldset>
             <section id="ssc_info">
                 <div class="tit"><h2>청약 정보</h2></div>
@@ -522,9 +481,9 @@ print_r($_SESSION);
 									<?
 										foreach($insuran_option as $k=>$v){ 
 											if($v != 'L_1' && $v != 'L_2'){
-												$chk_sel = explode('_',$v);												
+												//$chk_sel = explode('_',$v);												
 									?>
-	                                    <option value="<?=$v?>" <?=($chk_sel[1] == $_GET['insuboth'])?'selected':'';?> ><?=$k?></option>
+	                                    <option value="<?=$v?>" <?=($v == $insuran_comp)?'selected':'';?> ><?=$k?></option>
 									<?
 											}
 										}
@@ -569,7 +528,7 @@ print_r($_SESSION);
                                 <div class="wBox">
 									<select id="nation" name="nation">
 									<?
-										if($_GET['tripType'] != 1){
+										if($tripType != 1){
 									?>
 										<option value="">선택</option>
 										<?
@@ -577,7 +536,7 @@ print_r($_SESSION);
 											$result_nation=mysql_query($sql_nation) or die(mysql_error());
 											while($row_nation=mysql_fetch_array($result_nation)) {											
 										?>
-												<option value="<?=$row_nation['no']?>"><?=$row_nation['nation_name']?></option>
+												<option value="<?=$row_nation['no']?>" <?=($row_nation['no'] == $nationNo)?"selected":"";?> ><?=$row_nation['nation_name']?></option>
 										<?
 											}
 										} else {
@@ -587,9 +546,9 @@ print_r($_SESSION);
 										}
 										?>
 									</select>
-									<input type="hidden" id="select_nation" name="select_nation" value="<?=($_GET['tripType'] > 1)?"N":"Y";?>">
+									<input type="hidden" id="select_nation" name="select_nation" value="<?=($nationNo != '')?"Y":"N";?>">
 								</div>
-                                <div class="btn"><button type="button" id="ch_nation" class="btn_s4" <?=($_GET['tripType'] < 2)?" disabled ": ""; ?>>선택</button></div>
+                                <div class="btn"><button type="button" id="ch_nation" class="btn_s4" <?=($tripType < 2)?" disabled ": ""; ?>>선택</button></div>
                             </li>
                             <li>
                                 <label for=""><span class="dot">*</span><span class="c_red">여행 목적</span></label>
@@ -598,7 +557,7 @@ print_r($_SESSION);
 									<?
 										foreach($trip_purpose_array as $k=>$v){
 									?>
-									<option value="<?=$k?>"><?=$v?></option>
+									<option value="<?=$k?>" <?=($k == $tripPurpose)?"selected":"";?> ><?=$v?></option>
 									<?
 										}
 									?>
@@ -618,37 +577,63 @@ print_r($_SESSION);
                                 <div class="stay">
                                     <ul>
                                         <li>
-                                            <input type="radio" id="r1" name="rr" value="2" />
-                                            <label for="r1" class="radio_bx"><span></span>해외</label>
+                                            <input type="radio" id="r1" name="rr" value="2" <?=($currResi == '2')?"checked":"";?> />
+                                            <label for="r1" class="radio_bx"  ><span></span>해외</label>
                                         </li>
                                         <li>
-                                            <input type="radio" id="r2" name="rr" value="1" />
+                                            <input type="radio" id="r2" name="rr" value="1" <?=($currResi == '1')?"checked":"";?> />
                                             <label for="r2" class="radio_bx"><span></span>국내</label>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
                         </ul>
+						<?
+							$contact_que = " SELECT email, hphone FROM hana_plan_member_test WHERE hana_plan_no = '{$num}' and member_no = '{$_SESSION['s_mem_no']}' and main_check = 'Y'   ";
+							
+							$contact_result = mysql_query($contact_que);
+							$contact_row = mysql_fetch_array($contact_result);
+							if($contact_row['email'] != ''){
+								$frontMail = decode_pass($contact_row['email'],$pass_key);
+								$arr_Mail = explode("@",$frontMail);
+							} else {
+								$arr_Mail = array();
+							}		
+							
+							if($contact_row['hphone'] != ''){
+								$phone_decry = decode_pass($contact_row['hphone'],$pass_key);								
+								$phone_first = substr($phone_decry, 0,3);
+								$phone_mid = substr($phone_decry, 3,4);
+								$phone_last = substr($phone_decry, 7,4);
+							} else {
+								$phone_first = '';
+								$phone_mid = '';
+							    $phone_last = '';
+							}
+							
+						?>
                         <ul>
                             <li>
                                 <label for="">대표자 이메일</label>
                                 <div class="email">
                                     <ul>
-                                        <li><input type="text" id="mail_f" name="mail_f"></li>
+                                        <li><input type="text" id="mail_f" name="mail_f" value="<?=trim(stripslashes($arr_Mail[0]))?>"></li>
                                         <li>@</li>
-										 <li><input type="text" id="mail_b" name="mail_b" readonly></li>
+										 <li><input type="text" id="mail_b" name="mail_b" value="<?=trim(stripslashes($arr_Mail[1]))?>" readonly></li>
                                         <li>
                                             <select name="mail_b_sel" id="mail_b_sel">
-                                                <option value="" selected>선택하세요</option>
+                                                <option value="" >선택하세요</option>
                                                 <?
+													$mail_chk_arr = array();
 													foreach($email_array as $k=>$v){
 												?>
-												<option value="<?=$v?>"><?=$v?></option>
+												<option value="<?=$v?>" <?=($v==trim($arr_Mail[1]))?"selected":"";?> ><?=$v?></option>
 												<?
+													if($v == trim($arr_Mail[1])){$mail_chk_arr[] = "Y";} else {$mail_chk_arr[] = "N";}
 													}
 												?>
-                                                <option value="etc">기타[직접입력]</option>
-                                            </select>
+                                                <option value="etc" <?=(!in_array("Y",$mail_chk_arr))?"selected":"";?> >기타[직접입력]</option>
+                                            </select>										
                                         </li>
                                     </ul>
                                 </div>
@@ -665,17 +650,17 @@ print_r($_SESSION);
 												<?
 													foreach($hp_array as $k=>$v){
 												?>
-													<option value="<?=$v?>"><?=$v?></option>
+													<option value="<?=$v?>" <?=($v == $phone_first)?"selected":"";?> ><?=$v?></option>
 												<?
 													}
 												?>
                                             </select>
                                         </li>
                                         <li>
-                                            <input type="tel" id="phonem" name="phonem" maxlength="4" title="휴대폰 앞자리를 넣어주세요" class="nb">
+                                            <input type="tel" id="phonem" name="phonem" maxlength="4" title="휴대폰 앞자리를 넣어주세요" value="<?=$phone_mid?>" class="nb">
                                         </li>
                                         <li>
-                                            <input type="tel" id="phonel" name="phonel" maxlength="4" title="휴대폰 뒷자리를 넣어주세요" class="nb">
+                                            <input type="tel" id="phonel" name="phonel" maxlength="4" title="휴대폰 뒷자리를 넣어주세요" value="<?=$phone_last?>" class="nb">
                                         </li>
                                     </ul>
                                 </div>
@@ -686,22 +671,22 @@ print_r($_SESSION);
                         <ul>
                             <li>
                                 <label for="">추가 정보 1</label>
-                                <textarea name="etc_memo1" id="etc_memo1"></textarea>
+                                <textarea name="" id=""><?=$memoEtc1?></textarea>
                             </li>
                         </ul>
                         <ul>
                             <li>
                                 <label for="">추가 정보 2</label>
-                                <textarea name="etc_memo2" id="etc_memo2"></textarea>
+                                <textarea name="" id=""><?=$memoEtc2?></textarea>
                             </li>
                         </ul>
                     </div>
                     <div id="check">
                         <ul>
                             <li>
-                                <span class="dot">*</span><span class="c_red">계약 시 알릴사항 일괄 확인</span> <span><input type="checkbox" id="bulk_confirm" name="" value="" /><label for="bulk_confirm" class="check_bx"><span></span></label></span>
-								<input type="hidden" name="notice_confirm" id ="notice_confirm" value="N" />
-								<input type="hidden" name="contract_confirm" id="contract_confirm" value="N" />
+                                <span class="dot">*</span><span class="c_red">계약 시 알릴사항 일괄 확인</span> <span><input type="checkbox" id="bulk_confirm" name="" value="" <?=($ct1 == 'Y' && $ct2 == 'Y' && $ct3 == 'Y' && $ct4 == 'Y' && $ct5 == 'Y' && $selAgre == 'Y')?"checked":"";?> /><label for="bulk_confirm" class="check_bx"><span></span></label></span>
+								<input type="hidden" name="notice_confirm" id ="notice_confirm" value="<?=($ct1 == 'Y' && $ct2 == 'Y' && $ct3 == 'Y' && $ct4 == 'Y' && $ct5 == 'Y')?"Y":"N";?>" />
+								<input type="hidden" name="contract_confirm" id="contract_confirm" value="<?=($selAgre == "Y")?"Y":"N";?>" />
                             </li>
                         </ul>
                     </div">
@@ -715,10 +700,10 @@ print_r($_SESSION);
 					<li>
 						<!--label for="" style="float:left;" class="aaa"><span class="dot">*</span><span class="c_red">공통 플랜</span></label-->
 						<div><span class="dot" >*</span><span class="c_red">공통 플랜</span></div>
-						<div class="wBox"><input type="text" id="common_plan" name="common_plan" readonly></div>
+						<div class="wBox"><input type="text" id="common_plan" name="common_plan" value="<?=$comPlan?>" readonly></div>
 						<div class="btn"><button type="button" id="common_plan_pop" class="btn_s4">선택</button></div>
-						<input type="hidden" id="plan_chk" name="plan_chk">
-						<input type="hidden" name="plan_type" value="" />
+						<input type="hidden" id="plan_chk" name="plan_chk" value="<?=$comPlan?>">
+						<input type="hidden" name="plan_type" value="<?=$planType?>" />
 					</li>
                     <li><button type="button" id="seldbt" class="btn_s3">선택삭제</button></li> 
                 </ul>
@@ -740,22 +725,49 @@ print_r($_SESSION);
                         </tr>
                     </thead>
                     <tbody>
+						<?
+							$get_mem_info_que = " SELECT * FROM hana_plan_member_test where member_no = '{$_SESSION['s_mem_no']}' AND hana_plan_no = '{$num}' ";
+							$get_mem_info_res = mysql_query($get_mem_info_que);
+							if(!isset($get_mem_info_res)){
+								$mems_info_arr = array('','','','','','','','','','');
+							}  else {
+								$arr_in = 0;
+								while($get_mem_info_row = mysql_fetch_array($get_mem_info_res)){
+									$outInfo['name'][] = $get_mem_info_row['name'];
+									$outInfo['eng_name'][] = $get_mem_info_row['name_eng'];
+									$outInfo['jumin'][] = trim(decode_pass($get_mem_info_row['jumin_1'],$pass_key))."-".trim(decode_pass($get_mem_info_row['jumin_2'],$pass_key));
+									//$outInfo['jumin2'][] = decode_pass($get_mem_info_row['jumin_2'],$pass_key);
+									$outInfo['planCode'][] = $get_mem_info_row['plan_code'];
+									$outInfo['planTitle'][] = $get_mem_info_row['plan_title'];
+									$outInfo['age'][] = $get_mem_info_row['age'];
+									$outInfo['planPrice'][] = $get_mem_info_row['plan_price'];
+									$arr_in++;
+								}
+							}
+
+							foreach($outInfo['jumin'] as $k=>$v){
+								$m = $k + 1;
+						?>
+
                         <tr>
                             <td>
-                                <input type="checkbox" id="n1" name="nob[]">
-								<label for="n1" class="check_bx"><span></span></label>
+                                <input type="checkbox" id="n<?=$m?>" name="nob[]">
+								<label for="n<?=$m?>" class="check_bx"><span></span></label>
                             </td>
-                            <td class="nb">1</td>
-                            <td><input type="text" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" name="juminno[]" class="add_field" value="<?=($all_jumin_no != "") ? $all_jumin_no:''; ?>"></td>
-                            <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
+                            <td class="nb"><?=$m?></td>
+                            <td><input type="text" name="input_name[]" class="add_field" value="<?=$outInfo['name'][$k]?>" ></td>
+                            <td><input type="text" name="input_eng_name[]" class="add_field" value="<?=$outInfo['eng_name'][$k]?>"></td>
+                            <td><input type="text" name="juminno[]" class="add_field" value="<?=$outInfo['jumin'][$k]?>"></td>
+                            <td class="nb"><?=$outInfo['age'][$k]?><input type="hidden" name="hage[]" value="<?=$outInfo['age'][$k]?>"></td>
+                            <td><input type="text" name="plan_code[]" class="add_field_plan" value="<?=$outInfo['planCode'][$k]?>" readonly >
 								
-								<input type="hidden" name="plan_title[]" value="" />
+								<input type="hidden" name="plan_title[]" value="<?=$outInfo['planTitle'][$k]?>" />
 							<button type="button" name="ch_particul_plan" name="ch_particul_plan" class="btn_s4">변경</button></td>
-                            <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
+                            <td class="t_price nb"><?=number_format($outInfo['planPrice'][$k])?><input type="hidden" name="particul_price[]" value="<?=$outInfo['planPrice'][$k]?>"></td>
                         </tr>
+						<?
+							}
+								/*
                         <tr>
                             <td>
 									<input type="checkbox" id="n2" name="nob[]">
@@ -900,6 +912,7 @@ print_r($_SESSION);
 							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
                             <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
                         </tr>
+						*/?>
                     </tbody>
                 </table>
             </div>
@@ -912,11 +925,11 @@ print_r($_SESSION);
                 <div>
                     <ul>
                         <li>총 인원</li>
-                        <li><span class="t_num c_black" chkallp='' id='talp'>0</span><span>명</span></li>
+                        <li><span class="t_num c_black" chkallp='<?=count($outInfo['jumin'])?>' id='talp'><?=number_format(count($outInfo['jumin']))?></span><span>명</span></li>
                     </ul>
                     <ul>
                         <li>총 납입 보험료</li>
-                        <li><span class="t_num c_red" chkallam='' id='tala'>0</span><span>원</span></li>
+                        <li><span class="t_num c_red" chkallam='<?=array_sum($outInfo['planPrice'])?>' id='tala'><?=number_format(array_sum($outInfo['planPrice']))?></span><span>원</span></li>
                     </ul>
 					<?/*
                     <ul>

@@ -211,6 +211,8 @@ function age_calcultor(kind,rown, coln){
                 $('#t_list').find('tr:eq('+(rown+1)+') td:eq('+(coln+1)+') input[name="hage[]"]').val(data.msg['1']); 
                 $('#t_list').find('tr:eq('+(rown+1)+') td:eq('+(coln+1)+')').append(data.msg['1']);				
 				 $('#t_list').find('tr:eq('+(rown+1)+') td:eq('+coln+') input').css('color', '#777');
+				 $('#t_list').find('tr:eq('+(rown+1)+') td:eq('+(coln+2)+') input:eq(0)').val(''); 
+				 $('#t_list').find('tr:eq('+(rown+1)+') td:eq('+(coln+2)+') input:eq(1)').val(''); 
             } else {
                 alert('안됐다');
 				return false;
@@ -312,6 +314,8 @@ $(document).ready(function(){
 			var nChkno = 0;
 			var mChk = '';
 			var chkCodeno = '';			
+			var chkType= '';
+			
 			
 				if(!$('input[name=sel_plancode]:checked').val()){
 					nChkno++;
@@ -326,8 +330,11 @@ $(document).ready(function(){
 					chkCodeno = $('input[name=sel_plancode]:checked').val();
 					if(mChk != ''){
 						joinPlan('none', mChk,chkCodeno);
+
 					} else {						
-						joinPlan('all','',chkCodeno);							
+						joinPlan('all','',chkCodeno);
+						chkType = $('input[name=sel_plantype]').val();
+						$('input[name=plan_type]').val(chkType);						
 					}
 					resetPlPr('plan');
 				}
@@ -465,9 +472,11 @@ $(document).ready(function(){
 			var ptype;
 			var ptitle;
 			if(jobj.result == 'true'){			
-					console.log(jobj.msg);
-					$('#formBox').trigger("reset");				
-				
+					alert(jobj.msg);
+					//$('#formBox').trigger("reset");				
+					setTimeout(function(){
+						location.reload();
+					},1000);				
 			} else {
 				alert(jobj.msg);
 			}				
@@ -548,14 +557,14 @@ function joinPlan(kind, kind1, kind2){ //kind -> 분기점, kind1 -> 클릭 버�
 				$.each(jobj.msg, function(key, state){
 					var gab = state.price;
 					pcode = state.planCode;
-					ptype = state.planType;				
+					//ptype = state.planType;				
 					ptitle = state.planTitle;
 					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(7) input').val(gab);
 					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(7)').contents().filter(function(){return this.nodeType == 3}).remove();
 					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(7)').append(Number(gab).toLocaleString('en'));
 					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(6) input').eq(0).val(pcode);
-					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(6) input').eq(1).val(ptype);
-					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(6) input').eq(2).val(ptitle);
+					//$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(6) input').eq(1).val(ptype);
+					$('#t_list').find('tr:eq('+(Number(key)+1)+') td:eq(6) input').eq(1).val(ptitle);
 					
 					close_pop('pop_wrap');
 				});				

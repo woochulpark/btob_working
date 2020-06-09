@@ -9,16 +9,18 @@ $header_new = array("NO."=>"string", "신청일"=>"string","처리일"=>"string"
 
 $writer->writeSheetHeader('Sheet1', $header_new, $col_options = array('widths'=>[15,15,15,25,25,35,15,30,30, 25, 20,15, 15, 30, 20, 15, 30],['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'] , ['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'] , ['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'] ,['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center',  'fill'=>'#F28A8C', 'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'], ['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'] , ['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'] , ['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'] ,['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center',  'fill'=>'#F28A8C', 'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'], ['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'] , ['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'] , ['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'] ,['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center',  'fill'=>'#F28A8C', 'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'], ['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'] , ['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'] , ['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'], ['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center'], ['font'=>'Calibri','font-size'=>11, 'font-style'=>'bold', 'halign'=>'center', 'border'=>'left,right,top,bottom', 'fill'=>'#F28A8C',  'border'=>'left,right,top,bottom', 'border-style'=>'thin', 'border-color'=>'black', 'valign'=>'center']));
 
-if(isset($_POST['start_year']) && isset($_POST['start_month']) && isset($_POST['start_day'])){
+if(isset($_POST['start_year']) && isset($_POST['start_month'])){
 	//$check_start  = strtotime($_POST['start_year'].$_POST['start_month'].$_POST['start_day']." 00:00:00");
-	$check_start  = $_POST['start_year']."-".$_POST['start_month']."-".$_POST['start_day'];
+		$check_start  = strtotime($_POST['start_year'].$_POST['start_month']."01 00:00:00");
+	//$check_start  = $_POST['start_year']."-".$_POST['start_month']."-01";
 } else {
 	$check_start ='';
 }
 
-if(isset($_POST['start_year']) && isset($_POST['start_month']) && isset($_POST['end_day'])){
+if(isset($_POST['start_year']) && isset($_POST['start_month'])){
 	//$check_end = strtotime($_POST['start_year'].$_POST['start_month'].$_POST['end_day']." 23:59:59");
-	$check_end = $_POST['start_year']."-".$_POST['start_month']."-".$_POST['end_day'];
+	$check_end = strtotime($_POST['start_year'].$_POST['start_month'].date("t", strtotime($check_start)." 23:59:59"));
+	//$check_end = $_POST['start_year']."-".$_POST['start_month']."-".date("t", strtotime($check_start));
 } else {
 	$check_end = '';
 }
@@ -29,17 +31,15 @@ $add_query .=" and b.member_no='28'";
 } else if($_SESSION['s_mem_id'] == 'followme_b2b'){
 	$add_query .=" and b.member_no='54'";
 }
-
-
-
+ 
 if($check_start != ''){
-	//$add_query = $add_query." and a.change_date >='".$check_start."'";
-	$add_query = $add_query." and b.start_date >='".$check_start."'";
+	$add_query = $add_query." and a.change_date >='".$check_start."'";
+	//$add_query = $add_query." and b.start_date >='".$check_start."'";
 }
 
 if($check_end != ''){
-	//$add_query = $add_query." and a.change_date <='".$check_end."'";
-	$add_query = $add_query." and b.start_date <='".$check_end."'";
+	$add_query = $add_query." and a.change_date <='".$check_end."'";
+	//$add_query = $add_query." and b.start_date <='".$check_end."'";
 }
 
 	$add_query .= " and a.change_date <> '' ";
@@ -69,6 +69,7 @@ if($check_end != ''){
 	 ";
 	//order by a.no desc
 	 //order by concat(b.start_date,' ',b.start_hour) asc
+
 $result=mysql_query($sql);
 $total_record=mysql_num_rows($result);
 //$sql=$sql." limit $num_per_page_start, $num_per_page";
@@ -123,7 +124,19 @@ $article_num = $total_record;
 		} else {
 
 			if($_SESSION['s_mem_id'] != 'hyecho_b2b'){
-				$b2b_code_table = 'plan_code_btob';
+				if(time() > mktime(0,0,0,6,10,2020)){
+					if($row['insurance_comp'] == 'S_1'){
+						//DB손해보험
+						$b2b_code_table = 'plan_code_btob_db';
+					}
+
+					if($row['insurance_comp'] == 'S_2'){
+						//
+						$b2b_code_table = 'plan_code_btob_ace';
+					}
+				} else {
+					$b2b_code_table = 'plan_code_btob';
+				}
 			} else {
 				$b2b_code_table = 'plan_code_mg';
 			}

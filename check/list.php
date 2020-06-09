@@ -4,45 +4,104 @@
 if (!$page) $page = 1;
 $num_per_page = 10;
 $num_per_page_start = $num_per_page*($page-1);
-$page_per_block = 5;
+$page_per_block = 10;
 
-	$add_query .=" and a.member_no ='".$row_mem_info['no']."'";	
+	$add_query =" and a.member_no ='{$_SESSION['s_mem_no']}'";	
 
-	if ($start_date!='') {
-		$s_date_r=strtotime($start_date." 000000");
+	if($s_start_date != "" && $s_end_date != ""){
 
-		$add_query = $add_query." and a.regdate >='".$s_date_r."'";
-	}
+		if ($searchDate == 'endorse') {
+			if ($s_start_date) {
+				$s_date_r=strtotime($s_start_date." 000000");
+				$add_query = $add_query." and d.change_date >='".$s_date_r."'";				
+			}
 
-	if ($end_date!='') {
-		$e_date_r=strtotime($end_date." 235959");
+			if ($s_end_date != '') {
+				$e_date_r=strtotime($s_end_date." 235959");
+				$add_query = $add_query." and a.change_date <='".$e_date_r."'";
+			}
+		} else if($searchDate == 'traStart') {
+		
+			if ($s_start_date != '') {
+				//$s_date_r=strtotime($s_start_date." ".$start_hour);
+				$prt_s_date = $s_start_date.' '.$start_hour.':00:00';
+				$add_query = $add_query." and CONCAT(a.start_date,' ', a.start_hour) >='{$prt_s_date}'";
 
-		$add_query = $add_query." and a.regdate <='".$e_date_r."'";
-	}
+			}
 
-	if($search) {
-		if($make == 'name') {
-			$add_query .=" and b.name like '%$search%'";
-		} elseif ($make=="join_name") {
-			$add_query .=" and a.join_name like '%$search%'";
+			if ($s_end_date) {
+				//$e_date_r=strtotime($s_end_date." ".$end_hour);
+				$prt_e_date = $s_end_date.' '.$end_hour.':00:00';
+				$add_query = $add_query." and CONCAT(a.start_date,' ', a.start_hour) <='{$prt_e_date}'";
+			}
+		} else if($searchDate == 'traEnd'){
+			if ($s_start_date) {
+				//$s_date_r=strtotime($s_start_date." ".$start_hour);
+
+				$prt_s_date = $s_start_date.' '.$start_hour.':00:00';
+				$add_query = $add_query." and CONCAT(a.end_date,' ', a.end_hour) >='{$prt_s_date}'";
+			}
+
+			if ($s_end_date) {
+				//$e_date_r=strtotime($s_end_date." ".$end_hour);
+
+				$prt_e_date = $s_end_date.' '.$end_hour.':00:00';
+				$add_query = $add_query." and CONCAT(a.end_date,' ', a.end_hour) <='{$prt_e_date}'";
+			}
+		} else if($searchDate == 'regDate'){
+			if ($s_start_date) {
+				$s_date_r=strtotime($s_start_date." 000000");
+
+				$add_query = $add_query." and a.regdate >='".$s_date_r."'";
+			}
+
+			if ($s_end_date) {
+				$e_date_r=strtotime($s_end_date." 235959");
+
+				$add_query = $add_query." and a.regdate <='".$e_date_r."'";
+			}
 		}
 	}
 
- $sql="select 
-		*, a.no as plan_hana_no, b.no as mem_no, b.hphone, b.email
-	  from
-		hana_plan a
-		left join hana_plan_member b on a.no=b.hana_plan_no
-	  where
-		1 ".$add_query."
-	  group by a.no
-	  order by a.no desc
+	if($search) {
+		if($search_info == 'name') {
+			$add_query .=" and c.name like '%$search%'";
+		} elseif ($search_info=="join_name") {
+			$add_query .=" and a.join_name like '%$search%'";
+		} elseif($search_info == 'pjcode'){
+			$add_query .=" and a.plan_join_code like '%$search%'";
+		} elseif($search_info == 'citizenno'){
+			$sJumin1 = encode_pass($search,$pass_key);
+			$add_query .=" and c.jumin_1 =  '{$sJumin1}'";
+		} elseif($search_info == 'subScription'){
+			$add_query .=" and a.no like '%$search%'";
+		}
+	}
+
+if($insu_ch_b){
+	if($insu_ch == 'chInsurance'){
+		$add_query .=" and a.insurance_comp = '{$insu_ch_b}' ";
+	} else if($insu_ch == 'chTriptype'){
+		$add_query .=" and a.trip_type = '{$insu_ch_b}' ";
+	}
+}		
+
+ $sql="select a.no as plan_hana_no, a.plan_list_state, a.trip_type, a.plan_join_code, a.start_date, a.start_hour, a.end_date, a.end_hour, a.join_cnt, a.join_name,  c.*, c.no as mem_no, c.hphone, c.email,  d.change_date
+from 
+(select no from hana_plan_test) b join 
+hana_plan_test a on b.no=a.no 
+left join hana_plan_member_test c on a.no=c.hana_plan_no
+left join hana_plan_change_test d on a.no=d.hana_plan_no
+where 1=1
+{$add_query}
+group by a.no
+order by a.no desc
 	 ";
 $result=mysql_query($sql);
 $total_record=mysql_num_rows($result);
 $sql=$sql." limit $num_per_page_start, $num_per_page";
 $result=mysql_query($sql) or die(mysql_error());
-
+echo "<!--".$sql."-->";
 $list_page=list_page($num_per_page,$page,$total_record);//function_query
 $total_page	= $list_page['0'];
 $first		= $list_page['1'];
@@ -103,28 +162,28 @@ $article_num = $total_record - $num_per_page*($page-1);
         <section id="h1">
             <h1>신청내역조회/수정</h1>
         </section>
-        <form action="" method="" id="formBox">
+        <form action="" name="applyform" method="" id="applyform">
         <fieldset>
             <section id="searchBox">
                 <ul>
                     <li>
-                        <select name="" id="">
+                        <select name="searchDate" id="searchDate">
                             <option value="" selected>날짜 검색</option>
-                            <option value="">청약일자</option>
-                            <option value="">여행 시작일</option>
-                            <option value="">여행 종료일</option>
+                            <option value="endorse">청약일자</option>
+                            <option value="traStart">여행 시작일</option>
+                            <option value="traEnd">여행 종료일</option>
                         </select>
                     </li>
                     <li>
                         <div class="cld_wrap">
                             <span class="date_picker1">
-                                <input type="text" id="start_date" name="" value="" style="border:0px;height:26px;padding:0px 5px 0px 5px;"><!-- class="ui-datepicker-trigger hasDatepicker" -->
+                                <input type="text" id="start_date" name="s_start_date" value="" style="border:0px;height:26px;padding:0px 5px 0px 5px;" readonly><!-- class="ui-datepicker-trigger hasDatepicker" -->
                                 <!--<button type="button" class="ui-datepicker-trigger"><img src="../img/common/ico_s.jpg" alt=" " title=" "></button>-->
                             </span>
                             <span>
                                 <select name="start_hour" id="start_hour" class="nb">
                                     <? for ($i=0;$i<24;$i++) { ?>
-												 <option value="<?=sprintf("%02d", $i)?>"><?=sprintf("%02d", $i)?>시</option>
+												 <option value="<?=sprintf("%02d", $i)?>" <?=($start_hour == $i)? "selected":"";?>><?=sprintf("%02d", $i)?>시</option>
 										 <? } ?>
                                </select>
                             </span>
@@ -132,13 +191,13 @@ $article_num = $total_record - $num_per_page*($page-1);
                         <div>~</div>
                         <div class="cld_wrap">
                             <span class="date_picker1">
-                                <input type="text" id="end_date" name="" value="" style="border:0px;height:26px;padding:0px 5px 0px 5px;"><!-- class="ui-datepicker-trigger hasDatepicker" -->
+                                <input type="text" id="end_date" name="s_end_date" value="" style="border:0px;height:26px;padding:0px 5px 0px 5px;" readonly><!-- class="ui-datepicker-trigger hasDatepicker" -->
                                 <!--<button type="button" class="ui-datepicker-trigger"><img src="../img/common/ico_s.jpg" alt=" " title=" "></button>-->
                             </span>
                             <span>
                                 <select name="end_hour" id="end_hour" class="nb">
                                      <? for ($i=1;$i<25;$i++) { ?>
-												 <option value="<?=sprintf("%02d", $i)?>"><?=sprintf("%02d", $i)?>시</option>
+												 <option value="<?=sprintf("%02d", $i)?>" <?=($end_hour == $i)? "selected":"";?>><?=sprintf("%02d", $i)?>시</option>
 										 <? } ?>
                                </select>
                             </span>
@@ -149,20 +208,21 @@ $article_num = $total_record - $num_per_page*($page-1);
                     <div>
                         <ul>
                             <li>
-                                <select name="" id="">
-                                    <option value="">보험사 선택</option>
-                                    <option value="">DB손해보험</option>
-                                    <option value="">에이스보험</option>
+                                <select name="insu_ch" id="insu_ch">
+                                    <option value="">보험관련 선택</option>
+                                    <option value="chInsurance">보험사선택</option>
+                                    <option value="chTriptype">여행지역선택</option>
                                 </select>
                             </li>
                         </ul>
                         <ul>
                             <li>
-                                <select name="" id="">
-                                    <option value="">청약번호</option>
-                                    <option value="">피보험자명</option>
-                                    <option value="">주민번호</option>
-                                    <option value="">증권번호</option>
+                                <select name="search_info" id="search_info">
+									<option value="">보험정보선택</option>
+                                    <option value="subScription">청약번호</option>
+                                    <option value="join_name">대표피보험자명</option>
+                                    <option value="citizenno">주민번호</option>
+                                    <option value="pjcode">증권번호</option>
                                 </select>
                             </li>
                         </ul>
@@ -170,37 +230,36 @@ $article_num = $total_record - $num_per_page*($page-1);
                     <div>
                         <ul>
                             <li>
-                                <select name="" id="">
-                                    <option value="">보험 상품 선택</option>
-                                    <option value=""></option>
-                                    <option value=""></option>
-                                    <option value=""></option>
+                                <select name="insu_ch_b" id="insu_ch_b">
+                                    <option value="">선택</option>                                  
                                 </select>
                             </li>
                         </ul>
                         <ul>
-                            <li><input type="text" id="" name=""></li>
+                            <li><input type="text" id="search" name="search"></li>
                         </ul>
                     </div>
-                    <div><button type="button" name="submit" class="btn_s1 search">검색</button></div>
+                    <div><button type="button" name="apply_search" class="btn_s1 search">검색</button></div>
                 </ul>
             </section>
         </fieldset>
         </form>
+		<?/*
         <div id="check_all">
             <button type="button" id="applicant_allbt" class="btn_s5">전체 선택</button>
             <button type="button" id="applicant_allnbt" class="btn_s5">전체 해제</button>
         </div>
+		*/?>
         <section id="list_of-x">
             <table id="t_re_list">
                 <caption>검색 결과</caption>
                 <colgroup>
-                    <col width="40px">
+					<col width="40px">
                     <col width="140px">
                     <col width="140px">
                     <col width="80px">
                     <col width="100px">
-                    <col width="100px">
+                   <?// <col width="100px">?>
                     <col width="100px">
                     <col width="100px">
                     <col width="70px">
@@ -210,12 +269,13 @@ $article_num = $total_record - $num_per_page*($page-1);
                 </colgroup>
                 <thead>
                     <tr>
-                        <th scope="col">선택</th>
+                       <?// <th scope="col">선택</th>?>
+					   <th scope="col">번호</th>
                         <th scope="col">청약번호</th>
                         <th scope="col">증권번호</th>
                         <th scope="col">진행상태</th>
                         <th scope="col">보험사</th>
-                        <th scope="col">보험상품</th>
+                        <?//<th scope="col">보험상품</th>?>
                         <th scope="col">청약일</th>
                         <th scope="col">피보험자</th>
                         <th scope="col">총인원</th>
@@ -225,185 +285,196 @@ $article_num = $total_record - $num_per_page*($page-1);
                     </tr>
                 </thead>
                 <tbody>
+				<?
+					$w =1;
+					$lcnt = 0;
+					$cur_time=time();
+
+	while($row=mysql_fetch_array($result)) {
+		$total_price=0;
+		$total_cnt=0;
+		$del_check="Y";
+
+
+		$d_name=stripslashes($row['name']);
+		
+
+		$sql_mem="select * from hana_plan_member where hana_plan_no='".$row['plan_hana_no']."'";
+		$result_mem=mysql_query($sql_mem);
+		while($row_mem=mysql_fetch_array($result_mem)) {
+
+			if ($row_mem['plan_state']!='3') {
+				$total_price=$total_price+$row_mem['plan_price'];
+			}
+
+			if ($row_mem['main_check']=='Y') {
+				if ($row_mem['plan_state']=='3') {
+					$d_name="<span style=\"text-decoration: line-through;\">".$row_mem['name']."</span>";
+				} else {
+					$d_name=$row_mem['name'];
+				}
+
+				$jumin_1=decode_pass($row_mem['jumin_1'],$pass_key);
+
+				if ($row_mem['jumin_2']!='') {
+					$jumin_2=decode_pass($row_mem['jumin_2'],$pass_key);
+
+					$jumin_no=$jumin_1."- *******"; //.$jumin_2;
+				} else {
+					$jumin_no=$jumin_1;
+				}
+
+				$plan_code=$row_mem['plan_code'];
+				
+				if ($row_mem['hphone']!='') {
+					$hphone=decode_pass($row_mem['hphone'],$pass_key);
+				} else {
+					$hphone="";
+				}
+
+				if ($row_mem['email']!='') {
+					$email=decode_pass($row_mem['email'],$pass_key);
+				} else {
+					$email="";
+				}
+			}
+
+			$total_cnt++;
+		}
+
+
+		if ($row['join_cnt']=="1") {
+			$join_text=$d_name;
+		} else {
+			$join_text=$d_name." 외 ".($row['join_cnt']-1)."명";
+		} 
+
+		
+		if ($row_mem_info['mem_type']=="1") {
+		    $plan_code_row=sql_one_one("plan_code_hana","plan_title"," and member_no='".$row_mem_info['no']."' and plan_code='".$plan_code."'");
+		} else {
+			if($_SESSION['s_mem_id'] != 'hyecho_b2b' && $_SESSION['s_mem_id'] != 'followme_b2b'){
+				if(time() > mktime(0,0,0,6,10,2020)){
+						if($row['insurance_comp'] == 'S_1'){
+							//DB손해보험
+							$b2b_code_table = 'plan_code_btob_db';
+						}
+
+						if($row['insurance_comp'] == 'S_2'){
+							//
+							$b2b_code_table = 'plan_code_btob_ace';
+						}
+				} else {
+					$b2b_code_table = 'plan_code_btob';
+				}
+			} else {
+				$b2b_code_table = 'plan_code_mg';
+			}
+		    $plan_code_row=sql_one_one($b2b_code_table,"plan_title"," and plan_code='".$plan_code."'");
+		}
+		
+		
+
+		if ($row['nation_no']=="0") {
+			$nation_text="국내";
+		} else {
+			$nation_row=sql_one_one("nation","nation_name"," and no='".$row['nation_no']."'");
+			$nation_text=stripslashes($nation_row['nation_name']);
+		}
+				?>
                     <tr>
-                        <td>
-                            <input type="checkbox" id="n1" name="appli_nob[]" value="" />
-                            <label for="n1" class="check_bx"><span></span></label>
+                      <?/*  <td>
+                            <input type="checkbox" id="n<?=$w?>" name="appli_nob[]" value="" />
+                            <label for="n<?=$w?>" class="check_bx"><span></span></label>
                         </td>
-                        <td class="nb t_left"><a href="/check/view.php">120200051377</a></td>
-                        <td class="nb t_left">120200051377</td>
-                        <td class="cancel">청약취소</td>
-                        <td>DB손해보험</td>
-                        <td>해외여행자</td>
-                        <td class="nb">2019-12-05</td>
-                        <td>홍길동</td>
-                        <td class="t_right"><span class="nb">1,782</span>명</td>
-                        <td class="nb">2019-12-22<br>2019-12-30</td>
-                        <td class="nb t_right c_black">1,524,000</td>
-                        <td class="c_blue">YES</td>
-                    </tr>
-                    <tr>
+					*/?>
+						<td><?=$article_num?></td>
+                        <td class="nb"><a href="/check/view.php?num=<?=$row['plan_hana_no']?><?=($_SERVER["QUERY_STRING"] != '')?"&".$_SERVER["QUERY_STRING"]:'';?>"><?=$row['plan_hana_no']?></a></td>
+                        <td class="nb"><?=$row['plan_join_code']?></td>
+                        <td class="<?=($row['plan_list_state'] == '6')? 'complete':'cancel';?>">
+							<?
+									switch($row['plan_list_state']){
+										case '1':
+											echo "결제완료";
+										break;
+										case '2':
+											echo "취소접수";
+										break;
+										case '3':
+											echo "취소완료";
+										break;
+										case '4':
+											echo "수정접수";
+										break;
+										case '5':
+											echo "수정완료";
+										break;
+										case '6':
+											echo "청약완료";
+										break;
+										case '7':
+											echo "청약대기1";
+										break;
+										case '8':
+											echo "청약대기2";
+										break;
+										case '9':
+											echo "청약대기3";
+										break;
+									}
+							?>						
+						</td>
+                        <?//<td>DB손해보험</td>?>
                         <td>
-                            <input type="checkbox" id="n2" name="appli_nob[]" value="" />
-                            <label for="n2" class="check_bx"><span></span></label>
-                        </td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="cancel">청약취소</td>
-                        <td>에이스보험</td>
-                        <td>해외여행자</td>
-                        <td class="nb">2019-12-05</td>
-                        <td>홍길동</td>
-                        <td class="t_right"><span class="nb">13</span>명</td>
-                        <td class="nb">2019-12-22<br>2019-12-30</td>
-                        <td class="nb t_right c_black">17,400</td>
-                        <td class="c_red">NO</td>
+								<?
+									if($row['insurance_comp'] != ''){
+											switch($row['insurance_comp']){
+												case 'S_1':
+													echo 'DB손해보험';
+												break;
+												case 'S_2':
+													echo 'CHUBB';
+												break;
+											}
+									}  else {
+										echo '';
+									}
+								?>
+						</td>
+                        <td class="nb"><?=date("Y-m-d",$row['change_date'])?></td>
+                        <td><?=$row['join_name']?></td>
+                        <td ><span class="nb"><?=number_format($row['join_cnt'])?></span>명</td>
+                        <td class="nb"><?=$row['start_date']?><br><?=$row['end_date']?></td>
+                        <td class="nb c_black"><?=number_format($total_price)?></td>
+                        <td class="c_blue"><?=($row['plan_list_satate'] != '1')? 'NO':'YES';?></td>
                     </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="n3" name="appli_nob[]" value="" />
-                            <label for="n3" class="check_bx"><span></span></label>
-                        </td>
-                        <td class="nb t_left">120200051377</td>
-                        <td class="nb t_left">120200051377</td>
-                        <td class="cancel">청약취소</td>
-                        <td>DB손해보험</td>
-                        <td>해외여행자</td>
-                        <td class="nb">2019-12-05</td>
-                        <td>홍길동</td>
-                        <td class="t_right"><span class="nb">48</span>명</td>
-                        <td class="nb">2019-12-22<br>2019-12-30</td>
-                        <td class="nb t_right c_black">8,719,000</td>
-                        <td class="c_blue">YES</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="n4" name="appli_nob[]" value="" />
-                            <label for="n4" class="check_bx"><span></span></label>
-                        </td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="cancel">청약취소</td>
-                        <td>에이스보험</td>
-                        <td>해외여행자</td>
-                        <td class="nb">2019-12-05</td>
-                        <td>홍길동</td>
-                        <td class="t_right"><span class="nb">106</span>명</td>
-                        <td class="nb">2019-12-22<br>2019-12-30</td>
-                        <td class="nb t_right c_black">61,780</td>
-                        <td class="c_blue">YES</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="n5" name="appli_nob[]" value="" />
-                            <label for="n5" class="check_bx"><span></span></label>
-                        </td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="cancel">청약취소</td>
-                        <td>에이스보험</td>
-                        <td>해외여행자</td>
-                        <td class="nb">2019-12-05</td>
-                        <td>홍길동</td>
-                        <td class="t_right"><span class="nb">2,745</span>명</td>
-                        <td class="nb">2019-12-22<br>2019-12-30</td>
-                        <td class="nb t_right c_black">330,990</td>
-                        <td class="c_blue">YES</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="n6" name="appli_nob[]" value="" />
-                            <label for="n6" class="check_bx"><span></span></label>
-                        </td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="cancel">청약취소</td>
-                        <td>에이스보험</td>
-                        <td>해외여행자</td>
-                        <td class="nb">2019-12-05</td>
-                        <td>홍길동</td>
-                        <td class="t_right"><span class="nb">23</span>명</td>
-                        <td class="nb">2019-12-22<br>2019-12-30</td>
-                        <td class="nb t_right c_black">1,011,120</td>
-                        <td class="c_blue">YES</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="n7" name="appli_nob[]" value="" />
-                            <label for="n7" class="check_bx"><span></span></label>
-                        </td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="cancel">청약취소</td>
-                        <td>에이스보험</td>
-                        <td>해외여행자</td>
-                        <td class="nb">2019-12-05</td>
-                        <td>홍길동</td>
-                        <td class="t_right"><span class="nb">77</span>명</td>
-                        <td class="nb">2019-12-22<br>2019-12-30</td>
-                        <td class="nb t_right c_black">51,880</td>
-                        <td class="c_blue">YES</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="n8" name="appli_nob[]" value="" />
-                            <label for="n8" class="check_bx"><span></span></label>
-                        </td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="cancel">청약취소</td>
-                        <td>에이스보험</td>
-                        <td>해외여행자</td>
-                        <td class="nb">2019-12-05</td>
-                        <td>홍길동</td>
-                        <td class="t_right"><span class="nb">64</span>명</td>
-                        <td class="nb">2019-12-22<br>2019-12-30</td>
-                        <td class="nb t_right c_black">19,340</td>
-                        <td class="c_blue">YES</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="n9" name="appli_nob[]" value="" />
-                            <label for="n9" class="check_bx"><span></span></label>
-                        </td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="cancel">청약취소</td>
-                        <td>에이스보험</td>
-                        <td>해외여행자</td>
-                        <td class="nb">2019-12-05</td>
-                        <td>홍길동</td>
-                        <td class="t_right"><span class="nb">35</span>명</td>
-                        <td class="nb">2019-12-22<br>2019-12-30</td>
-                        <td class="nb t_right c_black">99,450</td>
-                        <td class="c_blue">YES</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="n10" name="appli_nob[]" value="" />
-                            <label for="n10" class="check_bx"><span></span></label>
-                        </td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="nb t_left">P19O00081200009</td>
-                        <td class="cancel">청약취소</td>
-                        <td>에이스보험</td>
-                        <td>해외여행자</td>
-                        <td class="nb">2019-12-05</td>
-                        <td>홍길동</td>
-                        <td class="t_right"><span class="nb">240</span>명</td>
-                        <td class="nb">2019-12-22<br>2019-12-30</td>
-                        <td class="nb t_right c_black">741,350</td>
-                        <td class="c_blue">YES</td>
-                    </tr>
+					<?
+						$w++;
+				$article_num--;
+						}
+					
+					?>
                 </tbody>
             </table>
         </section>
         <section id="btn_area_list">
             <div>
                 <!--button type="button" name="button" class="btn_s2" id="endorse">배서 목록</button-->
-                <button type="button" name="button" class="btn_download">선택 엑셀 다운로드</button>
+                <button type="button" name="excel_down" class="btn_download">엑셀 다운로드</button>
             </div>
         </section>
+		<?
+
+			$where = "&search_info=$search_info";
+			$where .= "&search=$search";
+			$where .= "&insu_ch=$insu_ch";
+			$where .= "&insu_ch_b=$insu_ch_b";
+			$where .= "&searchDate=$searchDate";
+			$where .= "&s_start_date=$s_start_date";
+			$where .= "&s_end_date=$s_end_date";
+
+		b2b_list_page_numbering_div($page_per_block,$page,$total_page,$where);
+		/*
         <section id="paging">
             <a href="#" class="arrow first" id=""><span>첫페이지</span></a>
             <a href="#" class="arrow prev" id=""><span>이전페이지</span></a>
@@ -422,6 +493,7 @@ $article_num = $total_record - $num_per_page*($page-1);
             <a href="#" class="arrow next" id=""><span>다음페이지</span></a>
             <a href="#" class="arrow last" id=""><span>마지막페이지</span></a>
         </section>
+		*/?>
     </section><!-- e : container -->
 
 	<!-- //container -->
@@ -431,103 +503,95 @@ $article_num = $total_record - $num_per_page*($page-1);
 </div>
 <!-- //wrap -->
 
-<script>
-	function plan_change() {
-		var frm=document.send_form_pop;
-
-		if (select_num=="") {
-			alert('보험을 선택해 주세요.');
-			return false;
-		}
-
-		if (frm.content.value=="") {
-			alert('수정 내용을 입력해 주세요.');
-			return false;
-		}
-
-		$("#auth_token").val(auth_token);
-		$("#select_num").val(select_num);
-		
-		$("#loading_area").css({"display":"block"});
-
-		$.ajax({
-			type : "POST",
-			url : "../src/plan_change_process.php",
-			data :  $("#send_form_pop").serialize(),
-			success : function(data, status) {
-				console.log(data);
-				var json = eval("(" + data + ")");
-
-				if (json.result=="true") {
-					alert(json.msg);
-					location.reload();
-					$("#loading_area").delay(300).fadeOut();
-					return false;
-				} else {
-					alert(json.msg);
-					$("#loading_area").delay(100).fadeOut();
-					return false;
-				}
-				
-			},
-			error : function(err)
-			{
-				alert(err.responseText);
-				$("#loading_area").delay(100).fadeOut();
+<script>	
+	$(document).ready(function(){
+		$('button[name=excel_down]').on('click',function(){
+			var cnt_get = <?=count($_GET)?>;
+			if(Number(cnt_get) > 0){			
+				var opt_loca = '<?=$_SERVER["QUERY_STRING"]?>';
+			location.href='./excel_download.php?'+opt_loca;
+			} else {
+				alert('내역을 조회 후 다운로드가 가능합니다.');
 				return false;
 			}
 		});
-	}
-	$(document).ready(function(){
-		$('#excel_hyecho').on('click',function(){			
+
+	/*
+		$('button[name=excel_down]').on('click',function(){
 			var search_stdate;
 			var search_eddate;
 			var search_sel;
 			var search_text;
-						
-			search_stdate = $('#start_date').val();
-			search_eddate = $('#end_date').val();
-			search_sel = $('select[name=make]').val();
-			search_text = $('#searchstr').val();
 
-			location.href='./excel_download_hyecho.php?start_date='+search_stdate+'&end_date='+search_eddate+'&make='+search_sel+'&search='+search_text;
-
+			location.href='./excel_download.php?start_date='+search_stdate+'&end_date='+search_eddate+'&make='+search_sel+'&search='+search_text;
 		});
-
+*/
 		$('#endorse').on('click',function(){
 			location.href='/check/endorse_list.php';
 		});
-	});
+		
+		$('#insu_ch').on('change',function(){
+			var ch_val;
+			ch_val = $(this).val();
+			console.log(ch_val);
+			if(ch_val == 'chInsurance'){//보험사선택
+				var aa = new Object();				
+				aa = {"":"선택",S_1:"DB손해보험", S_2:"CHUBB"};
+				$('#insu_ch_b').empty();
+				for(var prop in aa){
+					$('#insu_ch_b').append($("<option></option>").attr("value",prop).text(aa[prop]));
+				} 
+			} else if(ch_val == 'chTriptype') {//해외,국내
+				var bb = new Object();
+				bb = {'0':"선택",'1':"국내", '2':"해외"};
+				$('#insu_ch_b').empty();
+				for(var prop in bb){				
+					$('#insu_ch_b').append($("<option></option>").attr("value",prop).text(bb[prop]));
+				} 
+					$('#insu_ch_b option:eq(0)').attr('value','').text('선택');
+			} else {
+				$('#insu_ch_b').empty();				
+				$('#insu_ch_b').append($("<option></option>").attr("value",'').text('선택'));
+			}
+		});
+
+		$('button[name=apply_search]').on('click',function(){
+			
+			var aa = $('#searchDate option:selected').val();
+			var bb = $('#insu_ch option:selected').val();
+			var cc = $('#search_info option:selected').val();
+
+			if(aa != ''){
+				var st_date = $('#start_date').val();
+				var ed_date = $('#end_date').val();
+				if(st_date == '' || ed_date == ''){
+					alert('검색 일자를 선택해주세요.');					
+					return false;
+				}
+			}
+
+			if(bb != ''){
+				var insuran_ch = $('#insu_ch_b option:selected').val();
+				if(insuran_ch == ''){
+					alert('보험 관련 검색을 입력하세요.');
+					return false;
+				}
+			}
+
+			if(cc != ''){
+				var search_val = $('#search').val();
+				if(search_val == ''){
+					alert('보험정보를 입력하세요.');
+					return false;
+				}
+			}
+
+			$('#applyform').submit();
+		});	
+
+	}); //end ready
 </script>
 
-<div id="layerPop0" class="layerPop" style="display:none;">
-<form id="send_form_pop" name="send_form_pop">
-<input type="hidden" id="auth_token" name="auth_token" readonly>
-<input type="hidden" id="select_num" name="select_num" readonly>
-
-	<div class="layerPop_inner">
-		<div class="pop_wrap">
-			<div class="pop_wrap_in " style="max-width:600px;">
-				<div class="pop_head">
-					<p class="title" id="pop_title">수정</p>
-					<p class="x_btn" onclick="CloselayerPop();"><img src="../img/common/close3.png" alt="닫기"></p>
-				</div>
-				<div id="viewPop" class="pop_body ">
-					<select class="txtb" name="change_type" style="width:100%">
-						<option value="4">수정접수</option>
-						<option value="2">취소접수</option>
-					</select>
-					<textarea name="content" class="textarea mt10" rows="6" cols="100" style="width:100%; height:150px;"></textarea>
-
-					<div class="btn-tc">
-						<a href="javascript:void(0);" onclick="plan_change();" class="btnNormal m_block"><span>신청</span></a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</form>
-</div>
 </body>
 <script type="text/javascript" src="/js/applicant_list.js"></script>
 </html>

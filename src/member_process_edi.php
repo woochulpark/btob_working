@@ -1,6 +1,6 @@
 <?php
 include "../include/common.php";
-
+exit;
 if(!chkToken($_POST['auth_token'])) {
 	$json_code = array('result'=>'false','msg'=>'잘못된 접속 입니다.');
 	echo json_encode($json_code);
@@ -107,50 +107,7 @@ if(!$f_chk){
 		$json_code = array('result'=>'false','msg'=>'다시 시도해 주세요.');
 		echo json_encode($json_code);
 		exit;
-	} else {
-	    
-	    $hphonedec=trim(decode_pass($hphone,$pass_key));
-	    
-	    //$emailTo= "gs.cho@bis.co.kr, seoksoo.ko@bis.co.kr, tony.kim@bis.co.kr, hansol.im@bis.co.kr";
-		$emailTo= " james.shim@bis.co.kr, tony.kim@bis.co.kr, hansol.im@bis.co.kr";
-	    
-	    $subject = "[투어세이프 B2B] ".$com_name." 가입승인 요청";
-	    $content = $com_name."님으로부터 가입승인 요청메일이 도착하였습니다.\r\n";
-	    $content.= "아이디 : ".$uid."\r\n";
-	    $content.= "이메일 : ".$email."\r\n";  
-	    $content.= "연락처 : ".$hphonedec."\r\n";
-	    
-	    //$from = "gs.cho@bis.co.kr";
-		$from = "woochul.park@bis.co.kr";
-	    $title = $subject;
-	    $name = "toursafe";
-	    $body = ($content);
-	    
-	    
-	    $title = "=?utf-8?B?".base64_encode($title)."?=";
-	    $name = "=?utf-8?B?".base64_encode($name)."?=";
-	    
-	    $boundary = "----".uniqid("part"); // 이메일 내용 구분자 설정
-	    
-	    $header .= "Return-Path: $from\r\n"; // 반송 이메일 주소
-	    $header .= "From: ".$name."<".$from.">\n"; // 보내는 사람 이메일 주소
-	    $header .= "MIME-Version: 1.0\r\n"; // MIME 버전 표시
-	    $header .= "Content-Type: Multipart/mixed; boundary = \"$boundary\""; // 구분자가 $boundary 임을 알려줌
-	    
-	    ## 여기부터는 이메일 본문 생성 ##
-	    $mailbody .= "This is a multi-part message in MIME format.\r\n\r\n"; // 메세지
-	    $mailbody .= "--$boundary\r\n"; // 내용 구분 시작
-	    
-	    //내용이 일반 텍스트와 html 을 사용하며 한글이라고 알려줌
-	    $mailbody .= "Content-Type: text/html; charset=\"UTF-8\"\r\n";
-	    
-	    //암호화 방식을 알려줌
-	    $mailbody .= "Content-Transfer-Encoding: base64\r\n\r\n";
-	    
-	    //이메일 내용을 암호화 해서 추가
-	    $mailbody .= base64_encode($body)."\r\n\r\n";
-	    
-	    //mail($emailTo,addslashes($title),$mailbody,$header,'-f'.$from);
+	} else {	    
 	    
 	    $json_code = array('result'=>'true','msg'=>$uid);
 		echo json_encode($json_code);

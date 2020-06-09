@@ -25,7 +25,19 @@ $x=0;
 if ($row_mem_info['mem_type']=="2") {
 
 	if($_SESSION['s_mem_id'] != 'hyecho_b2b' && $_SESSION['s_mem_id'] != 'followme_b2b'){
-		$b2b_code_table = 'plan_code_btob';
+		if(time() > mktime(0,0,0,6,10,2020)){
+				if($row['insurance_comp'] == 'S_1'){
+					//DB손해보험
+					$b2b_code_table = 'plan_code_btob_db';
+				}
+
+				if($row['insurance_comp'] == 'S_2'){
+					//
+					$b2b_code_table = 'plan_code_btob_ace';
+				}
+		} else {
+			$b2b_code_table = 'plan_code_btob';
+		}
 	} else {
 		$b2b_code_table = 'plan_code_mg';
 	}
@@ -44,7 +56,19 @@ for ($i=1;$i<27;$i++) {
 if ($row_mem_info['mem_type']=="2") {
 
 	if($_SESSION['s_mem_id'] != 'hyecho_b2b' && $_SESSION['s_mem_id'] != 'followme_b2b'){
-		$b2b_type_table = 'plan_code_type_btob';
+		if(time() > mktime(0,0,0,6,10,2020)){
+				if($row['insurance_comp'] == 'S_1'){
+					//DB손해보험
+					$b2b_code_table = 'plan_code_type_btob_db';
+				}
+
+				if($row['insurance_comp'] == 'S_2'){
+					//
+					$b2b_code_table = 'plan_code_type_btob_ace';
+				}
+		} else {
+			$b2b_type_table = 'plan_code_type_btob';
+		}
 	} else {
 		$b2b_type_table = 'plan_code_type_mg';
 	}

@@ -9,6 +9,19 @@
 		echo json_encode($json_code);
 		exit;
 	}  else {
+
+		$session_chk_que = " SELECT no FROM hana_plan_test WHERE session_key = '{$_SESSION['s_session_key']}' ";
+
+		$session_chk_res = mysql_query($session_chk_que);
+		$session_chk_row = mysql_fetch_array($session_chk_res);
+
+		if(isset($session_chk_row['no'])){
+			$json_code = array('result'=>'false','msg'=>'동일한 세션 정보가 확인되었습니다.');
+			echo json_encode($json_code);
+			exit;
+		}
+		
+
 		$selInsurance = $_POST['selinsuran'];
 		$tripType = $_POST['trip_Type'];
 		$nationVal = $_POST['nation'];
@@ -18,11 +31,14 @@
 		$endDate = $_POST['end_date'];
 		$endHour = $_POST['end_hour'];			
 		$planType = $_POST['plan_type'];
-		$join_cnt = count($_POST['juminno']);
+		$join_cnt = count(array_filter($_POST['juminno']));
+		$currentResi = $_POST['rr'];
 		$notiConfirm = $_POST['notice_confirm'];
 		$contConfirm = $_POST['contract_confirm'];
 		$commonPlan = $_POST['common_plan'];
 		$join_name = $_POST['input_name'][0];
+		$memoEtc1 = addslashes(fnFilterString($_POST['etc_memo1']));
+		$memoEtc2 = addslashes(fnFilterString($_POST['etc_memo2']));
 		$today_t = time();
 		if ($_POST['phonef'] !='' && $_POST['phonem'] !='' && $_POST['phonel'] !='') {
 			$hphone=encode_pass(addslashes(fnFilterString($_POST['phonef'])).addslashes(fnFilterString($_POST['phonem'])).addslashes(fnFilterString($_POST['phonel'])),$pass_key);
@@ -107,6 +123,7 @@
 					end_hour='{$endHour}',
 					term_day='{$term_day}',
 					join_cnt='{$join_cnt}',
+					current_resi = '{$currentResi}',
 					join_name = '{$join_name}',
 					plan_type='{$planType}',
 					check_type_1='{$notiConfirm}',
@@ -115,6 +132,8 @@
 					check_type_4='{$notiConfirm}',
 					check_type_5='{$notiConfirm}',
 					select_agree='{$contConfirm}',
+					etc_memo1 = '{$memoEtc1}',
+					etc_memo2 = '{$memoEtc2}',
 					regdate='{$today_t}'
 				";	
 		//echo $sql_tmp;
@@ -225,7 +244,7 @@
 			echo json_encode($json_code);
 			exit;
 		} else {
-			$msg='성공';
+			$msg='등록 성공하였습니다.';
 			$json_code = array('result'=>'true','msg'=>$msg);
 			echo json_encode($json_code);
 			exit;

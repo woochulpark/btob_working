@@ -491,3 +491,40 @@ function submitInsu(){
 		function get_limit(){
 			return month_limit;
 		}
+
+    function jumin_chk(kind1, kind2){
+       // var junum = kind.split("-");
+        var jumins3 = kind1+kind2;
+         //주민등록번호 생년월일 전달
+          var fmt = RegExp(/^\d{6}[1234]\d{6}$/);//포멧 설정
+          var buf = new Array(13); 
+          var errorcnt = 0;
+          //주민번호 유효성 검사 
+          if (!fmt.test(jumins3)) { 
+              //alert("주민등록번호 형식에 맞게 입력해주세요");
+              //$("#id_num").focus(); 
+             // return false; 
+               errorcnt  = errorcnt + 1;
+              
+            } 
+            
+            //주민번호 존재 검사 
+        for (var i = 0; i < buf.length; i++){
+             buf[i] = parseInt(jumins3.charAt(i)); 
+        } 
+        
+        var multipliers = [2,3,4,5,6,7,8,9,2,3,4,5];// 밑에 더해주는 12자리 숫자들
+         var sum = 0; 
+         for (var i = 0; i < 12; i++){
+              sum += (buf[i] *= multipliers[i]);// 배열끼리12번 돌면서 
+        }
+
+        if ((11 - (sum % 11)) % 10 != buf[12]) { 
+			//alert("잘못된 주민등록번호 입니다.");
+            //$("#id_num").focus();
+             //return false; 
+             errorcnt  = errorcnt + 1;
+            
+        }
+        return errorcnt;
+    }

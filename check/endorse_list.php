@@ -131,7 +131,7 @@ $article_num = $total_record - $num_per_page*($page-1);
                 <ul>
                     <li>
                         <select name="" id="">
-                            <option value="" selected>날짜 검색</option>
+                            <option value="" selected>선택</option>
                             <option value="">요청일자</option>
                             <option value="">처리일자</option>
                         </select>
@@ -239,13 +239,14 @@ $article_num = $total_record - $num_per_page*($page-1);
                         <td class="nb">2020-01-31</td>
                         <td>DB손해보험</td>
                         <td class="complete">배서완료</td>
-                        <td class="nb t_left"><a href="#">P19O00081200009</a></td>
+                        <td class="nb"><a href="#">P19O00081200009</a></td>
                         <td>완료</td>
                         <td class="t_left">반짝이는 별빛들 깜빡이는 불 켜진 건물 우린 빛나고 있네 각자의 방 각자의 별에서 어떤 빛은 야망 어떤 빛은 방황
                             사람들의 불빛들 모두 소중한 하나 어두운 밤</td>
                         <td>홍길동</td>
                         <td class="nb">123456-654654</td>
                     </tr>
+					<?/*
                     <tr>
                         <td class="nb">10</td>
                         <td class="nb">2020-01-31</td>
@@ -349,6 +350,8 @@ $article_num = $total_record - $num_per_page*($page-1);
                         <td>홍길동</td>
                         <td class="nb">123456-654654</td>
                     </tr>
+					*/
+					?>
                 </tbody>
             </table>
         </section> 

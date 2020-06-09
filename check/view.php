@@ -1,9 +1,10 @@
 <? 
 	include ("../include/top.php"); 
 	
-	$val_list = "page=".$page."&make=".$make."&search=".$search."&start_date=".$start_date."&end_date=".$end_date;
+	$val_list = "page=".$page."&search_info=".$search_info."&search=".$search."&insu_ch=".$insu_ch."&insu_ch_b".$insu_ch_b."&searchDate=".$searchDate."&s_start_date=".$s_start_date."&s_end_date=".$s_end_date;
 
-	$vi_q="select * from hana_plan where no='".$num."' and member_no='".$row_mem_info['no']."'";
+	$vi_q="select * from hana_plan_test where no='".$num."' and member_no='{$_SESSION['s_mem_no']}'";
+
 	$vi_e=mysql_query($vi_q);
 	$row=mysql_fetch_array($vi_e);
 
@@ -11,7 +12,7 @@
 ?>
 <script>
 	alert('잘못된 접속 입니다.');
-	//history.go(-1);
+	history.go(-1);
 </script>
 <?
 		//exit;
@@ -27,20 +28,35 @@
 	$sql_mem="select 
 			*
 		  from
-			hana_plan_member
+			hana_plan_member_test
 		  where
 			hana_plan_no='".$num."'
 			and main_check='Y'
 		 ";
 	$result_mem=mysql_query($sql_mem);
 	$row_mem=mysql_fetch_array($result_mem);
-
+	
+/*
 	if ($row_mem_info['mem_type']=="1") {
 	    $plan_code_row=sql_one_one("plan_code_hana","plan_title"," and member_no='".$row_mem_info['no']."' and plan_code='".$row_mem['plan_code']."'");
 	} else {
 	    $plan_code_row=sql_one_one("plan_code_btob","plan_title"," and plan_code='".$row_mem['plan_code']."'");
 	}
-	
+*/	
+    $cooperation_row = sql_one("toursafe_members","uid, com_name", " and no = '{$row['member_no']}' ");
+
+	$plan_mem_sql = "select 
+			*
+		  from
+			hana_plan_member_test
+		  where
+			hana_plan_no='{$num}'
+			and
+			member_no = '{$_SESSION['s_mem_no']}' ";
+	$plan_mem_result = mysql_query($plan_mem_sql);
+
+	$prt_start_date = explode("-",$row['start_date']);
+	$prt_end_date = explode("-",$row['end_date']);
 ?>
 <script>
 	var oneDepth = 3; //1차 카테고리
@@ -61,17 +77,17 @@
                 <tbody>
                     <tr>
                         <th>거래처 ID</th>
-                        <td class="nb">1234564</td>
+                        <td class="nb"><?=$cooperation_row[0]['uid']?></td>
                         <th>청약번호</th>
-                        <td class="nb">12345565455</td>
+                        <td class="nb"><?=$row['no']?></td>
                         <th>증권번호</th>
-                        <td class="nb">12346979</td>
+                        <td class="nb"><?=$row['plan_join_code']?></td>
                     </tr>
                     <tr>
                         <th>거래처명</th>
-                        <td>000000여행사</td>
+                        <td><?=$cooperation_row[0]['com_name']?></td>
                         <th>청약일</th>
-                        <td colspan="3" class="nb">2019-12-26</td>
+                        <td colspan="3" class="nb"><?=$row['plan_join_code_date']?></td>
                     </tr>
                 </tbody>
             </table>
@@ -83,55 +99,55 @@
                     <ul>
                         <li>
                             <label>보험사 선택</label>
-                            <div>DB손해보험</div>
+                            <div><?=($row['insurance_comp'] != '')? $row['insurance_comp']:"&nbsp;";?></div>
                         </li>
                         <li>
                             <label>공통플랜</label>
-                            <div>플랜1플랜1플랜1플랜1</div>
+                            <div><?=($row['common_plan'] != '')? $row['common_plan']:"&nbsp;";?></div>
                         </li>
                     </ul>
                     <ul>
                         <li>
                             <label>여행 기간</label>
-                            <div class="nb">2019년 12월 4일 18시 ~ 2019년 12월 30일 06시 까지</div>
+                            <div class="nb"><?=$prt_start_date[0]?>년 <?=$prt_start_date[1]?>월 <?=$prt_start_date[2]?>일 <?=$row['start_hour']?>시 ~ <?=$prt_end_date[0]?> 년 <?=$prt_end_date[1]?>월 <?=$prt_end_date [1]?>일 <?=$row['end_hour']?>시 까지</div>
                         </li>
                         <li>
                             <label>여행지</label>
-                            <div>필리핀</div>
+                            <div><?=$nation_text?></div>
                         </li>
                     </ul>
                     <ul>
                         <li>
                             <label>현재 체류지</label>
-                            <div>해외</div>
+                            <div><?=($row['current_resi'] != '')? $row['current_resi']:"&nbsp;"?></div>
                         </li>
                         <li>
                             <label>여행 목적</label>
-                            <div>일반관광</div>
+                            <div><?=($row['trip_purpose'] != '')? $trip_purpose_array[$row['trip_purpose']]:"&nbsp;"?></div>
                         </li>
                     </ul>
                     <ul>
                         <li>
                             <label>대표자 이메일</label>
-                            <div>toursafe@bis.com</div>
+
+                            <div><?=($row_mem['email'] != '2dfc410077d20e74')? decode_pass($row_mem['email'],$pass_key):"&nbsp;"?></div>
                         </li>
                         <li>
                             <label>대표자 휴대전화</label>
-                            <div class="nb">010-1234-5678</div>
+                            <div class="nb"><?=($row_mem['hphone'] != '')? decode_pass($row_mem['hphone'],$pass_key):"&nbsp;"?></div>
                         </li>
                     </ul>
                     <ul>
                         <li class="add">
                             <label>추가정보 <span>1</span></label>
-                            <div>반짝이는 별빛들 깜빡이는 불 켜진 건물 우린 빛나고 있네 각자의 방 각자의 별에서 어떤 빛은 야망 어떤 빛은 방황 사람들의 불빛들 모두 소중한 하나 어두운 밤 (외로워 마) 별처럼 다 (우린 빛나) 사라지지 마 큰 존재니까 Let us shine 어쩜 이 밤의 표정이 이토록 또 아름다운 건 저 별들도 불빛도 아닌 우리 때문일 거야
+                            <div><?=($row['etc_memo1'] != '')?$row['etc_memo1']:"&nbsp;";?>
                             </div>
                         </li>
                     </ul>
                     <ul>
                         <li class="add">
                             <label>추가정보 <span>2</span></label>
-                            <div>반짝이는 별빛들 깜빡이는 불 켜진 건물 우린 빛나고 있네 각자의 방 각자의 별에서 어떤 빛은 야망 어떤 빛은 방황 사람들의 불빛들 모두 소중한 하나 어두운 밤 (외로워 마) 별처럼 다 (우린 빛나) 사라지지 마 큰 존재니까 Let us shine 어쩜 이 밤의 표정이 이토록 또 아름다운 건 저 별들도 불빛도 아닌 우리 때문일 거야
-                            </div>
+                            <div><?=($row['etc_memo2'] != '')?$row['etc_memo2']:"&nbsp;";?></div>
                         </li>
                     </ul>
                 </div>
@@ -155,115 +171,49 @@
                     </tr>
                 </thead>
                 <tbody>
+				<?
+					if($plan_mem_result){
+						$mem_cnt = 1;
+						$totalPrice = 0;
+						while($plan_mem_row = mysql_fetch_array($plan_mem_result)){		
+							if($plan_mem_row['plan_state']!='3') {
+								$totalPrice = $totalPrice + $plan_mem_row['plan_price'];
+							}
+				?>
                     <tr>
-                        <td class="nb">1</td>
-                        <td>홍길동</td>
-                        <td>HOGN GILDONG</td>
-                        <td class="nb">123456-7894560</td>
-                        <td class="nb">26</td>
-                        <td>플랜1플랜1플랜1플랜1</td>
-                        <td class="t_price nb">19,860</td>
+                        <td class="nb"><?=$mem_cnt?></td>
+                        <td><?=$plan_mem_row['name']?></td>
+                        <td><?=($plan_mem_row['name_eng'] != '')? $plan_mem_row['name_eng']:'&nbsp;';?></td>
+                        <td class="nb"><?=decode_pass($plan_mem_row['jumin_1'],$pass_key)?>-*******</td>
+                        <td class="nb"><?=$plan_mem_row['age']?></td>
+                        <td><?=$plan_mem_row['plan_code']?></td>
+                        <td class="t_price nb"><?=number_format($plan_mem_row['plan_price'])?></td>
                     </tr>
-                    <tr>
-                        <td class="nb">2</td>
-                        <td>홍길동</td>
-                        <td>HOGN GILDONG</td>
-                        <td class="nb">123456-7894560</td>
-                        <td class="nb">26</td>
-                        <td>플랜1플랜1플랜1플랜1</td>
-                        <td class="t_price nb">19,860</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">3</td>
-                        <td>홍길동</td>
-                        <td>HOGN GILDONG</td>
-                        <td class="nb">123456-7894560</td>
-                        <td class="nb">26</td>
-                        <td>플랜1플랜1플랜1플랜1</td>
-                        <td class="t_price nb">19,860</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">4</td>
-                        <td>홍길동</td>
-                        <td>HOGN GILDONG</td>
-                        <td class="nb">123456-7894560</td>
-                        <td class="nb">26</td>
-                        <td>플랜1플랜1플랜1플랜1</td>
-                        <td class="t_price nb">19,860</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">5</td>
-                        <td>홍길동</td>
-                        <td>HOGN GILDONG</td>
-                        <td class="nb">123456-7894560</td>
-                        <td class="nb">26</td>
-                        <td>플랜1플랜1플랜1플랜1</td>
-                        <td class="t_price nb">19,860</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">6</td>
-                        <td>홍길동</td>
-                        <td>HOGN GILDONG</td>
-                        <td class="nb">123456-7894560</td>
-                        <td class="nb">26</td>
-                        <td>플랜1플랜1플랜1플랜1</td>
-                        <td class="t_price nb">19,860</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">7</td>
-                        <td>홍길동</td>
-                        <td>HOGN GILDONG</td>
-                        <td class="nb">123456-7894560</td>
-                        <td class="nb">26</td>
-                        <td>플랜1플랜1플랜1플랜1</td>
-                        <td class="t_price nb">19,860</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">8</td>
-                        <td>홍길동</td>
-                        <td>HOGN GILDONG</td>
-                        <td class="nb">123456-7894560</td>
-                        <td class="nb">26</td>
-                        <td>플랜1플랜1플랜1플랜1</td>
-                        <td class="t_price nb">19,860</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">9</td>
-                        <td>홍길동</td>
-                        <td>HOGN GILDONG</td>
-                        <td class="nb">123456-7894560</td>
-                        <td class="nb">26</td>
-                        <td>플랜1플랜1플랜1플랜1</td>
-                        <td class="t_price nb">19,860</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">10</td>
-                        <td>홍길동</td>
-                        <td>HOGN GILDONG</td>
-                        <td class="nb">123456-7894560</td>
-                        <td class="nb">26</td>
-                        <td>플랜1플랜1플랜1플랜1</td>
-                        <td class="t_price nb">19,860</td>
-                    </tr>
+					<?
+								$mem_cnt++;
+							}
+						} //plan_mem_result if end						
+			
+					?>
                 </tbody>
             </table>
         </div>
         <section id="dt_tt_price_area">
             <div class="tt_btn">
-                <span><button type="button" name="button" id="endorsereq" class="btn_s2">배서 요청</button></span>
-                <span><button type="button" name="button" id="endorsedet" class="btn_s2">배서 상세목록</button></span>
-                <span><button type="button" name="button" class="btn_download">가입확인서 다운로드</button></span>
-                <span><button type="button" name="button" class="btn_download">영문 가입확인서 다운로드</button></span>
+                <span><button type="button" name="endorsereq" id="endorsereq" class="btn_s2">배서 요청</button></span>
+                <span><button type="button" name="endorsedet" id="endorsedet" class="btn_s2">배서 상세목록</button></span>
+                <span><button type="button" name="regiconf" id="regiconf" class="btn_download">가입확인서 다운로드</button></span>
+               <!-- <span><button type="button" name="button" class="btn_download">영문 가입확인서 다운로드</button></span> -->
             </div>
             <div><!--button type="button" name="button" class="btn_count">총 납입 보험료 계산하기</button--></div>
             <div>
                 <ul>
                     <li>총 인원</li>
-                    <li><span class="t_num c_black">87</span><span>명</span></li>
+                    <li><span class="t_num c_black"><?=number_format($row['join_cnt'])?></span><span>명</span></li>
                 </ul>
                 <ul>
                     <li>총 납입 보험료</li>
-                    <li><span class="t_num c_red">80,251,370</span><span>원</span></li>
+                    <li><span class="t_num c_red"><?=number_format($totalPrice)?></span><span>원</span></li>
                 </ul>
                 <ul>
                     <li>추징/환급 보험료</li>
@@ -273,7 +223,7 @@
         </section>
         <section id="btn_area">
             <div class="btn_list">
-                <button type="button" name="button" class="btn_s2">목록</button>
+                <button type="button" name="listgo" class="btn_s2">목록</button>
             </div>
         </section> 
     </section><!-- e : container -->
@@ -285,5 +235,14 @@
 
 
 </body>
+<script type="text/javascript">
+	$('button[name=listgo]').on('click',function(){
+		var remain = '<?=$val_list?>';
+		location.href='/check/list.php?'+remain;
+	});
 
+	$('button[name=regiconf]').on('click',function(){
+		window.open('/src/regi_confirm.php?num=<?=$row['no']?>', 'confirmation', 'width=900,height=650,left=100,top=0,scrollbars=yes')
+	});
+</script>
 </html>

@@ -8,8 +8,9 @@
 			hana_plan a
 			left join hana_plan_change b on a.no=b.hana_plan_no and b.change_date >='".$check_start."' and b.change_date <='".$check_end."'
 		  where
-			a.member_no='".$row_mem_info['no']."'
+			a.member_no='{$_SESSION['s_mem_no']}'
 		 ";
+		
 	$result_sum=mysql_query($sql_sum);
 	$row=mysql_fetch_array($result_sum);
 ?>
@@ -61,7 +62,7 @@ function f_print(){
 								<tbody>
 									<tr>
 										<th>수신 </th>
-										<td><?=stripslashes($row_mem_info['com_name'])?></td>
+										<td><?=stripslashes($_SESSION['s_mem_com'])?></td>
 									</tr>
 									<tr>
 										<th> </th>
