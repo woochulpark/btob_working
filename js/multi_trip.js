@@ -209,17 +209,16 @@ $(document).ready(function(){
                     var row = verrown+indy, col = kk+indx;
                             obj['cell-'+row+'-'+col] = valux;
                             valux = valux.trim();
-							var prt_val = rep_juno(valux);
-							valux = prt_val;
-							console.log(valux);
                             $this.closest('table').find('tr:eq('+(row+1)+') td:eq('+col+') input').val(valux);     
+							//var prt_val = rep_juno(valux);					
 							
                             if(col == 4){
-								
+								prt_val = rep_juno(valux);
+								 $this.closest('table').find('tr:eq('+(row+1)+') td:eq('+col+') input').val(prt_val);     
                                 console.log('지정된 col : '+ju_chk(valux));
 
-                                if( ju_chk(valux) < 1){
-                                    age_calcultor(valux, row, col);  
+                                if( ju_chk(prt_val) < 1){
+                                    age_calcultor(prt_val, row, col);  
                                     $this.closest('table').find('tr:eq('+(row+1)+') td:eq('+col+') input').css('color', '#777');
                                 } else {
                                     $this.closest('table').find('tr:eq('+(row+1)+') td:eq('+col+') input').css('color', 'red');
@@ -336,7 +335,6 @@ function age_calcultor(kind,rown, coln){
 
     function ju_chk(kind){
         var junum = kind.split("-");
-		if(typeof junum != 'undefined'){
         var jumins3 = junum[0]+junum[1];
          //주민등록번호 생년월일 전달
           var fmt = RegExp(/^\d{6}[1234]\d{6}$/);//포멧 설정
@@ -369,19 +367,11 @@ function age_calcultor(kind,rown, coln){
              errorcnt  = errorcnt + 1;
             
         }
-		} else {
-			errorcnt = 1;
-		}
         return errorcnt;
     }
 
     $(document).on('keyup, change, keydown, input','input[name="juminno[]"]',function(){
-		
-	  
-
-	   //val_this = rep_juno(val_this);
-		
-		if($(this).val().length == 13){
+      if($(this).val().length == 13){
 			var val_this = rep_juno($(this).val());
 			
         if(ju_chk(val_this) < 1){
@@ -417,6 +407,7 @@ function age_calcultor(kind,rown, coln){
 			*/
         }
 		} else {
+			$(this).css('color', 'red');
 			var put_td_po1 = $(this).closest('td').index();    
             var put_tr_po1 = $(this).closest('tr').index();
 			$('#t_list').find('tr:eq('+(put_tr_po1+1)+') td:eq('+(put_td_po1+1)+') input[name="hage[]"]').val('');
