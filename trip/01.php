@@ -324,8 +324,13 @@
 			}                
 		});
 
+	<?
+		if($_GET['join_data'] == ''){
+	?>
 		$("#end_date").datepicker("disable");
-
+<?
+	}
+	?>
 		$("#start_hour,#end_hour").change(function(){
 			view_reset();
 			resetPlPr('');
@@ -566,7 +571,7 @@ print_r($_SESSION);
                         <ul>
                             <li>
                                 <label for=""><span class="dot">*</span><span class="c_red">여행지</span></label>
-                                <div class="wBox">
+                                <!--div class="wBox"-->
 									<select id="nation" name="nation">
 									<?
 										if($_GET['tripType'] != 1){
@@ -588,8 +593,10 @@ print_r($_SESSION);
 										?>
 									</select>
 									<input type="hidden" id="select_nation" name="select_nation" value="<?=($_GET['tripType'] > 1)?"N":"Y";?>">
-								</div>
+								<!--/div-->
+								<?/*
                                 <div class="btn"><button type="button" id="ch_nation" class="btn_s4" <?=($_GET['tripType'] < 2)?" disabled ": ""; ?>>선택</button></div>
+								*/?>
                             </li>
                             <li>
                                 <label for=""><span class="dot">*</span><span class="c_red">여행 목적</span></label>
@@ -723,7 +730,8 @@ print_r($_SESSION);
                     <li><button type="button" id="seldbt" class="btn_s3">선택삭제</button></li> 
                 </ul>
             </section>
-			<div><span class="dot" style="vertical-align:bottom;">*</span><span class="c_red" style="vertical-align:top;font-weight:400">다수의 피보험자 명세를 입력 시 엑셀문서에서 "복사하기/붙여넣기"를 이용하시면 편리하게 입력하실 수 있습니다.</span></div>
+			<div><span class="dot" style="vertical-align:bottom;">*</span><span class="c_red" style="vertical-align:top;font-weight:400">공통플랜 적용은 피보험자명과 주민번호를 입력해주세요.</span></div>
+			<div><span class="dot" style="vertical-align:bottom;">*</span><span class="c_red" style="vertical-align:top;font-weight:400">공통으로 적용될 플랜을 선택해 주세요. (공통 플랜이 적용되며 세부적으로 [변경]버튼을 이용하여 변경 가능합니다.)</span></div>
             <div id="is_add">
                 <table id="t_list">
                     <caption>20명 추가</caption>
@@ -902,7 +910,8 @@ print_r($_SESSION);
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </div>			
+			<div><span class="dot" style="vertical-align:bottom;">*</span><span class="c_red" style="vertical-align:top;font-weight:400">다수의 피보험자 명세를 입력 시 엑셀문서에서 "복사하기/붙여넣기"를 이용하시면 편리하게 입력하실 수 있습니다.</span></div>
             <section id="tt_price_area">
                 <div id="check_all">
                     <button type="button"  class="btn_s5" id="allbt">전체 선택</button>
@@ -930,7 +939,7 @@ print_r($_SESSION);
             <section id="btn_area">
                 <div class="btn_list">
                     <?/*<button type="button" name="button" class="btn_s3">삭제</button>*/?>
-                    <button type="reset" name="reset" class="btn_s2">초기화</button>
+                    <button type="reset" name="reset_bt" class="btn_s2">초기화</button>
                     <button type="button" name="subscript" class="btn_s1">신청하기</button>
                 </div>
             </section>  
@@ -1010,11 +1019,12 @@ print_r($_SESSION);
 </body>
 <script type="text/javascript">
 	
-	$('#nation').on('change',function(){
-		$('#select_nation').val('N');
-	});
+//	$('#nation').on('change',function(){
+//		$('#select_nation').val('N');
+//	});
 
-	$('#ch_nation').on('click',function(){
+	//$('#ch_nation').on('click',function(){
+	$('#nation').on('change',function(){
 		var nation_no = $('#nation :selected').val();
 		if(nation_no > 0){
 			$.post('../src/nation_chk.php', {nation:nation_no }, function (data){			
@@ -1032,12 +1042,22 @@ print_r($_SESSION);
 				} else {
 						var error_msg = JSON.stringify(data.msg)
 						alert(error_msg);
+						$('#nation option:eq(0)').attr('selected','selected');
+						$('#select_nation').val('N');
 				}
 			},"json");
 		} else {
 			alert('여행지를 선택해주세요');
 			return false;
 		}
+	});
+	$('button[name=reset_bt]').on('click',function(e){
+		//e.preventDefault();
+		//$('#formBox').trigger('reset');
+		var trip_no;
+		let params = (new URL(document.location)).searchParams;
+		let name = params.get('tripType'); 
+		location.href="./01.php?tripType="+name;
 	});
 </script>
 <script type="text/javascript" src="/js/multi_trip.js"></script>

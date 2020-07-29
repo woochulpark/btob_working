@@ -6,9 +6,9 @@
 				$referen_data = $_GET['tripT']."//-//".$_GET['birthT']."//-//".$_GET['sexT']."//-//".$_GET['startdT']."//-//".$_GET['starthT']."//-//".$_GET['enddT']."//-//".$_GET['endhT'];
 				$referen_data_enc = base64_encode($referen_data);
 				echo "<!--";
-	print_r($_SESSION);
-	echo "<br>";
-	print_r($_GET);
+	//print_r($_SESSION);
+	//echo "<br>";
+	//print_r($_GET);
 	echo "-->";
 
 				if(!isset($chk_config['chk_code'])){
@@ -206,7 +206,7 @@
 							}
 							
 							$que_plan_db = "SELECT a.* from (SELECT no from plan_code_btob_db where trip_type={$triptype} and cal_type={$cal_type} {$que_plan_type}) b join plan_code_btob_db a on b.no=a.no ";
-							echo "<!--1".$que_plan_db."-->";
+							//echo "<!--1".$que_plan_db."-->";
 							$result_plan=mysql_query($que_plan_db);
 							$max_cnt = mysql_num_rows($result_plan);
 							$plan_cnt_db = ($max_cnt == '')?0:$max_cnt;
@@ -225,7 +225,7 @@
 					
 							$que_price_db = "SELECT a.* from (SELECT no from plan_code_price_btob_db where trip_type={$triptype} and age={$cal_age} and sex={$sex} and term_day = {$term_day} and plan_code in ({$plan_in})) b join plan_code_price_btob_db a on b.no=a.no";
 							
-							echo "<!--".$que_price_db."-->";
+							//echo "<!--".$que_price_db."-->";
 						
 							$result_price = mysql_query($que_price_db);
 							$max_cnt = mysql_num_rows($result_price);
@@ -239,7 +239,7 @@
 							}
 							
 							$que_type_db = "select plan_type,title from plan_code_type_btob_db where trip_type={$triptype} and plan_type in('type_1', 'type_2', 'type_3', 'type_4', 'type_5')";
-							echo "<!--".$que_type_db."-->";
+							//echo "<!--".$que_type_db."-->";
 							$result_type = mysql_query($que_type_db);
 							while($row_type = mysql_fetch_array($result_type)){
 										$type_plan_db[$row_type['plan_type']] = $row_type['title'];
@@ -270,7 +270,7 @@
 							}
 								
 							$que_plan_ace = "SELECT a.* from (SELECT no from plan_code_btob_ace where trip_type={$triptype} and cal_type={$cal_type} {$que_plan_type}) b join plan_code_btob_ace a on b.no=a.no ";
-							echo "<!--".$que_plan_ace."-->";
+							//echo "<!--".$que_plan_ace."-->";
 							$result_plan=mysql_query($que_plan_ace);
 							$max_cnt = mysql_num_rows($result_plan);
 							$plan_cnt_ace = ($max_cnt =='')?0:$max_cnt;
@@ -287,7 +287,7 @@
 							}										
 					
 							$que_price_ace = "SELECT a.* from (SELECT no from plan_code_price_btob_ace where trip_type={$triptype} and age={$cal_age} and sex={$sex} and term_day = {$term_day} and plan_code in ({$plan_in})) b join plan_code_price_btob_ace a on b.no=a.no ";
-							echo "<!--".$que_price_ace."-->";
+							//echo "<!--".$que_price_ace."-->";
 						
 							$result_price = mysql_query($que_price_ace);
 							$max_cnt = mysql_num_rows($result_price);
@@ -300,7 +300,7 @@
 							}
 							
 							$que_type_ace = "select plan_type,title from plan_code_type_btob_ace where trip_type={$triptype} and plan_type in('type_1', 'type_2', 'type_3', 'type_4', 'type_5')";
-							echo "<!--".$que_type_ace."-->";
+							//echo "<!--".$que_type_ace."-->";
 							$result_type = mysql_query($que_type_ace);
 							while($row_type = mysql_fetch_array($result_type)){
 										$type_plan_ace[$row_type['plan_type']] = $row_type['title'];

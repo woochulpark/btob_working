@@ -9,7 +9,7 @@
                     <div id="section1">
                         <h2>여행 출발 전 고지사항</h2>
 						<?
-							if($_GET['tripType'] == '2'){
+							if($_GET['tripType'] == '2' || $tripType == 2){
 						?>
                         <ul>
                             <li>
@@ -63,7 +63,7 @@
                             </li>
                         </ul>
 						<?
-						} else if($_GET['tripType'] == '1'){
+						} else if($_GET['tripType'] == '1' || $tripType == 1){
 						?>
 							<ul>
                             <li>

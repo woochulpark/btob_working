@@ -45,7 +45,7 @@ if ($row['no']!='') {
 $f_chk = false;
 $img_path = $_SERVER['DOCUMENT_ROOT']."/fileupload/btob";
 
-
+$add_que = '';
 if(isset($_FILES['com_file_img']['name'])	){
 	
 	$img_name = $_FILES['com_file_img']['name'];
@@ -63,22 +63,27 @@ if(isset($_FILES['com_file_img']['name'])	){
 					
 					$f_chk = true;
 				}
+			  } else {
+					$json_code = array('result'=>'false','msg'=>'파일 업로드중 오류가 발생하였습니다. 업로드 가능한 파일은 img 파일입니다. 다시 시도해 주시기 바랍니다.');
+	echo json_encode($json_code);
+	exit;
+			  
 			  }
 		}
 	}
-} 
-$add_que = '';
-if(!$f_chk){
-	$json_code = array('result'=>'false','msg'=>'파일 업로드중 오류가 발생하였습니다. 업로드 가능한 파일은 img 파일입니다. 다시 시도해 주시기 바랍니다.');
-	echo json_encode($json_code);
-	exit;
-} else {
+
+	
+if($f_chk){
+
+
 	$save_file_name = $chg_img_name;
 	$safe_front_name = $img_name;
 
 	$add_que = " , file_real_name = '".$save_file_name."', file_name = '".$safe_front_name."' ";
 
 }
+} 
+
 
 	$email =encode_pass($email,$pass_key);
 	$hphone =encode_pass($hphone,$pass_key);

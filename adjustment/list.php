@@ -52,7 +52,7 @@
 						$com_id = $row[0];
 						$company_n = $row[1];
 						$contact = decode_pass($row[2],$pass_key);
-						$fax = decode_pass($row[3],$pass_key);//decode_pass($row['fax_contact'],$pass_key);
+						$fax = ($row[3] != '')?decode_pass($row[3],$pass_key) : '';//decode_pass($row['fax_contact'],$pass_key);
 						$business_no = $row[4];
 						$openDate = $row[5];
 						$fr_name = $row[9];
@@ -125,7 +125,7 @@
 		$point_s_end = date("Y-m-d H:i:s", $check_date_end);
 		//SELECT sum(if(whether = 'A', point, 0)) as total_acc, sum(if(whether = 'U', point, 0)) as total_use FROM hana_plan_point where member_no = '28' and reg_date >= '2020-05-01 00:00:00' and reg_date <='2020-05-31 23:59:59'
 		$point_que = "SELECT sum(if(whether = 'A', point, 0)) as total_acc, sum(if(whether = 'U', point, 0)) as total_use FROM hana_plan_point where member_no = '{$_SESSION['s_mem_no']}' and reg_date <= '{$point_s_end}' and reg_date >='$point_s_start' ";
-		echo "<!--".$point_que."-->";
+		//echo "<!--".$point_que."-->";
 		$point_result = mysql_query($point_que);
 		$point_row = mysql_fetch_array($point_result);
 ?>
@@ -268,7 +268,7 @@
 				 
 				 $sql_sum=$sql_sum." limit $num_per_page_start, $num_per_page";
 				 	$result_sum = mysql_query($sql_sum);
-						 echo "<!--".$sql_sum."-->";
+						 //echo "<!--".$sql_sum."-->";
 					
 					$list_page=list_page($num_per_page,$page,$total_record);//function_query
 					$total_page	= $list_page['0'];

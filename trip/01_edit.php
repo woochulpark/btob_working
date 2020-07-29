@@ -1,7 +1,7 @@
 <? 
 	include ("../include/top.php"); 
 
-	$plan_get_que = " SELECT * FROM hana_plan_test WHERE no = '{$num}' and member_no = '{$_SESSION['s_mem_no']}' ";
+	$plan_get_que = " SELECT * FROM hana_plan WHERE no = '{$num}' and member_no = '{$_SESSION['s_mem_no']}' ";
 	
 	$plan_get_result = mysql_query($plan_get_que);
 
@@ -283,7 +283,7 @@
 			}                
 		});
 
-		$("#end_date").datepicker("disable");
+		//$("#end_date").datepicker("disable");
 
 		$("#start_hour,#end_hour").change(function(){
 			view_reset();
@@ -468,6 +468,8 @@ print_r($_SESSION);
         </section>
         <form action="" method="POST" name="formBox" id="formBox">
 		<input type="hidden" name="trip_Type" value="<?=$tripType?>" />
+		<input type="hidden" name="plan_Code" value="<?=$subs_no?>" />
+		<input type="hidden" name="write_pattern" value="edimode" />
         <fieldset>
             <section id="ssc_info">
                 <div class="tit"><h2>청약 정보</h2></div>
@@ -525,7 +527,7 @@ print_r($_SESSION);
                         <ul>
                             <li>
                                 <label for=""><span class="dot">*</span><span class="c_red">여행지</span></label>
-                                <div class="wBox">
+                                <!--div class="wBox"-->
 									<select id="nation" name="nation">
 									<?
 										if($tripType != 1){
@@ -547,8 +549,8 @@ print_r($_SESSION);
 										?>
 									</select>
 									<input type="hidden" id="select_nation" name="select_nation" value="<?=($nationNo != '')?"Y":"N";?>">
-								</div>
-                                <div class="btn"><button type="button" id="ch_nation" class="btn_s4" <?=($tripType < 2)?" disabled ": ""; ?>>선택</button></div>
+								<?/*</div>
+                                <div class="btn"><button type="button" id="ch_nation" class="btn_s4" <?=($tripType < 2)?" disabled ": ""; ?>>선택</button></div>*/?>
                             </li>
                             <li>
                                 <label for=""><span class="dot">*</span><span class="c_red">여행 목적</span></label>
@@ -589,7 +591,7 @@ print_r($_SESSION);
                             </li>
                         </ul>
 						<?
-							$contact_que = " SELECT email, hphone FROM hana_plan_member_test WHERE hana_plan_no = '{$num}' and member_no = '{$_SESSION['s_mem_no']}' and main_check = 'Y'   ";
+							$contact_que = " SELECT email, hphone FROM hana_plan_member WHERE hana_plan_no = '{$num}' and member_no = '{$_SESSION['s_mem_no']}' and main_check = 'Y'   ";
 							
 							$contact_result = mysql_query($contact_que);
 							$contact_row = mysql_fetch_array($contact_result);
@@ -610,7 +612,11 @@ print_r($_SESSION);
 								$phone_mid = '';
 							    $phone_last = '';
 							}
-							
+
+							$first_put_que = "select * from hana_plan_change where hana_plan_no = '{$num}' limit 1 ";
+							$first_put_result = mysql_query($first_put_que);						
+							$first_put_row = mysql_fetch_array($first_put_result);
+							$first_put_money = $first_put_row['change_price'];
 						?>
                         <ul>
                             <li>
@@ -671,13 +677,13 @@ print_r($_SESSION);
                         <ul>
                             <li>
                                 <label for="">추가 정보 1</label>
-                                <textarea name="" id=""><?=$memoEtc1?></textarea>
+                                <textarea name="etc_memo1" id="etc_memo1"><?=$memoEtc1?></textarea>
                             </li>
                         </ul>
                         <ul>
                             <li>
                                 <label for="">추가 정보 2</label>
-                                <textarea name="" id=""><?=$memoEtc2?></textarea>
+                                <textarea name="etc_memo2" id="etc_memo2"><?=$memoEtc2?></textarea>
                             </li>
                         </ul>
                     </div>
@@ -696,7 +702,7 @@ print_r($_SESSION);
             <section id="is_info">
                 <ul>
                     <li><h2 class="lineh">피보험자 총 명세</h2></li>
-                    <li><button type="button" id="plusbt" class="btn_add">20명 추가</button></li>
+                    <li>&nbsp;<?//<button type="button" id="plusbt" class="btn_add">20명 추가</button>?></li>
 					<li>
 						<!--label for="" style="float:left;" class="aaa"><span class="dot">*</span><span class="c_red">공통 플랜</span></label-->
 						<div><span class="dot" >*</span><span class="c_red">공통 플랜</span></div>
@@ -705,10 +711,10 @@ print_r($_SESSION);
 						<input type="hidden" id="plan_chk" name="plan_chk" value="<?=$comPlan?>">
 						<input type="hidden" name="plan_type" value="<?=$planType?>" />
 					</li>
-                    <li><button type="button" id="seldbt" class="btn_s3">선택삭제</button></li> 
+                    <li><button type="button" id="selcbt" class="btn_s3">선택취소</button></li> 
                 </ul>
             </section>
-			<div><span class="dot" style="vertical-align:bottom;">*</span><span class="c_red" style="vertical-align:top;font-weight:400">다수의 피보험자 명세를 입력 시 엑셀문서에서 "복사하기/붙여넣기"를 이용하시면 편리하게 입력하실 수 있습니다.</span></div>
+			<div><span class="dot" style="vertical-align:bottom;">*</span><span class="c_red" style="vertical-align:top;font-weight:400">공통으로 적용될 플랜을 선택해 주세요. (공통 플랜이 적용되며 세부적으로 [변경]버튼을 이용하여 변경 가능합니다.)</span></div>
             <div id="is_add">
                 <table id="t_list">
                     <caption>20명 추가</caption>
@@ -726,13 +732,15 @@ print_r($_SESSION);
                     </thead>
                     <tbody>
 						<?
-							$get_mem_info_que = " SELECT * FROM hana_plan_member_test where member_no = '{$_SESSION['s_mem_no']}' AND hana_plan_no = '{$num}' ";
+							$get_mem_info_que = " SELECT * FROM hana_plan_member where member_no = '{$_SESSION['s_mem_no']}' AND hana_plan_no = '{$num}' ";
 							$get_mem_info_res = mysql_query($get_mem_info_que);
 							if(!isset($get_mem_info_res)){
 								$mems_info_arr = array('','','','','','','','','','');
 							}  else {
 								$arr_in = 0;
+								$availNpeople = 0;
 								while($get_mem_info_row = mysql_fetch_array($get_mem_info_res)){
+									$outInfo['memno'][] = $get_mem_info_row['no'];
 									$outInfo['name'][] = $get_mem_info_row['name'];
 									$outInfo['eng_name'][] = $get_mem_info_row['name_eng'];
 									$outInfo['jumin'][] = trim(decode_pass($get_mem_info_row['jumin_1'],$pass_key))."-".trim(decode_pass($get_mem_info_row['jumin_2'],$pass_key));
@@ -741,20 +749,31 @@ print_r($_SESSION);
 									$outInfo['planTitle'][] = $get_mem_info_row['plan_title'];
 									$outInfo['age'][] = $get_mem_info_row['age'];
 									$outInfo['planPrice'][] = $get_mem_info_row['plan_price'];
+									$outInfo['planState'][] = $get_mem_info_row['plan_state'];
+									$outInfo['mainCheck'][] =  $get_mem_info_row['main_check'];
+									if($get_mem_info_row['plan_state'] != 3){
+										$availNpeople++;
+									}
 									$arr_in++;
 								}
 							}
 
 							foreach($outInfo['jumin'] as $k=>$v){
+
 								$m = $k + 1;
 						?>
 
                         <tr>
-                            <td>
-                                <input type="checkbox" id="n<?=$m?>" name="nob[]">
-								<label for="n<?=$m?>" class="check_bx"><span></span></label>
+                            <td>								
+                                <input type="checkbox" id="n<?=$m?>" name="nob[]" <?=($m < 2)?"disabled Onclick=\"javascript:alert('대표자는 취소 불가');\"":"";?>>
+								<label for="n<?=$m?>" class="check_bx">
+								<input type="hidden" name="memnov[]" value="<?=$outInfo['memno'][$k]?>" />
+								<input type="hidden" name="mainv[]" value="<?=$outInfo['mainCheck'][$k]?>"/>
+								<span></span></label>
                             </td>
-                            <td class="nb"><?=$m?></td>
+                            <td class="nb <?=($outInfo['planPrice'][$k] == 0 && $outInfo['planState'][$k] == 3)?"cancelpoint":"";?>"<?=($outInfo['planPrice'][$k]==0 && $outInfo['planState'][$k] == 3)?" cancel_light=\"red\"  ":"cancel_light=''";?> >
+						<input type="hidden" name="plan_state[]" value="<?=$outInfo['planState'][$k]?>" />	
+						<?=$m?></td>
                             <td><input type="text" name="input_name[]" class="add_field" value="<?=$outInfo['name'][$k]?>" ></td>
                             <td><input type="text" name="input_eng_name[]" class="add_field" value="<?=$outInfo['eng_name'][$k]?>"></td>
                             <td><input type="text" name="juminno[]" class="add_field" value="<?=$outInfo['jumin'][$k]?>"></td>
@@ -767,184 +786,41 @@ print_r($_SESSION);
                         </tr>
 						<?
 							}
-								/*
-                        <tr>
-                            <td>
-									<input type="checkbox" id="n2" name="nob[]">
-									<label for="n2" class="check_bx"><span></span></label>
-                            </td>
-                            <td class="nb">2</td>
-                            <td><input type="text" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" name="juminno[]" class="add_field"></td>
-                            <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
-										
-								<input type="hidden" name="plan_title[]" value="" />
-							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
-                            <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" id="n3" name="nob[]">
-								<label for="n3" class="check_bx"><span></span></label>
-                            </td>
-                            <td class="nb">3</td>
-                            <td><input type="text" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" name="juminno[]" class="add_field"></td>
-                            <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
-										
-								<input type="hidden" name="plan_title[]" value="" />
-							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
-                            <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" id="n4" name="nob[]">
-								<label for="n4" class="check_bx"><span></span></label>
-                            </td>
-                            <td class="nb">4</td>
-                            <td><input type="text" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" name="juminno[]" class="add_field"></td>
-                            <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
-										
-								<input type="hidden" name="plan_title[]" value="" />
-							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
-                            <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" id="n5" name="nob[]">
-								<label for="n5" class="check_bx"><span></span></label>
-                            </td>
-                            <td class="nb">5</td>
-                            <td><input type="text" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" name="juminno[]" class="add_field"></td>
-                            <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
-										
-								<input type="hidden" name="plan_title[]" value="" />
-							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
-                            <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" id="n6" name="nob[]">
-								<label for="n6" class="check_bx"><span></span></label>
-                            </td>
-                            <td class="nb">6</td>
-                            <td><input type="text" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" name="juminno[]" class="add_field"></td>
-                            <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
-										
-								<input type="hidden" name="plan_title[]" value="" />
-							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
-                            <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" id="n7" name="nob[]">
-								<label for="n7" class="check_bx"><span></span></label>
-                            </td>
-                            <td class="nb">7</td>
-                            <td><input type="text" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" name="juminno[]" class="add_field"></td>
-                            <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
-										
-								<input type="hidden" name="plan_title[]" value="" />
-							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
-                            <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" id="n8" name="nob[]">
-								<label for="n8" class="check_bx"><span></span></label>
-                            </td>
-                            <td class="nb">8</td>
-                            <td><input type="text" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" name="juminno[]" class="add_field"></td>
-                            <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
-										
-								<input type="hidden" name="plan_title[]" value="" />
-							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
-                            <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" id="n9" name="nob[]">
-								<label for="n9" class="check_bx"><span></span></label>
-                            </td>
-                            <td class="nb">9</td>
-                            <td><input type="text" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" name="juminno[]" class="add_field"></td>
-                            <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
-										
-								<input type="hidden" name="plan_title[]" value="" />
-							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
-                            <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" id="n10" name="nob[]">
-								<label for="n10" class="check_bx"><span></span></label>
-                            </td>
-                            <td class="nb">10</td>
-                            <td><input type="text" name="input_name[]" class="add_field"></td>
-                            <td><input type="text" name="input_eng_name[]" class="add_field"></td>
-                            <td><input type="text" name="juminno[]" class="add_field"></td>
-                            <td class="nb"><input type="hidden" name="hage[]" value=""></td>
-                            <td><input type="text" name="plan_code[]" class="add_field_plan" readonly >
-										
-								<input type="hidden" name="plan_title[]" value="" />
-							<button type="button" name="ch_particul_plan" class="btn_s4">변경</button></td>
-                            <td class="t_price nb">0<input type="hidden" name="particul_price[]" value="0"></td>
-                        </tr>
-						*/?>
+								?>
                     </tbody>
                 </table>
             </div>
+			<div><span class="dot" style="vertical-align:bottom;">*</span><span class="c_red" style="vertical-align:top;font-weight:400">다수의 피보험자 명세를 입력 시 엑셀문서에서 "복사하기/붙여넣기"를 이용하시면 편리하게 입력하실 수 있습니다.</span></div>
             <section id="tt_price_area">
                 <div id="check_all">
-                    <button type="button"  class="btn_s5" id="allbt">전체 선택</button>
+                    <button type="button"  class="btn_s5" id="allcbt">전체 선택</button>
                     <button type="button"  class="btn_s5" id="allnbt">전체 해제</button>
                 </div>
                 <div><button type="button" id="cal_insuran_tot" class="btn_count">총 납입 보험료 계산하기</button></div>
                 <div>
                     <ul>
                         <li>총 인원</li>
-                        <li><span class="t_num c_black" chkallp='<?=count($outInfo['jumin'])?>' id='talp'><?=number_format(count($outInfo['jumin']))?></span><span>명</span></li>
+                        <li><span class="t_num c_black" chkallp='<?=number_format($availNpeople)?>' id='talp'><?=number_format($availNpeople)?></span><span>명</span></li>
                     </ul>
                     <ul>
                         <li>총 납입 보험료</li>
                         <li><span class="t_num c_red" chkallam='<?=array_sum($outInfo['planPrice'])?>' id='tala'><?=number_format(array_sum($outInfo['planPrice']))?></span><span>원</span></li>
                     </ul>
-					<?/*
+					<?
+					?>
                     <ul>
                         <li>추징/환급 보험료</li>
-                        <li><span class="t_num c_blue">251,370</span><span>원</span></li>
-                    </ul>
-					*/
+                        <li><span class="t_num c_blue" chkEdiallam='' id='tcala'><?=number_format(($first_put_money - array_sum($outInfo['planPrice'])))?></span><span>원</span></li>
+                    </ul>					
+					<?
 					?>
                 </div>
             </section>
             <section id="btn_area">
                 <div class="btn_list">
                     <?/*<button type="button" name="button" class="btn_s3">삭제</button>*/?>
-                    <button type="reset" name="reset" class="btn_s2">초기화</button>
-                    <button type="button" name="subscript" class="btn_s1">신청하기</button>
+                    <button type="reset" name="reset_can" class="btn_s2">초기화</button>
+                    <button type="button" name="subscript" class="btn_s1">수정하기</button>
                 </div>
             </section>  
         </fieldset>
@@ -1022,12 +898,13 @@ print_r($_SESSION);
 
 </body>
 <script type="text/javascript">
-	
+	/*
 	$('#nation').on('change',function(){
 		$('#select_nation').val('N');
 	});
-
-	$('#ch_nation').on('click',function(){
+*/
+	//$('#ch_nation').on('click',function(){
+		$('#nation').on('change',function(){
 		var nation_no = $('#nation :selected').val();
 		if(nation_no > 0){
 			$.post('../src/nation_chk.php', {nation:nation_no }, function (data){			
@@ -1045,12 +922,20 @@ print_r($_SESSION);
 				} else {
 						var error_msg = JSON.stringify(data.msg)
 						alert(error_msg);
+							$('#nation option:eq(0)').attr('selected','selected');
 				}
 			},"json");
 		} else {
 			alert('여행지를 선택해주세요');
 			return false;
 		}
+	});
+
+	$('button[name=reset_can]').on('click',function(){
+		
+		console.log('바보');
+		location.reload();
+		console.log('멍청이');
 	});
 </script>
 <script type="text/javascript" src="/js/multi_trip.js"></script>

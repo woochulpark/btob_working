@@ -3,7 +3,7 @@
 	
 	$val_list = "page=".$page."&search_info=".$search_info."&search=".$search."&insu_ch=".$insu_ch."&insu_ch_b".$insu_ch_b."&searchDate=".$searchDate."&s_start_date=".$s_start_date."&s_end_date=".$s_end_date;
 
-	$vi_q="select * from hana_plan_test where no='".$num."' and member_no='{$_SESSION['s_mem_no']}'";
+	$vi_q="select * from hana_plan where no='".$num."' and member_no='{$_SESSION['s_mem_no']}'";
 
 	$vi_e=mysql_query($vi_q);
 	$row=mysql_fetch_array($vi_e);
@@ -28,7 +28,7 @@
 	$sql_mem="select 
 			*
 		  from
-			hana_plan_member_test
+			hana_plan_member
 		  where
 			hana_plan_no='".$num."'
 			and main_check='Y'
@@ -48,7 +48,7 @@
 	$plan_mem_sql = "select 
 			*
 		  from
-			hana_plan_member_test
+			hana_plan_member
 		  where
 			hana_plan_no='{$num}'
 			and
@@ -57,6 +57,12 @@
 
 	$prt_start_date = explode("-",$row['start_date']);
 	$prt_end_date = explode("-",$row['end_date']);
+
+
+	$first_put_que = "select * from hana_plan_change where hana_plan_no = '{$num}' limit 1 ";
+	$first_put_result = mysql_query($first_put_que);						
+	$first_put_row = mysql_fetch_array($first_put_result);
+	$first_put_money = $first_put_row['change_price'];
 ?>
 <script>
 	var oneDepth = 3; //1차 카테고리
@@ -99,7 +105,7 @@
                     <ul>
                         <li>
                             <label>보험사 선택</label>
-                            <div><?=($row['insurance_comp'] != '')? $row['insurance_comp']:"&nbsp;";?></div>
+                            <div><?=array_search(($row['insurance_comp'] != '')? $row['insurance_comp']:"&nbsp;", $insuran_option);?></div>
                         </li>
                         <li>
                             <label>공통플랜</label>
@@ -119,7 +125,7 @@
                     <ul>
                         <li>
                             <label>현재 체류지</label>
-                            <div><?=($row['current_resi'] != '')? $row['current_resi']:"&nbsp;"?></div>
+                            <div><?=(($row['current_resi'] != '')? $row['current_resi']:"&nbsp;" === 2)? "해외":"국내";?></div>
                         </li>
                         <li>
                             <label>여행 목적</label>
@@ -130,11 +136,11 @@
                         <li>
                             <label>대표자 이메일</label>
 
-                            <div><?=($row_mem['email'] != '2dfc410077d20e74')? decode_pass($row_mem['email'],$pass_key):"&nbsp;"?></div>
+                            <div><?=($row_mem['email'] != '2dfc410077d20e74' && $row_mem['email'] != '' && $row_mem['email'] != '467ec1030fadce2b' && strlen($row_mem['email']) > 0)? decode_pass($row_mem['email'],$pass_key):"&nbsp;"?></div>
                         </li>
                         <li>
                             <label>대표자 휴대전화</label>
-                            <div class="nb"><?=($row_mem['hphone'] != '')? decode_pass($row_mem['hphone'],$pass_key):"&nbsp;"?></div>
+                            <div class="nb"><?=($row_mem['hphone'] != '' && strlen($row_mem['hphone']) > 0)? decode_pass($row_mem['hphone'],$pass_key):"&nbsp;"?></div>
                         </li>
                     </ul>
                     <ul>
@@ -186,7 +192,7 @@
                         <td><?=($plan_mem_row['name_eng'] != '')? $plan_mem_row['name_eng']:'&nbsp;';?></td>
                         <td class="nb"><?=decode_pass($plan_mem_row['jumin_1'],$pass_key)?>-*******</td>
                         <td class="nb"><?=$plan_mem_row['age']?></td>
-                        <td><?=$plan_mem_row['plan_code']?></td>
+                        <td><?=$plan_mem_row['plan_title']?></td>
                         <td class="t_price nb"><?=number_format($plan_mem_row['plan_price'])?></td>
                     </tr>
 					<?
@@ -217,7 +223,7 @@
                 </ul>
                 <ul>
                     <li>추징/환급 보험료</li>
-                    <li><span class="t_num c_blue">251,370</span><span>원</span></li>
+                    <li><span class="t_num c_blue"><?=number_format($first_put_money - $totalPrice)?></span><span>원</span></li>
                 </ul>
             </div>
         </section>

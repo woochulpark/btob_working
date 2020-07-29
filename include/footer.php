@@ -3,9 +3,9 @@
 		<p class="go_home"><a href="https://www.toursafe.co.kr/" target="_blank">투어세이프 홈페이지 바로가기</a></p>
 		<ul class="f_navi">
 			<li><a href="javascript:void(0)" onclick="f_pop2('../include/clause1.php', '이용약관');">이용약관</a></li>
-			<li><a href="javascript:void(0)" onclick="f_pop2('../include/clause5.php', '개인정보 수집 및 이용');">개인정보취급방침</a></li>
-			<li><a href="../doc/overseas.pdf" target="_blank">해외여행보험약관</a></li>
-			<li><a href="../doc/domestic.pdf" target="_blank">국내여행보험약관</a></li>
+			<li><a href="javascript:void(0)" onclick="f_pop2('../include/clause5.php', '개인정보 수집 및 이용');">개인정보취급방침</a></li>		
+			<li><a>해외여행보험약관 (</a><a href="../doc/overseas(DB).pdf" target="_blank">DB</a><a> / </a><a href="../doc/overseas(CHUBB).pdf" target="_blank">CHUBB</a><a>)</a></li>			
+			<li><a>국내여행보험약관(</a><a href="../doc/domestic(DB).pdf" target="_blank">DB</a><a> / </a><a href="../doc/domestic(CHUBB).hwp" target="_blank">CHUBB</a><a>)</a></li>			
 		</ul>
 		<address>
 			<span>주소 서울특별시 종로구 경희궁1길 18,2층(신문로2가)</span><span class="footer-line"></span><span>대표 김정훈</span><span class="footer-line"></span><span>사업자등록번호 118-88-00158  </span><br><span>이메일 <a href="mailto:toursafe@bis.co.kr">toursafe@bis.co.kr</a> </span><span class="footer-line"></span><span>전화 <a href="tel:1800-9010">1800-9010</a> </span><span class="footer-line"></span><span>팩스 02-2088-1673 </span>
@@ -48,7 +48,7 @@
 	}
 
 </script>
-<!--div id="layerPop20" class="layerPop" style="display: none;">
+<div id="layerPop20" class="layerPop" style="display: none;">
 	<div class="layerPop_inner">
 		<div class="pop_wrap">
 			<div class="pop_wrap_in " style="max-width:700px;">
@@ -63,7 +63,7 @@
 			</div>
 		</div>
 	</div>
-</div-->
+</div>
  <!-- 배서요청 팝업 -->
 <div id="pop_wrap" style="display: none;">
     <div class="bg"></div>
@@ -81,7 +81,7 @@
 		}
 
 		$('#bulk_confirm').on('click',function(){
-				f_pop_layer('../../src/term_condition.php?tripType=<?=$_GET["tripType"]?>', 'layer_body',350,385);
+				f_pop_layer('../../src/term_condition.php?tripType=<?=($tripType != '')?$tripType:$_GET["tripType"];?>', 'layer_body',350,385);
 		});
 
 		$('#common_plan_pop').on('click',function(){
@@ -157,11 +157,11 @@
 		});
 
 		$('#endorsedet').on('click',function(){
-				f_pop_layer('../../src/endorse_det.php','layer_body',350 ,235 );
+				f_pop_layer('../../src/endorse_det.php?num=<?=$num?>','layer_body',350 ,300 );
 		});
 
 		$('#endorsereq').on('click',function(){
-				f_pop_layer('../../src/endorse_det.php','layer_body',350 ,235 );
+				f_pop_layer('../../src/endorse_req.php?num=<?=$num?>','layer_body',350 ,300 );
 		});
 
 		$('#selinsuran').on('change', function(){
@@ -175,4 +175,12 @@
 		$('#trip_purpose').on('change',function(){
 			resetPlPr('plan');
 		});
+
+		function f_pop2(page,name){
+		
+		$("#yak_tit2").html(name);
+		$('#yak_area2').load(page, function(){
+			ViewlayerPop(20);
+		});
+		}
 	</script>

@@ -6,30 +6,67 @@ $num_per_page = 10;
 $num_per_page_start = $num_per_page*($page-1);
 $page_per_block = 5;
 
-	$add_query .=" and a.member_no ='".$row_mem_info['no']."'";	
+	$add_query .=" and a.member_no ='{$_SESSION['s_mem_no']}'";	
 
-	if ($start_date!='') {
-		$s_date_r=strtotime($start_date." 000000");
+	if($s_start_date != "" && $s_end_date != ""){
 
-		$add_query = $add_query." and a.regdate >='".$s_date_r."'";
-	}
+		if ($searchDate == 'reqDate') {
+			
+			if ($s_start_date != '') {
+				
+				$prt_s_date = strtotime($s_start_date.' '.$start_hour.':00:00');
+				$add_query = $add_query." and a.regdate >='{$prt_s_date}'";
 
-	if ($end_date!='') {
-		$e_date_r=strtotime($end_date." 235959");
+			}
 
-		$add_query = $add_query." and a.regdate <='".$e_date_r."'";
-	}
+			if ($s_end_date != '') {
+				
+				$prt_e_date = strtotime($s_end_date.' '.$end_hour.':00:00');
+				$add_query = $add_query." and a.regdate <='{$prt_e_date}'";
+			}
 
-	if($search) {
-		if($make == 'name') {
-			$add_query .=" and c.name like '%$search%'";
-		} elseif ($make=="join_name") {
-			$add_query .=" and b.join_name like '%$search%'";
+		} else if($searchDate == 'confDate') {
+
+			if ($s_start_date != '') {
+				
+				$prt_s_date = strtotime($s_start_date.' '.$start_hour.':00:00');
+				$add_query = $add_query." and a.confirm_regdate >='{$prt_s_date}'";
+
+			}
+
+			if ($s_end_date != '') {
+				
+				$prt_e_date = strtotime($s_end_date.' '.$end_hour.':00:00');
+				$add_query = $add_query." and a.confirm_regdate <='{$prt_e_date}'";
+			}
+
 		}
 	}
 
+
+	if($search) {
+		if($search_info == 'subscNo') {
+			$add_query .=" and b.no like '%$search%'";
+		} elseif ($search_info=="stockNo") {
+			$add_query .=" and a.plan_join_code like '%$search%'";
+		} elseif($search_info == 'citizenno'){
+			$sJumin1 = encode_pass($search,$pass_key);
+			$add_query .=" and a.jumin_1 =  '{$sJumin1}'";
+		} elseif($search_info == 'contractName'){
+			$add_query .=" and b.join_name like '%$search%'";
+		} 
+	}
+
+if($insu_ch_b){
+	if($insu_ch == 'chState'){
+		$add_query .=" and a.change_state = '{$insu_ch_b}' ";
+	} else if($insu_ch == 'chInsurance'){
+		$add_query .=" and b.insurance_comp = '{$insu_ch_b}' ";		
+	}
+}		
+
  $sql="select 
-		*, a.no as num, a.regdate as regdate, b.no as plan_hana_no, c.no as mem_no, c.hphone, c.email
+		a.no as num, a.regdate as req_regdate, a.content, a.jumin_1 as jumin_front, a.jumin_2 as jumin_back, a.change_state, b.no as plan_hana_no, b.insurance_comp, b.plan_join_code, b.join_name, b.join_cnt, c.jumin_1, c.jumin_2, c.no as mem_no, c.hphone, c.email
 	  from
 		hana_plan_request a
 		left join hana_plan b on a.plan_no=b.no
@@ -39,11 +76,13 @@ $page_per_block = 5;
 	  group by b.no
 	  order by a.no desc
 	 ";
+	
 $result=mysql_query($sql);
+
 $total_record=mysql_num_rows($result);
 $sql=$sql." limit $num_per_page_start, $num_per_page";
 $result=mysql_query($sql) or die(mysql_error());
-
+//echo "<!--".$sql."-->";
 $list_page=list_page($num_per_page,$page,$total_record);//function_query
 $total_page	= $list_page['0'];
 $first		= $list_page['1'];
@@ -125,21 +164,21 @@ $article_num = $total_record - $num_per_page*($page-1);
         <section id="h1">
             <h1>배서목록</h1>
         </section>
-        <form action="" method="" id="formBox">
+        <form action="" method="" id="applyform">
         <fieldset>
             <section id="searchBox">
                 <ul>
                     <li>
-                        <select name="" id="">
-                            <option value="" selected>선택</option>
-                            <option value="">요청일자</option>
-                            <option value="">처리일자</option>
+                         <select name="searchDate" id="searchDate">
+                            <option value="">일자 선택</option>
+                            <option value="reqDate">요청일자</option>
+                            <option value="confDate">처리일자</option>
                         </select>
                     </li>
                     <li>
                         <div class="cld_wrap">
                             <span class="date_picker1">
-                                <input type="text" id="start_date" name="" value="" style="border:0px;height:26px;padding:0px 5px 0px 5px;"><!-- class="ui-datepicker-trigger hasDatepicker" -->
+                                <input type="text" id="start_date" name="s_start_date" value="" style="border:0px;height:26px;padding:0px 5px 0px 5px;"><!-- class="ui-datepicker-trigger hasDatepicker" -->
                                 <!--<button type="button" class="ui-datepicker-trigger"><img src="../img/common/ico_s.jpg" alt=" " title=" "></button>-->
                             </span>
                             <span>
@@ -153,7 +192,7 @@ $article_num = $total_record - $num_per_page*($page-1);
                         <div>~</div>
                         <div class="cld_wrap">
                             <span class="date_picker1">
-                                <input type="text" id="end_date" name="" value="" style="border:0px;height:26px;padding:0px 5px 0px 5px;"><!-- class="ui-datepicker-trigger hasDatepicker" -->
+                                <input type="text" id="end_date" name="s_end_date" value="" style="border:0px;height:26px;padding:0px 5px 0px 5px;"><!-- class="ui-datepicker-trigger hasDatepicker" -->
                                 <!--<button type="button" class="ui-datepicker-trigger"><img src="../img/common/ico_s.jpg" alt=" " title=" "></button>-->
                             </span>
                             <span>
@@ -170,19 +209,21 @@ $article_num = $total_record - $num_per_page*($page-1);
                     <div>
                         <ul>
                             <li>
-                                <select name="" id="">
-                                    <option value="">진행여부</option>
-                                    <option value=""></option>
-                                    <option value=""></option>
+                                <select name="insu_ch" id="insu_ch">
+                                    <option value="">기타선택</option>									
+                                    <option value="chState">진행여부</option>
+									 <option value="chInsurance">보험사 선택</option>                                    
                                 </select>
                             </li>
                         </ul>
                         <ul>
                             <li>
-                                <select name="" id="">
-                                    <option value="">청약번호</option>
-                                    <option value="">주민번호</option>
-                                    <option value="">계약자명</option>
+                                <select name="search_info" id="search_info">
+									<option value="">보험정보선택</option>
+                                    <option value="subscNo">청약번호</option>
+	                                <option value="stockNo">증권번호</option>
+                                    <option value="citizenno">대표주민번호앞자리</option>
+                                    <option value="contractName">계약자명</option>
                                 </select>
                             </li>
                         </ul>
@@ -190,18 +231,16 @@ $article_num = $total_record - $num_per_page*($page-1);
                     <div>
                         <ul>
                             <li>
-                                <select name="" id="">
-                                    <option value="">보험사 선택</option>
-                                    <option value="">DB손해보험</option>
-                                    <option value="">에이스보험</option>
+                                <select name="insu_ch_b" id="insu_ch_b">
+                                    <option value="">선택</option>                                  
                                 </select>
                             </li>
                         </ul>
                         <ul>
-                            <li><input type="text" id="" name=""></li>
+                            <li><input type="text" id="search" name="search"></li>
                         </ul>
                     </div>
-                    <div><button type="button" name="button" class="btn_s1 search">검색</button></div>
+                    <div><button type="button" name="apply_search" class="btn_s1 search">검색</button></div>
                 </ul>
             </section>
         </fieldset>
@@ -212,12 +251,12 @@ $article_num = $total_record - $num_per_page*($page-1);
                 <colgroup>
                     <col width="40px">
                     <col width="100px">
-                    <col width="120px">
-                    <col width="80px">
-                    <col width="180px">
-                    <col width="80px">
-                    <col width="310px">
                     <col width="100px">
+                    <col width="100px">
+                    <col width="150px">
+                    <col width="90px">
+                    <col width="310px">
+                    <col width="90px">
                     <col width="130px">
                 </colgroup>
                 <thead>
@@ -226,156 +265,65 @@ $article_num = $total_record - $num_per_page*($page-1);
                         <th scope="col">요청일자</th>
                         <th scope="col">보험사</th>
                         <th scope="col">진행여부</th>
+                        <th scope="col">증권번호</th>
                         <th scope="col">청약번호</th>
-                        <th scope="col">배서처리</th>
                         <th scope="col">메모</th>
                         <th scope="col">계약자명</th>
                         <th scope="col">주민등록번호</th>
                     </tr>
                 </thead>
                 <tbody>
+				<?
+					while($rows= mysql_fetch_array($result)){
+						if($rows['jumin_1'] != '' && $rows['jumin_2'] != ''){
+							$juminNo = decode_pass($rows['jumin_1'],$pass_key)."-*******";//.decode_pass($rows['jumin_2'],$pass_key);
+						} else {
+							$juminNo = '없음';
+						}
+						
+				?>
                     <tr>
-                        <td class="nb">10</td>
-                        <td class="nb">2020-01-31</td>
-                        <td>DB손해보험</td>
-                        <td class="complete">배서완료</td>
-                        <td class="nb"><a href="#">P19O00081200009</a></td>
-                        <td>완료</td>
-                        <td class="t_left">반짝이는 별빛들 깜빡이는 불 켜진 건물 우린 빛나고 있네 각자의 방 각자의 별에서 어떤 빛은 야망 어떤 빛은 방황
-                            사람들의 불빛들 모두 소중한 하나 어두운 밤</td>
-                        <td>홍길동</td>
-                        <td class="nb">123456-654654</td>
+                        <td class="nb"><?=$article_num?></td>
+                        <td class="nb"><?=date("Y-m-d",$rows['req_regdate'])?></td>
+                        <td><?
+									
+									foreach($insuran_option as $k=>$v){
+										if($v == $rows['insurance_comp']){
+											echo $k;
+										} else {
+											$m = "&nbsp;";
+										}
+									}
+									?>
+						</td>
+                        <td class="complete"><?=$change_state_array[$rows['change_state']]?></td>
+                        <td class="nb"><?=$rows['plan_join_code']?></td>
+                        <td><a href="/check/view.php?num=<?=$rows['plan_hana_no']?>" ><?=$rows['plan_hana_no']?></a></td>
+                        <td class="t_left"><?=stripslashes($rows['content'])?></td>
+                        <td><?=$rows['join_name']?></td>
+                        <td class="nb"><?=$juminNo?></td>
                     </tr>
-					<?/*
-                    <tr>
-                        <td class="nb">10</td>
-                        <td class="nb">2020-01-31</td>
-                        <td>DB손해보험</td>
-                        <td class="complete">배서완료</td>
-                        <td class="nb t_left"><a href="#">P19O00081200009</a></td>
-                        <td>완료</td>
-                        <td class="t_left">반짝이는 별빛들 깜빡이는 불 켜진 건물 우린 빛나고 있네</td>
-                        <td>홍길동</td>
-                        <td class="nb">123456-654654</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">10</td>
-                        <td class="nb">2020-01-31</td>
-                        <td>DB손해보험</td>
-                        <td class="complete">배서완료</td>
-                        <td class="nb t_left"><a href="#">P19O00081200009</a></td>
-                        <td>완료</td>
-                        <td class="t_left">각자의 방 각자의 별에서 어떤 빛은 야망 어떤 빛은 방황
-                            사람들의 불빛들 모두 소중한 하나 어두운 밤</td>
-                        <td>홍길동</td>
-                        <td class="nb">123456-654654</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">10</td>
-                        <td class="nb">2020-01-31</td>
-                        <td>DB손해보험</td>
-                        <td class="complete">배서완료</td>
-                        <td class="nb t_left"><a href="#">P19O00081200009</a></td>
-                        <td>완료</td>
-                        <td class="t_left">반짝이는 별빛들 깜빡이는 불 켜진 건물 우린 빛나고 있네 각자의 방</td>
-                        <td>홍길동</td>
-                        <td class="nb">123456-654654</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">10</td>
-                        <td class="nb">2020-01-31</td>
-                        <td>DB손해보험</td>
-                        <td class="complete">배서완료</td>
-                        <td class="nb t_left"><a href="#">P19O00081200009</a></td>
-                        <td>완료</td>
-                        <td class="t_left">반짝이는 별빛들 깜빡이는 불 켜진 건물 우린 빛나고 있네 각자의 방 각자의 별에서 어떤 빛은 야망 어떤 빛은 방황
-                            사람들의 불빛들 모두 소중한 하나 어두운 밤</td>
-                        <td>홍길동</td>
-                        <td class="nb">123456-654654</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">10</td>
-                        <td class="nb">2020-01-31</td>
-                        <td>DB손해보험</td>
-                        <td class="complete">배서완료</td>
-                        <td class="nb t_left"><a href="#">P19O00081200009</a></td>
-                        <td>완료</td>
-                        <td class="t_left">각자의 별에서 어떤 빛은 야망 어떤 빛은 방황
-                            사람들의 불빛들 모두 소중한 하나 어두운 밤</td>
-                        <td>홍길동</td>
-                        <td class="nb">123456-654654</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">10</td>
-                        <td class="nb">2020-01-31</td>
-                        <td>DB손해보험</td>
-                        <td class="complete">배서완료</td>
-                        <td class="nb t_left"><a href="#">P19O00081200009</a></td>
-                        <td>완료</td>
-                        <td class="t_left">사람들의 불빛들 모두 소중한 하나 어두운 밤</td>
-                        <td>홍길동</td>
-                        <td class="nb">123456-654654</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">10</td>
-                        <td class="nb">2020-01-31</td>
-                        <td>DB손해보험</td>
-                        <td class="complete">배서완료</td>
-                        <td class="nb t_left"><a href="#">P19O00081200009</a></td>
-                        <td>완료</td>
-                        <td class="t_left">반짝이는 별빛들 깜빡이는 불 켜진 건물 우린 빛나고 있네 각자의 방 각자의 별에서 어떤 빛은 야망 어떤 빛은 방황
-                            사람들의 불빛들 모두 소중한 하나 어두운 밤</td>
-                        <td>홍길동</td>
-                        <td class="nb">123456-654654</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">10</td>
-                        <td class="nb">2020-01-31</td>
-                        <td>DB손해보험</td>
-                        <td class="complete">배서완료</td>
-                        <td class="nb t_left"><a href="#">P19O00081200009</a></td>
-                        <td>완료</td>
-                        <td class="t_left">반짝이는 별빛들 깜빡이는 불 켜진 건물 우린 빛나고 있네 각자의 방</td>
-                        <td>홍길동</td>
-                        <td class="nb">123456-654654</td>
-                    </tr>
-                    <tr>
-                        <td class="nb">10</td>
-                        <td class="nb">2020-01-31</td>
-                        <td>DB손해보험</td>
-                        <td class="complete">배서완료</td>
-                        <td class="nb t_left"><a href="#">P19O00081200009</a></td>
-                        <td>완료</td>
-                        <td class="t_left">반짝이는 별빛들 깜빡이는 불 켜진 건물 우린 빛나고 있네 각자의 방</td>
-                        <td>홍길동</td>
-                        <td class="nb">123456-654654</td>
-                    </tr>
-					*/
+					<?
+								$article_num--;
+							}
+				
 					?>
                 </tbody>
             </table>
         </section> 
         <section id="btn_area_list">
-            <div><button type="button" name="button" class="btn_download">엑셀 다운로드</button></div>
+            <div><button type="button" name="excel_down" class="btn_download">엑셀 다운로드</button></div>
         </section>
-        <section id="paging">
-            <a href="#" class="arrow first" id=""><span>첫페이지</span></a>
-            <a href="#" class="arrow prev" id=""><span>이전페이지</span></a>
-            <span class="num">
-                <a href="#">1</a>
-                <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#">6</a>
-                <a href="#">7</a>
-                <a href="#" class="on">8</a>
-                <a href="#">9</a>
-                <a href="#">10</a>
-            </span>
-            <a href="#" class="arrow next" id=""><span>다음페이지</span></a>
-            <a href="#" class="arrow last" id=""><span>마지막페이지</span></a>
-        </section>
+      <? 
+		$where = "&search_info=$search_info";
+			$where .= "&search=$search";
+			$where .= "&insu_ch=$insu_ch";
+			$where .= "&insu_ch_b=$insu_ch_b";
+			$where .= "&searchDate=$searchDate";
+			$where .= "&s_start_date=$s_start_date";
+			$where .= "&s_end_date=$s_end_date";
+	  
+	  b2b_list_page_numbering_div($page_per_block,$page,$total_page,$where); ?>
     </section><!-- e : container -->
 	</div>
 	<!-- //inner_wrap -->
@@ -402,5 +350,143 @@ $article_num = $total_record - $num_per_page*($page-1);
 		</div>
 	</div>
 </div>
+<script>	
+	$(document).ready(function(){
+		$('button[name=excel_down]').on('click',function(){
+			var cnt_get = <?=count($_GET)?>;
+			if(Number(cnt_get) > 0){			
+				var opt_loca = '<?=$_SERVER["QUERY_STRING"]?>';
+			location.href='./excel_download_endorse.php?'+opt_loca;
+			} else {
+				alert('내역을 조회 후 다운로드가 가능합니다.');
+				return false;
+			}
+		});
+
+
+		$('#endorse').on('click',function(){
+			location.href='/check/endorse_list.php';
+		});
+		
+		$('#insu_ch').on('change',function(){
+			var ch_val;
+			ch_val = $(this).val();
+			console.log(ch_val);
+			if(ch_val == 'chInsurance'){//보험사선택
+				var aa = new Object();				
+				aa = {"":"선택",S_1:"DB손해보험", S_2:"CHUBB"};
+				$('#insu_ch_b').empty();
+				for(var prop in aa){
+					$('#insu_ch_b').append($("<option></option>").attr("value",prop).text(aa[prop]));
+				} 
+				$('#insu_ch_b option:eq(0)').attr('value','').text('선택');
+			} else if(ch_val == 'chState') {//진행여부
+				var bb = new Object();
+				bb = {'0':'선택',<?
+							$prt_obj = "";
+							$arrcnt = count($change_state_array);
+							
+						foreach($change_state_array as $k=>$v){
+							
+							if($k < 3 ){
+								$prt_obj .=  "'".$k."':'".$v."',";
+							} else {
+								$prt_obj .=  "'".$k."':'".$v."'";
+							}
+
+						}
+						echo $prt_obj; 
+				?>};
+				$('#insu_ch_b').empty();
+				for(var prop in bb){		
+					console.log(prop);
+					if(prop == 0){
+						propv = '';
+					} else {
+						propv = prop;
+					}
+						$('#insu_ch_b').append($("<option></option>").attr("value",propv).text(bb[prop]));
+					
+				} 
+					//$('#insu_ch_b option:eq(0)').attr('value','').text('선택');
+					
+			} else {
+				$('#insu_ch_b').empty();		
+				$('#insu_ch_b').append($("<option></option>").attr("value","").text('선택'));
+			}
+		});
+
+		$('button[name=apply_search]').on('click',function(){
+			
+			var aa = $('#searchDate option:selected').val();
+			var bb = $('#insu_ch option:selected').val();
+			var cc = $('#search_info option:selected').val();
+
+			if(aa != ''){
+				var st_date = $('#start_date').val();
+				var ed_date = $('#end_date').val();
+				if(st_date == '' || ed_date == ''){
+					if(aa == 'reqDate'){
+						alert('요청일자를 선택해주세요.');					
+						return false;
+					} else if(aa == 'confDate'){
+						alert('처리일자를 선택해주세요.');					
+						return false;
+					}
+				}
+			} else {
+				if(st_date == '' || ed_date == ''){
+					alert('일자를 선택해주세요.');					
+					return false;
+				}
+			}
+
+			if(bb != ''){
+				var insuran_ch = $('#insu_ch_b option:selected').val();
+				if(insuran_ch == ''){
+					if(bb == 'chState'){
+						alert('진행 여부를 선택하세요.');
+						return false;
+					} else if(bb == 'chInsurance'){
+						alert('보험사를 선택하세요.');
+						return false;
+					}
+				}
+			} else {
+				if(insuran_ch == ''){
+					 alert('기타정보를 선택해주세요.');					
+					 return false;
+				}
+			}
+
+			if(cc != ''){
+				var search_val = $('#search').val();
+				if(search_val == ''){
+					if(cc =='subscNo'){
+						alert('청약번호를 입력하세요.');
+						return false;
+					} else if(cc == 'stockNo'){
+						alert('증권번호를 입력하세요.');
+						return false;
+					} else if(cc == 'citizenno'){
+						alert('대표주민번호앞자리를 입력하세요.');
+						return false;
+					} else if(cc == 'contractName'){
+						alert('계약자명을 입력하세요.');
+						return false;
+					}
+				}
+			} else {
+				if(search_val == ''){
+					alert('보험정보를 선택해주세요.');					
+					return false;
+				}
+			}
+
+			$('#applyform').submit();
+		});	
+
+	}); //end ready
+</script>
 </body>
 </html>

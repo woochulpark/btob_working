@@ -67,7 +67,7 @@ img {vertical-align:top;}
 caption {display:none;}
 address, em{font-style:normal;}	
 
-html:first-child select {} /* Opera Fix */
+html:first-child select {width:100%} /* Opera Fix */
 option, x:-moz-any-link {} /* Firefox Fix */
 option, x:-moz-any-link, x:default {padding-right: 0;} /* Firefox Fix */
 button {font-size: 1em;}

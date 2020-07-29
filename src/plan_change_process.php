@@ -40,7 +40,7 @@ $message = (iconv('utf-8','euc-kr',$mailContent));
 
 //$mailTo = "gs.cho@bis.co.kr, woori.yim@bis.co.kr, sungsil.lee@bis.co.kr";
 //$mailTo = "gs.cho@bis.co.kr";
-$mailTo = "woochul.park@bis.co.kr";
+$mailTo = "woori.yim@bis.co.kr";
 //$mailFrom = "dfight@test.co.kr";
 $fromName = (iconv('utf-8','euc-kr','TourSafe'));
 $mailTitle = "[투어세이프B2B] ".$row_mem_info['com_name']." ".$plan_state_text_array[$change_type]." 요청입니다.";

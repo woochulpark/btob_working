@@ -51,7 +51,7 @@
 			if(count($json_put_price) > 0){
 				$result_js = ['result'=>'true', 'msg'=>$json_put_price];
 			} else {
-				$result_js = ['result'=>'false','msg'=>'적용된 plan이 없습니다.'];
+				$result_js = ['result'=>'false','msg'=>'피보험자 연령에 해당하는 플랜이 아닙니다.'];
 			}
 
 			echo json_encode($result_js);

@@ -1,19 +1,22 @@
 <? 
 include "../include/common.php";
 
-$filename = $file_name;
 
-if ($save_file=="") {
-?>
-<script>
-alert('해당파일이 없습니다.1');
-history.go(-1);
-</script>
-<?	
-		exit;
+$getImg_que = " SELECT file_real_name, file_name FROM toursafe_members where uid = '{$_SESSION['s_mem_id']}' ";
+$getImg_result = mysql_query($getImg_que);
+
+	if($getImg_result){
+		$getImg_row = mysql_fetch_array($getImg_result);
+		$save_file = $getImg_row['file_real_name'];
+		$filename = $getImg_row['file_name'];
+		
+	} else {
+		$save_file = '';
+		$filename = '';
 	}
-
-	$server_filename = $root_dir."/board/free/photo/".$save_file;
+		
+	//$server_filename = $root_dir."/board/free/photo/".$save_file;
+	$server_filename = $_SERVER['DOCUMENT_ROOT']."/fileupload/btob/".$save_file;
 
 
 	 if (!file_exists($server_filename) || !is_readable($server_filename)) {
@@ -48,27 +51,7 @@ history.go(-1);
 
 	
 
- // 파일명에 사용할 수 없는 문자를 모두 제거하거나 안전한 문자로 치환한다.
-    $illegal = array('\\', '/', '<', '>', '{', '}', ':', ';', '|', '"', '~', '`', '@', '#', '$', '%', '^', '&', '*', '?');
-    $replace = array('', '', '(', ')', '(', ')', '_', ',', '_', '', '_', '\'', '_', '_', '_', '_', '_', '_', '', '');
-    $filename = str_replace($illegal, $replace, $filename);
-    $filename = preg_replace('/([\\x00-\\x1f\\x7f\\xff]+)/', '', $filename);
-
-    // 유니코드가 허용하는 다양한 공백 문자들을 모두 일반 공백 문자(0x20)로 치환한다.
-    $filename = trim(preg_replace('/[\\pZ\\pC]+/u', ' ', $filename));
-
-	// 위에서 치환하다가 앞뒤에 점이 남거나 대체 문자가 중복된 경우를 정리한다.
-    $filename = trim($filename, ' .-_');
-    $filename = preg_replace('/__+/', '_', $filename);
-    if ($filename == '') {
-?>
-<script>
-	alert('없는파일입니다.5');
-	history.go(-1);
-</script>
-<?php
-		exit;
-    }
+	
 
     // 브라우저의 User-Agent 값을 받아온다.
     $ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';

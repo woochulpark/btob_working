@@ -72,7 +72,7 @@ label span.dot { vertical-align: bottom;}
 #is_info ul:after{display:block;content:"";clear:both;}
 #is_info li { float: left;}
 #is_info li:first-child{ padding-right: 12px; }
-#is_info li:nth-child(3) {width:31%;padding-left:2rem;}
+#is_info li:nth-child(3) {width:42%;padding-left:2rem;}
 #is_info li:nth-child(3) div:first-child {float:left;padding-right:20px;vertical-align:bottom;}
 #is_info li:nth-child(3) div:first-child span:first-child{vertical-align:bottom;display:inline-block;}
 #is_info li:nth-child(3) div:first-child span:last-child{font-weight:400;}
@@ -189,21 +189,21 @@ label span.dot { vertical-align: bottom;}
 /* 피보험자 총 명세 목록_area */
 /* table - #dt_is_list */
 #dt_is_list_area { width: 100%; margin-top: 1%; margin-bottom: 1%;}
-#dt_is_list_area #t_re_list th:first-child{ width: 3.5%;}
-#dt_is_list_area #t_re_list th:nth-child(2){ width:12%;}
+#dt_is_list_area #t_re_list th:first-child{ width: 5.5%;}
+#dt_is_list_area #t_re_list th:nth-child(2){ width:15%;}
 #dt_is_list_area #t_re_list th:nth-child(n+3):nth-child(-n+4){ width:15%;}
-#dt_is_list_area #t_re_list th:nth-child(5){width: 4%;}
-#dt_is_list_area #t_re_list th:nth-child(6){width: 32%;}
+#dt_is_list_area #t_re_list th:nth-child(5){width: 8%;}
+#dt_is_list_area #t_re_list th:nth-child(6){width: 18%;}
 #dt_is_list_area #t_re_list th:nth-child(7){width: 18%;}
-#dt_is_list_area #t_re_list td:nth-child(6){text-align: left;}
-#dt_is_list_area #t_re_list td:last-child{text-align: right;}
+#dt_is_list_area #t_re_list td:nth-child(6){text-align: center;}
+/*#dt_is_list_area #t_re_list td:last-child{text-align: right;}*/
 /* 총 납입 보험료 */
 #dt_tt_price_area { width: 100%; position: relative;}
 #dt_tt_price_area div { float: left;;}
 #dt_tt_price_area div:first-child{position: absolute; left: 0; margin-top: 6px; width: 46%;}
 #dt_tt_price_area .tt_btn button { height: 34px; letter-spacing: -0.06em; float: left; margin-right: 3px;}
-#dt_tt_price_area .tt_btn .btn_s2 { width:15%;}
-#dt_tt_price_area .tt_btn .btn_download { width:33%;}
+#dt_tt_price_area .tt_btn .btn_s2 { width:16%;}
+#dt_tt_price_area .tt_btn .btn_download { width:30%;}
 #dt_tt_price_area div:nth-child(2) {margin-top: 6px; margin-right: 0.7%; position: absolute; right: 31%; }
 #dt_tt_price_area div:last-child { width: 28%; float: right;}
 #dt_tt_price_area div:last-child  ul { height: 36px; line-height: 36px; border-bottom: 1px solid #e3e3e3;}
@@ -233,13 +233,16 @@ label span.dot { vertical-align: bottom;}
 #mybiz_info .textBox .write_area ul li:first-child{ width: 57.9%; margin-right: 3%;}
 #mybiz_info .textBox .write_area ul li:first-child label { width: 36%;}
 #mybiz_info .textBox .write_area ul li:first-child div {margin-left: 39.5%;}
-#mybiz_info .textBox .write_area ul:nth-child(2) li:nth-child(2) span { background: url(../img/common/icon_file.png) no-repeat; padding: 2px 12px 3px; margin-left: 12px;}
+#mybiz_info .textBox .write_area ul:nth-child(2) li:nth-child(2) span { background: url(../img/common/icon_file.png) no-repeat; padding: 2px 12px 3px; margin-left: 12px; cursor:pointer;}
 #mybiz_info .textBox .write_area ul li:last-child{ width: 38.8%; }
 #mybiz_info .textBox .write_area ul li:last-child label {width: 33%;}
 #mybiz_info .textBox .write_area ul li:last-child div {margin-left: 38.7%;}
 #mybiz_info .textBox .write_area ul li.add {  width: 100%;}
 #mybiz_info .textBox .write_area ul li.add label { width: 20.8%;}
 #mybiz_info .textBox .write_area ul li.add div { margin-left:22.7%;}
+#mybiz_info .textBox .write_area .point_prt {width:100%;}
+#mybiz_info .textBox .write_area .point_prt ul li {float:left; width:20%;}
+
 #result_mg .search { width: 30%; margin: 20px auto; }
 #result_mg .search:after{display:block;content:"";clear:both;} 
 #result_mg .search ul li { float: left;}
@@ -270,6 +273,8 @@ label span.dot { vertical-align: bottom;}
 /* #join_info ul li label span {color:#d63a4a; line-height:1.2rem; height: 1rem; vertical-align: sub;  font-size: 1rem; padding-right: 3px;} 삭제 200225 */
 
 #join_info ul li .stxt { display: block; color:#555; font-size:  0.9333rem; line-height: 1.5rem;}
+#join_info ul li .stxt input {display:inline-block; width:16px; height:16px; -webkit-appearance: none; -moz-appearance: none; -o-appearance: none; appearance:none; outline: none; box-shadow: none; vertical-align:middle; background:url(../img/common/checkbox2.png) 0 0 no-repeat; cursor:pointer;}
+#join_info ul li .stxt input:checked { width:16px; height:16px; -webkit-appearance: none; -moz-appearance: none; -o-appearance: none; appearance:none; box-shadow: none; background:url(../img/common/checkbox2.png) 0 -44px no-repeat;} 
 #join_info ul li .id_wBox { width: 80%; float: left;}
 #join_info ul li .id_btn { width:19%; height: 28px; margin-left: 1%; float: right;}
 #join_info ul li .wBox { width: 85%; float: left;}
@@ -280,11 +285,11 @@ label span.dot { vertical-align: bottom;}
 #join_info ul li.tel .phone{margin-bottom: 0;}
 #join_info ul li.tel .phone ul{ width: 100%;}
 #join_info ul li.tel .phone ul li { padding: 0; width: 32%; margin-right:2%; float: left; }
-#join_info ul li.tel .phone ul li:last-child{ margin-right: 0;}
+#join_info ul li.tel .phone ul li:last-child{ margin-right: 0; width:100%;}
 #join_info ul li.tel .email ul{ width: 100%;}
 #join_info ul li.tel .email ul li { padding: 0; width: 32%; float: left; }
 #join_info ul li.tel .email ul li:first-child{ width: 50%; margin: 0;}
-#join_info ul li.tel .email ul li:last-child { width: 40%;}
+#join_info ul li.tel .email ul li:last-child { width: 40%; padding-top:7px;}
 #join_info ul li.tel .email ul li:nth-child(2) { width: 10%; text-align: center; padding: 0; }
 #join_info ul li.address div { margin-bottom: 7px;}
 #join_info ul li.address .zip{ width: 41%; margin-bottom: 0;}
@@ -406,21 +411,53 @@ label span.dot { vertical-align: bottom;}
 /* s ======================================== 배서요청팝업 수정 200302*/
 .w700 { width: 700px;}
 .of-y { height: 300px; overflow-y: scroll;}
+.endor_req{height:200px;  overflow-y: scroll;}
+.endor_det{height:200px;  overflow-y: scroll; padding-top:20px;}
+
 #modify ul { border-bottom: 1px solid #e1e1e1; line-height: 28px; padding:10px 0; }
 #modify ul:after{display:block;content:"";clear:both; }
 #modify ul li label { margin-right: 10px; letter-spacing: -0.05em; color:#555; font-weight: 500;} 
 #modify ul li div {display: inline;}
 #modify ul li { float: left;}
-#modify ul:first-child li { width: 33%;}
+#modify ul:first-child li { width: 50%;}
 #modify ul:first-child li div select { width: 70%;}
 #modify ul:nth-child(2) li { width: 50%;}
-#modify ul:nth-child(2) div input { width: 67%;}
+#modify ul:nth-child(2) div input { width: 28%;}
 #modify ul:last-child { border-bottom:0; padding-top: 8px; padding-bottom: 8px;}
 #modify ul:last-child li { width: 100%; height: 200px; padding: 0;}
 #modify ul:last-child li textarea{ height: 100%; padding: 6px 10px;}
 #modify input[type=text], input[type="number"], select, textarea { height:28px; padding:0 10px; border: 1px solid #d1d1d1; color:#777; box-sizing:border-box;}
 .modify_line { border-bottom: 2px solid #5c5c5c; margin: 20px 0 0;}
 .pop_foot .p_btn_area button { width: 20%;}
+#change_type{width:70%;}
+#receptionCont{width:70%;}
+#result_area1 ul { border-bottom: 1px solid #e1e1e1; line-height: 28px; padding:10px 0; }
+#result_area1 ul:after{display:block;content:"";clear:both; }
+#result_area1 ul li label { margin-right: 10px; letter-spacing: -0.05em; color:#555; font-weight: 500;} 
+#result_area1 ul li div {display: inline;}
+#result_area1 ul li { float: left;}
+#result_area1 ul:first-child li { width: 50%;}
+#result_area1 ul:first-child li div select { width: 70%;}
+#result_area1 ul:nth-child(2) li { width: 50%;}
+#result_area1 ul:nth-child(2) div input { width: 28%;}
+#result_area1 ul:last-child { border-bottom:0; padding-top: 8px; padding-bottom: 8px;}
+#result_area1 ul:last-child li { width: 100%; height: 120px; padding: 0;}
+#result_area1 ul:last-child li textarea{ height: 100%; padding: 6px 10px;}
+#result_area2 ul { border-bottom: 1px solid #e1e1e1; line-height: 28px; padding:10px 0; }
+#result_area2 ul:after{display:block;content:"";clear:both; }
+#result_area2 ul li label { margin-right: 10px; letter-spacing: -0.05em; color:#555; font-weight: 500;} 
+#result_area2 ul li div {display: inline;}
+#result_area2 ul li { float: left;}
+#result_area2 ul:first-child li { width: 100%; border-top:2px solid #5c5c5c; padding-top:8px; }
+#result_area2 ul:first-child li p {font-size:26px; font-weight:400;}
+#result_area2 ul:first-child li div select { width: 70%;}
+#result_area2 ul li { width: 50%;}
+#result_area2 ul div input { width: 28%;}
+#result_area2 ul:last-child { border-bottom:0; padding-top: 8px; padding-bottom: 8px;}
+#result_area2 ul:last-child li { width: 100%; height: 120px; padding: 0;}
+#result_area2 ul:last-child li textarea{ height: 100%; padding: 6px 10px;}
+#result_area2 input[type=text], input[type="number"], select, textarea { height:28px; padding:0 10px; border: 1px solid #d1d1d1; color:#777; box-sizing:border-box;}
+.modify_line { border-bottom: 2px solid #5c5c5c; margin: 20px 0 0;}
 /* ============================================ e */
 
 /* s ======================================== 플랜선택 팝업 200225 */
@@ -430,7 +467,7 @@ label span.dot { vertical-align: bottom;}
 #t_plan thead tr:first-child th:first-child{ border-bottom: 1px solid #5c5c5c;}
 #t_plan thead tr:nth-child(3) th{ border-bottom: 1px solid #5c5c5c;}
 #t_plan thead tr:nth-child(3) th:nth-child(n+2):nth-child(-n+12){ background-color: #ebebeb; padding-left: 16px; }
-#t_plan thead tr th { padding: 4px 6px; color:#222; border-right: 1px solid #5c5c5c; border-bottom: 1px solid #929292; text-align: center; font-weight: 500; font-size:0.9375rem; overflow-wrap: break-word;}
+#t_plan thead tr th { padding: 4px 6px; color:#222; border-right: 1px solid #5c5c5c; border-bottom: 1px solid #929292; text-align: center; font-weight: 500; font-size:0.9375rem; overflow-wrap: break-word;word-break: break-all;}
 #t_plan thead tr th:last-child{ border-right: 0; }
 #t_plan tbody tr td:first-child { text-align: left; color:#535353; letter-spacing: -0.04em; font-weight: 400;}
 #t_plan tbody tr td { height: 20px; line-height: 18px; text-align: right; font-weight:400; padding:4px 6px; color:#6e6e6e; font-size:0.8633rem; border-right: 1px solid #d1d1d1;}
@@ -719,5 +756,6 @@ section h2 {font-size:  1.333rem; font-weight: 500;}
 
 }
 
+/* 보험정보 수정 프로그램에 들어가는 css 2020-07-08 */
 
-
+.cancelpoint{color:red; font-weight:bold;}

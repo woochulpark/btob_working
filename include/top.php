@@ -24,7 +24,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
 <head>
 
-<title><?=($_SESSION['s_mem_id'] != 'hyecho_b2b')?$shop_name:"MG손해보험";?></title>
+<title><?=$shop_name?></title>
 
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -81,10 +81,16 @@ if($_SERVER['PHP_SELF'] == '/main/main.php'){
 <?
 	}
 ?>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-173138907-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-173138907-1');
+</script>
 </head>
-
-
 <body>
 <ul id="skipToContent">
   <li><a href="#container">본문 바로가기</a></li>

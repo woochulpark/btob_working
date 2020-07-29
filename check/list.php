@@ -86,12 +86,12 @@ if($insu_ch_b){
 	}
 }		
 
- $sql="select a.no as plan_hana_no, a.plan_list_state, a.trip_type, a.plan_join_code, a.start_date, a.start_hour, a.end_date, a.end_hour, a.join_cnt, a.join_name,  c.*, c.no as mem_no, c.hphone, c.email,  d.change_date
+ $sql="select a.no as plan_hana_no, a.insurance_comp, a.plan_list_state, a.trip_type, a.plan_join_code, a.start_date, a.start_hour, a.end_date, a.end_hour, a.join_cnt, a.join_name,  c.*, c.no as mem_no, c.hphone, c.email,  d.change_date
 from 
-(select no from hana_plan_test) b join 
-hana_plan_test a on b.no=a.no 
-left join hana_plan_member_test c on a.no=c.hana_plan_no
-left join hana_plan_change_test d on a.no=d.hana_plan_no
+(select no from hana_plan) b join 
+hana_plan a on b.no=a.no 
+left join hana_plan_member c on a.no=c.hana_plan_no
+left join hana_plan_change d on a.no=d.hana_plan_no
 where 1=1
 {$add_query}
 group by a.no
@@ -221,7 +221,7 @@ $article_num = $total_record - $num_per_page*($page-1);
 									<option value="">보험정보선택</option>
                                     <option value="subScription">청약번호</option>
                                     <option value="join_name">대표피보험자명</option>
-                                    <option value="citizenno">주민번호</option>
+                                    <option value="citizenno">주민번호앞6자리</option>
                                     <option value="pjcode">증권번호</option>
                                 </select>
                             </li>
@@ -565,24 +565,48 @@ $article_num = $total_record - $num_per_page*($page-1);
 				var st_date = $('#start_date').val();
 				var ed_date = $('#end_date').val();
 				if(st_date == '' || ed_date == ''){
-					alert('검색 일자를 선택해주세요.');					
-					return false;
+					if(aa == 'endorse'){
+						alert('청약일자를 선택해주세요.');					
+						return false;
+					} else if(aa == 'traStart'){
+						alert('여행시작일자를 선택해주세요.');					
+						return false;
+					} else if(aa == 'traEnd'){
+						alert('여행종료일자를 선택해주세요.');					
+						return false;
+					}					
 				}
 			}
 
 			if(bb != ''){
 				var insuran_ch = $('#insu_ch_b option:selected').val();
 				if(insuran_ch == ''){
-					alert('보험 관련 검색을 입력하세요.');
-					return false;
+					if(bb == 'chInsurance'){
+						alert('보험사를 선택해주세요.');
+						return false;
+					} else if(bb == 'chTriptype'){
+						alert('여행지역을 하세요.');
+						return false;
+					}
 				}
 			}
 
 			if(cc != ''){
 				var search_val = $('#search').val();
 				if(search_val == ''){
-					alert('보험정보를 입력하세요.');
-					return false;
+					if(cc == 'subScription'){
+						alert('청약번호를 입력하세요.');
+						return false;
+					} else if(cc == 'join_name'){
+						alert('대표피보험자명을 입력하세요.');
+						return false;
+					} else if(cc == 'citizenno'){
+						alert('주민번호를 입력하세요.');
+						return false;
+					} else if(cc == 'pjcode'){
+						alert('증권번호를 입력하세요.');
+						return false;
+					}
 				}
 			}
 

@@ -41,7 +41,7 @@ button {background: none; font-family: Noto Sans;}
 .btnSmall.red {background: #ed2129}
 
 .btnTiny {background:#fff; border-bottom:1px solid #e9e9e9; font-size:13px;}
-.btnTiny span {padding:0px 10px 0px 10px; text-align:center; border:1px solid #cccccc; color:#333; height: 24px; line-height: 24px;}
+.btnTiny span {padding:0px 10px 0px 10px; text-align:center;  color:#333; height: 24px; line-height: 24px;}
 .btnTiny span.red {color:#e20e20;}
 .btnTiny em.icoArrow {background:url(../img/common/arrow_s.png) no-repeat left center; vertical-align:top; margin:0 0 0 10px; width:4px; height:21px;}
 .btnTiny em.down {background:url(../img/common/ico_down.png) no-repeat left center; vertical-align:top; margin:0 10px 0 0px; width:10px; height:21px;}
@@ -55,7 +55,7 @@ button {background: none; font-family: Noto Sans;}
 .btnTinys span {padding:0px 9px ; height:22px; line-height:22px;  color:#646464;}
 .btnTinys.gray {background:#5f6062;}
 
-a.radius {border-radius:30px !important}
+a.radius {border-radius:30px; border:1px solid #cccccc; !important}
 
 .btnNormal {min-width:90px; background:#1a5cba; text-align:center; }
 .btnNormal span {padding:0px 17px; height:34px; line-height:33px;}

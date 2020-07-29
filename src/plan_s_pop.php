@@ -1,7 +1,7 @@
 <?
 	include "../include/common.php";
 	echo "<!--";
-	print_r($_GET);
+	//print_r($_GET);
 	echo "-->";
 
 	$plan_table = '';

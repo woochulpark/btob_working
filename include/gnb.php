@@ -6,7 +6,7 @@
 			<ul class="sub_menu">			
 		    	<li class="lnb2"><a href="../trip/01.php?tripType=2">단기해외 여행자 보험가입</a></li>			
 				<li class="lnb1"><a href="../trip/01.php?tripType=1">단기국내 여행자 보험가입</a></li>				
-				<li class="lnb3"><a href="../trip/L0.php">장기해외 여행자보험 보험가입<br>(전문직/유학생)</a></li>		    
+				<li class="lnb3"><?//<a href="../trip/L0.php">?><a href="javascript:alert('준비중입니다.');">장기해외 여행자보험 보험가입<br>(전문직/유학생)</a></li>		    
 			</ul>
 		<? } ?>
         </li>        
